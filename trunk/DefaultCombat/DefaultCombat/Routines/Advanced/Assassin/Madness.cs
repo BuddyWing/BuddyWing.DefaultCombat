@@ -38,7 +38,7 @@ namespace DefaultCombat.Routines
                 Spell.Cast("Lightning Charge", ret => !BuddyTor.Me.HasBuff("Lightning Charge")),
                 Spell.Cast("Unbreakable Will", ret => BuddyTor.Me.IsStunned),
                 Spell.Cast("Recklessness", castWhen => BuddyTor.Me.InCombat && !BuddyTor.Me.HasBuff("Recklessness")),
-                Spell.Cast("Force Cloak", castWhen => BuddyTor.Me.InCombat && !BuddyTor.Me.HasBuff("Dark Embrace")),
+                //Spell.Cast("Force Cloak", castWhen => BuddyTor.Me.InCombat && !BuddyTor.Me.HasBuff("Dark Embrace")),
                 Spell.Cast("Overcharge Saber", castWhen => BuddyTor.Me.InCombat && !BuddyTor.Me.HasBuff("Overcharge")),
 
                 //**Defensive**
