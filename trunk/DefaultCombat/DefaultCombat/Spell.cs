@@ -14,8 +14,6 @@ namespace DefaultCombat
 {
     public static class Spell
     {
-
-        //
         public static Composite WaitForCast()
         {
             return new Decorator(ret=>BuddyTor.Me.IsCasting,
