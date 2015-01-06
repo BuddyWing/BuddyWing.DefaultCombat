@@ -72,6 +72,7 @@ namespace DefaultCombat
                     ));
 
             _combat = new LockSelector(
+                Spell.WaitForCast(),
                 Targeting.ScanTargets,
                 b.Cooldowns,
                 b.AreaOfEffect,
