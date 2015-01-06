@@ -26,6 +26,7 @@ namespace DefaultCombat
 
         public static bool IsHealer = false;
         public static bool MovementDisabled { get { return BotMain.CurrentBot.Name == "Combat Bot"; } }
+        private static IManItem MedPack = new IManItem("Medpac", 90);
 
         public override string Name { get { return "DefaultCombat"; } }
 
@@ -73,6 +74,7 @@ namespace DefaultCombat
 
             _combat = new LockSelector(
                 Spell.WaitForCast(),
+                MedPack.UseItem(ret => BuddyTor.Me.HealthPercent <= 30),
                 Targeting.ScanTargets,
                 b.Cooldowns,
                 b.AreaOfEffect,
