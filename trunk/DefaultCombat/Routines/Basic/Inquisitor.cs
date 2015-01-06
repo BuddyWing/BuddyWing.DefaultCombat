@@ -4,15 +4,17 @@ using DefaultCombat.Helpers;
 
 namespace DefaultCombat.Routines
 {
-    public class Consular : RotationBase
+    public class Inquisitor : RotationBase
     {
-        public override string Name { get { return "Basic Consular"; } }
+        public override string Name { get { return "Basic Inquisitor"; } }
 
         public override Composite Buffs
         {
             get
             {
-                return new PrioritySelector();
+                return new PrioritySelector(
+                    Spell.Buff("Mark of Power")
+                    );
             }
         }
 
@@ -20,7 +22,7 @@ namespace DefaultCombat.Routines
         {
             get
             {
-                return new PrioritySelector();
+                return new LockSelector();
             }
         }
 
@@ -30,9 +32,9 @@ namespace DefaultCombat.Routines
             {
                 return new LockSelector(
                     CombatMovement.CloseDistance(Distance.Melee),
-                    Spell.Cast("Telekinetic Throw"),
-                    Spell.Cast("Project", ret => Me.Force > 75),
-                    Spell.Cast("Double Strike", ret => Me.Force > 70),
+                    Spell.Cast("Force Lightning"),
+                    Spell.Cast("Shock", ret => Me.Force > 75),
+                    Spell.Cast("Thrash", ret => Me.Force > 70),
                     Spell.Cast("Saber Strike")
                     );
             }
@@ -42,10 +44,10 @@ namespace DefaultCombat.Routines
         {
             get
             {
-                return new Decorator(ret => Targeting.ShouldAOE,
+                return new Decorator(ret => Targeting.ShouldPBAOE,
                     new LockSelector(
-                        Spell.Cast("Force Wave", ret => Me.CurrentTarget.Distance <= Distance.MeleeAoE))
-                    );
+                        Spell.Cast("Overload", ret => Me.CurrentTarget.Distance <= Distance.MeleeAoE)
+                        ));
             }
         }
     }

@@ -4,15 +4,17 @@ using DefaultCombat.Helpers;
 
 namespace DefaultCombat.Routines
 {
-    public class Consular : RotationBase
+    public class Agent : RotationBase
     {
-        public override string Name { get { return "Basic Consular"; } }
+        public override string Name { get { return "Basic Agent"; } }
 
         public override Composite Buffs
         {
             get
             {
-                return new PrioritySelector();
+                return new PrioritySelector(
+                    Spell.Buff("Coordination")
+                    );
             }
         }
 
@@ -20,7 +22,7 @@ namespace DefaultCombat.Routines
         {
             get
             {
-                return new PrioritySelector();
+                return new LockSelector();
             }
         }
 
@@ -30,10 +32,11 @@ namespace DefaultCombat.Routines
             {
                 return new LockSelector(
                     CombatMovement.CloseDistance(Distance.Melee),
-                    Spell.Cast("Telekinetic Throw"),
-                    Spell.Cast("Project", ret => Me.Force > 75),
-                    Spell.Cast("Double Strike", ret => Me.Force > 70),
-                    Spell.Cast("Saber Strike")
+                    Spell.DoT("Corrosive Dart", "", 15000),
+                    Spell.Cast("Shiv", ret => Me.CurrentTarget.Distance <= Distance.Melee),
+                    Spell.Cast("Explosive Probe"),
+                    Spell.Cast("Snipe"),
+                    Spell.Cast("Rifle Shot")
                     );
             }
         }
@@ -44,8 +47,8 @@ namespace DefaultCombat.Routines
             {
                 return new Decorator(ret => Targeting.ShouldAOE,
                     new LockSelector(
-                        Spell.Cast("Force Wave", ret => Me.CurrentTarget.Distance <= Distance.MeleeAoE))
-                    );
+                        Spell.Cast("Fragmentation Grenade", ret => Me.CurrentTarget.Distance <= Distance.Ranged)
+                        ));
             }
         }
     }

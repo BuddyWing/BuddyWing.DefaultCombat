@@ -110,8 +110,14 @@
     <Compile Include="Routines\Advanced\Vanguard\Plasmatech.cs" />
     <Compile Include="Routines\Advanced\Vanguard\ShieldSpecialist.cs" />
     <Compile Include="Routines\Advanced\Vanguard\Tactics.cs" />
+    <Compile Include="Routines\Basic\Agent.cs" />
+    <Compile Include="Routines\Basic\BountyHunter.cs" />
     <Compile Include="Routines\Basic\Consular.cs" />
+    <Compile Include="Routines\Basic\Inquisitor.cs" />
     <Compile Include="Routines\Basic\Knight.cs" />
+    <Compile Include="Routines\Basic\Smuggler.cs" />
+    <Compile Include="Routines\Basic\Trooper.cs" />
+    <Compile Include="Routines\Basic\Warrior.cs" />
     <Compile Include="Routines\RotationBase.cs" />
     <Compile Include="DefaultCombat.cs" />
   </ItemGroup>

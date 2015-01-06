@@ -4,16 +4,16 @@ using DefaultCombat.Helpers;
 
 namespace DefaultCombat.Routines
 {
-    public class Knight : RotationBase
+    public class Smuggler : RotationBase
     {
-        public override string Name { get { return "Basic Knight"; } }
+        public override string Name { get { return "Basic Smuggler"; } }
 
         public override Composite Buffs
         {
             get
             {
                 return new PrioritySelector(
-                    Spell.Buff("Shii-Cho Form")
+                    Spell.Buff("Lucky Shots")
                     );
             }
         }
@@ -33,13 +33,12 @@ namespace DefaultCombat.Routines
             get
             {
                 return new LockSelector(
-                    Spell.Cast("Force Leap", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance > 1f && Me.CurrentTarget.Distance <= 3f),
-                    CombatMovement.CloseDistance(Distance.Melee),
-                    Spell.Cast("Master Strike"),
-                    Spell.Cast("Blade Storm"),
-                    Spell.Cast("Riposte"),
-                    Spell.Cast("Slash", ret => Me.ActionPoints >= 7),
-                    Spell.Cast("Strike")
+                    CombatMovement.CloseDistance(Distance.Ranged),
+                    Spell.DoT("Vital Shot", "Bleeding (Vital Shot)"),
+                    Spell.Cast("Blaster Whip", ret => Me.CurrentTarget.Distance <= Distance.Melee),
+                    Spell.Cast("Sabotage Charge"),
+                    Spell.Cast("Charged Burst"),
+                    Spell.Cast("Flurry of Bolts")
                     );
             }
         }
@@ -50,8 +49,8 @@ namespace DefaultCombat.Routines
             {
                 return new Decorator(ret => Targeting.ShouldAOE,
                     new LockSelector(
-                        Spell.Cast("Force Sweep", ret => Me.CurrentTarget.Distance <= Distance.MeleeAoE))
-                    );
+                        Spell.Cast("Thermal Grenade", ret => Me.CurrentTarget.Distance <= Distance.Ranged)
+                    ));
             }
         }
     }
