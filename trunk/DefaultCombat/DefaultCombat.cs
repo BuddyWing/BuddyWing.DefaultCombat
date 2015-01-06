@@ -25,7 +25,7 @@ namespace DefaultCombat
         private Composite _combat;
 
         public static bool IsHealer = false;
-        public static bool MovementDisabled = true;
+        public static bool MovementDisabled { get { return BotMain.CurrentBot.Name == "Combat Bot"; } }
 
         public override string Name { get { return "DefaultCombat"; } }
 
@@ -76,6 +76,10 @@ namespace DefaultCombat
                 b.Cooldowns,
                 b.AreaOfEffect,
                 b.SingleTarget);
+
+            _pull = new Decorator( ret => !DefaultCombat.MovementDisabled || DefaultCombat.IsHealer,
+                _combat
+                );
         }
     }
 }

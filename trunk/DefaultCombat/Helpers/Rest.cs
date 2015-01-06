@@ -2,8 +2,8 @@
 using Buddy.CommonBot;
 using Buddy.Swtor;
 using Buddy.Swtor.Objects;
+using DefaultCombat.Core;
 using System.Threading;
-
 using Action = Buddy.BehaviorTree.Action;
 
 namespace DefaultCombat.Helpers
@@ -66,7 +66,22 @@ namespace DefaultCombat.Helpers
                 || (Me.Companion != null && !Me.Companion.IsDead && Me.Companion.HealthPercent < 100));
         }
 
-        public static Composite HandleRest
+        private static Composite ReviveCompanion
+        {
+            get
+            {
+                return new PrioritySelector(
+                   new Decorator(ret => Me.Companion != null && Me.Companion.IsDead && Me.CompanionUnlocked > 0,
+                        new PrioritySelector(
+                            Spell.WaitForCast(),
+                            CommonBehaviors.MoveAndStop(location => Me.Companion.Position, 0.2f, true),
+                            Spell.Cast("Revive Companion", on => Me.Companion, when => Me.Companion.Distance <= 0.2f)
+                            ))
+                   );
+            }
+        }
+
+        private static Composite Rejuvenate
         {
             get
             {
@@ -92,6 +107,17 @@ namespace DefaultCombat.Helpers
                         return RunStatus.Failure;
                     });
                 }
+            }
+        }
+
+        public static Composite HandleRest
+        {
+            get
+            {
+                return new PrioritySelector(
+                    ReviveCompanion,
+                    Rejuvenate
+                    );
             }
         }
 

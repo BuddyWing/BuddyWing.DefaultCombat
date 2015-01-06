@@ -13,9 +13,9 @@ namespace DefaultCombat.Routines
             get
             {
                 return new PrioritySelector(
-                    Spell.Buff("Dark Charge"),
+                    Spell.Buff("Surging Charge"),
                     Spell.Buff("Mark of Power"),
-                    Spell.Buff("Stealth", ret => !Rest.KeepResting() && !DefaultCombat.MovementDisabled)
+                    Spell.Buff("Stealth", ret => !Rest.KeepResting() && !DefaultCombat.MovementDisabled && !Me.IsMounted)
                     );
             }
         }
@@ -53,7 +53,6 @@ namespace DefaultCombat.Routines
                     //Rotation
                     Spell.Cast("Discharge", ret => Me.BuffCount("Static Charge") == 3),
                     Spell.Cast("Maul", ret => (Me.HasBuff("Stealth") || Me.HasBuff("Duplicity")) && Me.IsBehind(Me.CurrentTarget)),
-                    Spell.Cast("Shock", ret => Me.BuffCount("Induction") == 2),
                     Spell.Cast("Assassinate", ret => Me.CurrentTarget.HealthPercent <= 30),
                     Spell.Cast("Voltaic Slash", ret => Me.Level >= 26),
                     Spell.Cast("Thrash", ret => Me.Level < 26),

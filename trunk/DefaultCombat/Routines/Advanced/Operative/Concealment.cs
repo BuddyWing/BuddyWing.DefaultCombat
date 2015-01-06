@@ -14,7 +14,7 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Coordination"),
-                    Spell.Cast("Stealth", ret => !Me.InCombat && !Me.HasBuff("Coordination"))
+                    Spell.Cast("Stealth", ret => !DefaultCombat.MovementDisabled && !Me.InCombat && !Me.HasBuff("Coordination"))
                     );
             }
         }
