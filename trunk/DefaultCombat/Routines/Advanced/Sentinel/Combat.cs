@@ -52,7 +52,7 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Dispatch", ret => Me.CurrentTarget.HealthPercent <= 30),
                     Spell.Cast("Precision"),
                     Spell.Cast("Master Strike", ret => Me.HasBuff("Precision")),
-                    Spell.Cast("Blade Storm", ret => Me.HasBuff("Opportune Attack")),
+                    Spell.Cast("Clashing Blast", ret => Me.HasBuff("Opportune Attack")),
                     Spell.Cast("Blade Rush"),
                     Spell.Cast("Zealous Strike", ret => Me.ActionPoints <= 7),
                     Spell.Cast("Strike", ret => Me.ActionPoints <= 9),
