@@ -23,12 +23,14 @@ namespace DefaultCombat.Routines
             get
             {
                 return new LockSelector(
-                    Spell.Buff("Escape"),
-                    Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 50),
+                    Spell.Buff("Escape", ret => Me.IsStunned),
+                    Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 70),
                     Spell.Buff("Evasion", ret => Me.HealthPercent <= 30),
-                    Spell.Buff("Adrenaline Probe", ret => Me.EnergyPercent <= 50),
+                    Spell.Buff("Adrenaline Probe", ret => Me.EnergyPercent <= 40),
+                    Spell.Buff("Sniper Volley", ret => Me.EnergyPercent <= 60),
+                    Spell.Buff("Entrench", ret => Me.CurrentTarget.StrongOrGreater() && Me.IsInCover()),
                     Spell.Buff("Laze Target"),
-                    Spell.Cast("Target Acquired")
+                    Spell.Buff("Target Acquired")
                     );
             }
         }
@@ -44,21 +46,17 @@ namespace DefaultCombat.Routines
                     //Low Energy
                     new Decorator(ret => Me.EnergyPercent < 60,
                         new LockSelector(
-                            Spell.CastOnGround("Plasma Probe", ret => Me.HasBuff("Energy Overrides")),
-                            Spell.Cast("Explosive Probe", ret => Me.IsInCover() && Me.HasBuff("Energy Overrides")),
-                            Spell.Cast("Overload Shot", ret => Me.HasBuff("Calculated Pursuit")),
                             Spell.Cast("Rifle Shot")
                             )),
 
                     //Rotation
-                    Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
+                    Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting),
                     Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving),
-                    Spell.Cast("Shatter Shot", ret => !Me.CurrentTarget.HasDebuff("Armor Reduced")),
-                    Spell.Cast("Series of Shots", ret => Me.IsInCover()),
-                    Spell.CastOnGround("Plasma Probe"),
-                    Spell.DoT("Interrogation Probe", "", 15000),
-                    Spell.DoT("Corrosive Dart", "", 12000),
-                    Spell.Cast("Explosive Probe", ret => Me.IsInCover()),
+                    Spell.Cast("Followthrough"),
+                    Spell.Cast("Penetrating Blasts", ret => Me.IsInCover() && Me.Level >= 26),
+                    Spell.Cast("Series of Shots", ret => Me.IsInCover() && Me.Level < 26),
+                    Spell.DoT("Corrosive Dart", "", 15000, ret => Me.CurrentTarget.StrongOrGreater()),
+                    Spell.Cast("Ambush", ret => Me.IsInCover() && Me.BuffCount("Zeroing Shots") == 2),
                     Spell.Cast("Takedown", ret => Me.CurrentTarget.HealthPercent <= 30),
                     Spell.Cast("Snipe", ret => Me.IsInCover()),
                     Spell.Cast("Overload Shot", ret => !Me.IsInCover())
@@ -73,8 +71,8 @@ namespace DefaultCombat.Routines
                 return new Decorator(ret => Targeting.ShouldAOE,
                     new LockSelector(
                         Spell.CastOnGround("Orbital Strike"),
-                        Spell.CastOnGround("Plasma Probe"),
-                        Spell.Cast("Fragmentation Grenade")
+                        Spell.Cast("Fragmentation Grenade"),
+                        Spell.CastOnGround("Suppressive Fire")
                     ));
             }
         }

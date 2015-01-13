@@ -36,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Buddywing">
-      <HintPath>..\..\Buddywing.exe</HintPath>
+      <HintPath>..\..\..\..\..\BuddyWing 1.0.1133.542\Buddywing.exe</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />

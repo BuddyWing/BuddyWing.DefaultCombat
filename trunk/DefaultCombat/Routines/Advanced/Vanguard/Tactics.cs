@@ -39,23 +39,24 @@ namespace DefaultCombat.Routines
             get
             {
                 return new LockSelector(
-                    Spell.Cast("Storm", ret => Me.CurrentTarget.Distance >= 1f && !DefaultCombat.MovementDisabled),
-
                     //Movement
+                    Spell.Cast("Storm", ret => Me.CurrentTarget.Distance >= 1f && !DefaultCombat.MovementDisabled),
                     CombatMovement.CloseDistance(Distance.Melee),
 
-                    new Decorator(ret => Me.ResourcePercent() < 60,
+                    new Decorator(ret => Me.ResourcePercent() > 40,
                         new LockSelector(
-                            Spell.Cast("Stockstrike", ret => Me.HasBuff("Battering Ram")),
+                            Spell.Cast("High Impact Bolt", ret => Me.HasBuff("Tactical Accelerator")),
                             Spell.Cast("Hammer Shot")
                             )),
 
-                    Spell.Cast("Pulse Cannon", ret => Me.BuffCount("Pulse Generator") == 3 && Me.CurrentTarget.Distance <= 1f),
-                    Spell.DoT("Gut", "", 12000),
-                    Spell.Cast("High Impact Bolt", ret => Me.HasBuff("Combat Tactics")),
-                    Spell.Cast("Stockstrike", ret => Me.HasBuff("Battering Ram")),
-                    Spell.Cast("Fire Pulse"),
-                    Spell.Cast("Ion Pulse")
+                    Spell.Cast("Riot Strike", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
+                    Spell.Cast("Cell Burst", ret => Me.BuffCount("Energy Lode") == 4),
+                    Spell.Cast("High Impact Bolt", ret => Me.CurrentTarget.HasDebuff("Bleeding (Gut)") && Me.HasBuff("Tactical Accelerator")),
+                    Spell.DoT("Gut", "Bleeding (Gut)"),
+                    Spell.Cast("Assault Plastique"),
+                    Spell.Cast("Stock Strike"),
+                    Spell.Cast("Tactical Surge", ret => Me.Level >= 26),
+                    Spell.Cast("Ion Pulse", ret => Me.Level < 26)
                     );
             }
         }
@@ -64,11 +65,16 @@ namespace DefaultCombat.Routines
         {
             get
             {
-                return new Decorator(ret => Targeting.ShouldAOE,
+                return new LockSelector(
+                    new Decorator(ret => Targeting.ShouldAOE,
                         new LockSelector(
-                            Spell.CastOnGround("Mortar Volley", ret => Me.CurrentTarget.Distance > Distance.MeleeAoE),
-                            Spell.Cast("Sticky Grenade"),
-                            Spell.Cast("Pulse Cannon", ret => Me.CurrentTarget.Distance <= 1f && Me.CurrentTarget.IsFacing)
+                            Spell.CastOnGround("Morter Volley"),
+                            Spell.Cast("Sticky Grenade", ret => Me.CurrentTarget.HasDebuff("Bleeding (Retractable Blade)"))
+                            )),
+                    new Decorator(ret => Targeting.ShouldPBAOE,
+                        new LockSelector(
+                            Spell.Cast("Pulse Cannon"),
+                            Spell.Cast("Explosive Surge"))
                 ));
             }
         }
