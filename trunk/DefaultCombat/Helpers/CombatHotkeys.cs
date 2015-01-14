@@ -11,6 +11,9 @@ namespace DefaultCombat.Helpers
 
         public static void Initialize()
         {
+            EnableAOE = true;
+            PauseRotation = false;
+
             Hotkeys.RegisterHotkey("Toggle AOE (F7)", () => { ChangeAOE(); }, Keys.F7);
             Logger.Write("[Hot Key][F7] Toggle AOE");
 
