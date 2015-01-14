@@ -132,10 +132,17 @@ namespace DefaultCombat.Core
         #endregion
 
         #region Heal
+
+        private static bool Target(TorCharacter onUnit)
+        {
+            onUnit.Target();
+            return true;
+        }
+
         public static Composite Cleanse(string spell, Selection<bool> reqs = null)
         {
             return new Decorator(
-                ret => (Targeting.DispelTarget != null && (reqs == null || reqs(ret))),
+                ret => (Targeting.DispelTarget != null && (reqs == null || reqs(ret)) && Target(Targeting.DispelTarget)),
                 Cast(spell, ret => Targeting.DispelTarget, reqs));
         }
 
@@ -148,7 +155,7 @@ namespace DefaultCombat.Core
         public static Composite Heal(string spell, UnitSelectionDelegate onUnit, int HP = 100, Selection<bool> reqs = null)
         {
             return new Decorator(
-                ret => (onUnit != null && onUnit(ret) != null && (reqs == null || reqs(ret)) && onUnit(ret).HealthPercent <= HP),
+                ret => (onUnit != null && onUnit(ret) != null && (reqs == null || reqs(ret)) && onUnit(ret).HealthPercent <= HP && Target(onUnit(ret))),
                 Cast(spell, onUnit, reqs));
         }
 

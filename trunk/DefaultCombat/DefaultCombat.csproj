@@ -36,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Buddywing">
-      <HintPath>..\..\..\..\..\BuddyWing 1.0.1133.542\Buddywing.exe</HintPath>
+      <HintPath>..\..\Buddywing.exe</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -59,6 +59,7 @@
     <Compile Include="Core\Targeting.cs" />
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\Global.cs" />
+    <Compile Include="Helpers\CombatHotkeys.cs" />
     <Compile Include="Helpers\InventoryManager.cs" />
     <Compile Include="Helpers\Logger.cs" />
     <Compile Include="Helpers\Rest.cs" />

@@ -54,101 +54,101 @@ namespace DefaultCombat.Core
         {
             get
             {
-                    return new Action(delegate {
-                        using (BuddyTor.Memory.AcquireFrame())
+                return new Action(delegate {
+                    using (BuddyTor.Memory.AcquireFrame())
+                    {
+                        //Reset counts
+                        AOEHealCount = 0;
+                        AOEDpsCount = 0;
+                        AOEPeanutButterCount = 0;
+
+                        //Reset Targets
+                        Tank = null;
+                        HealTarget = null;
+                        AOEHealTarget = null;
+                        AOEHealPoint = Vector3.Zero;
+                        DispelTarget = null;
+                        var objects = GetTorCharacters();
+
+                        HealCandidates = new List<TorCharacter>();
+                        HealCandidatePoints = new List<Vector3>();
+                        EnemyPoints = new List<Vector3>();
+
+                        foreach (TorCharacter c in objects)
                         {
-                            //Reset counts
-                            AOEHealCount = 0;
-                            AOEDpsCount = 0;
-                            AOEPeanutButterCount = 0;
-
-                            //Reset Targets
-                            Tank = null;
-                            HealTarget = null;
-                            AOEHealTarget = null;
-                            AOEHealPoint = Vector3.Zero;
-                            DispelTarget = null;
-                            var objects = GetTorCharacters();
-
-                            HealCandidates = new List<TorCharacter>();
-                            HealCandidatePoints = new List<Vector3>();
-                            EnemyPoints = new List<Vector3>();
-
-                            foreach (TorCharacter c in objects)
-                            {
-                                //Healing
-                                if (DefaultCombat.IsHealer)
-                                {
-                                    //Find a Tank
-                                    if (Me.FocusTargetIsActive && c.Guid == Me.FocusTargetID && !c.IsDead)
-                                        Tank = c;
-
-                                    if (Tank == null && c.Name.Contains(TankName) && !c.IsDead)
-                                        Tank = c;
-
-                                    if (Tank == null && Me.Companion != null && !Me.Companion.IsDead)
-                                        Tank = Me.Companion;
-
-                                    if (Tank == null)
-                                        Tank = Me;
-
-                                    if (c.HealthPercent <= MaxHealth && !c.IsDead)
-                                    {
-                                        if (HealTarget == null || c.HealthPercent < HealTarget.HealthPercent)
-                                            HealTarget = c;
-
-                                        //Add to candidtates list
-                                        HealCandidates.Add(c);
-                                        HealCandidatePoints.Add(c.Position);
-
-                                        //increment our AOEHealCount
-                                        if (c.HealthPercent <= AOEHealHP)
-                                            AOEHealCount++;
-                                    }
-
-                                    if (c.NeedsCleanse())
-                                    {
-
-                                        if (DispelTarget != null && c.HealthPercent < DispelTarget.HealthPercent)
-                                            DispelTarget = c;
-
-                                        if (DispelTarget == null)
-                                            DispelTarget = c;
-                                    }
-                                }
-
-                                //Dps
-                                if (c.IsValidTarget())
-                                {
-                                    //Enemies.Add(c);
-                                    EnemyPoints.Add(c.Position);
-                                }
-                            }
-
+                            //Healing
                             if (DefaultCombat.IsHealer)
                             {
-                                //We have checked everyone out, lets set AOE stuff
-                                if (AOEHealCount >= AOEHealCountNeeded)
-                                {
-                                    ShouldAOEHeal = true;
-                                    //AOEHealTarget
-                                    AOEHealTarget = AOEHealLocation(AOEHealDist);
+                                //Find a Tank
+                                if (Me.FocusTargetIsActive && c.Guid == Me.FocusTargetID && !c.IsDead)
+                                    Tank = c;
 
-                                    //AOEHealPoint
-                                    if (AOEHealTarget != null)
-                                        AOEHealPoint = AOEHealLocation(AOEHealTarget);
+                                if (Tank == null && c.Name.Contains(TankName) && !c.IsDead)
+                                    Tank = c;
+
+                                if (Tank == null && Me.Companion != null && !Me.Companion.IsDead)
+                                    Tank = Me.Companion;
+
+                                if (Tank == null)
+                                    Tank = Me;
+
+                                if (c.HealthPercent <= MaxHealth && !c.IsDead)
+                                {
+                                    if (HealTarget == null || c.HealthPercent < HealTarget.HealthPercent)
+                                        HealTarget = c;
+
+                                    //Add to candidtates list
+                                    HealCandidates.Add(c);
+                                    HealCandidatePoints.Add(c.Position);
+
+                                    //increment our AOEHealCount
+                                    if (c.HealthPercent <= AOEHealHP)
+                                        AOEHealCount++;
+                                }
+
+                                if (c.NeedsCleanse())
+                                {
+
+                                    if (DispelTarget != null && c.HealthPercent < DispelTarget.HealthPercent)
+                                        DispelTarget = c;
+
+                                    if (DispelTarget == null)
+                                        DispelTarget = c;
                                 }
                             }
 
-                            if (Me.CurrentTarget != null)
-                                ShouldAOE = CheckDPSAOE(AOEDPSCountNeeded, Distance.MeleeAoE, Me.CurrentTarget.Position);
-
-                            ShouldPBAOE = CheckDPSAOE(AOEDPSCountNeeded, Distance.MeleeAoE, Me.Position);
-
-                            return RunStatus.Failure;
+                            //Dps
+                            if (c.IsValidTarget())
+                            {
+                                //Enemies.Add(c);
+                                EnemyPoints.Add(c.Position);
+                            }
                         }
+
+                        if (DefaultCombat.IsHealer)
+                        {
+                            //We have checked everyone out, lets set AOE stuff
+                            if (AOEHealCount >= AOEHealCountNeeded)
+                            {
+                                ShouldAOEHeal = true;
+                                //AOEHealTarget
+                                AOEHealTarget = AOEHealLocation(AOEHealDist);
+
+                                //AOEHealPoint
+                                if (AOEHealTarget != null)
+                                    AOEHealPoint = AOEHealLocation(AOEHealTarget);
+                            }
+                        }
+
+                        if (Me.CurrentTarget != null)
+                            ShouldAOE = CheckDPSAOE(AOEDPSCountNeeded, Distance.MeleeAoE, Me.CurrentTarget.Position);
+
+                        ShouldPBAOE = CheckDPSAOE(AOEDPSCountNeeded, Distance.MeleeAoE, Me.Position);
+
+                        return RunStatus.Failure;
+                    }
                     
-                    });
+                });
             }
         }
 
@@ -156,7 +156,7 @@ namespace DefaultCombat.Core
         {
             if (Me.CurrentTarget != null && Me.CurrentTarget.IsFriendly)
             {
-                Tank = Me.CurrentTarget;
+                TankName = Me.CurrentTarget.Name;
                 Logger.Write("Tank set to : " + Tank.Name);
             }
         }

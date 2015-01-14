@@ -50,9 +50,11 @@ namespace DefaultCombat
             Logger.Write("Class: " + Class);
             Logger.Write("Advanced Class: " + BuddyTor.Me.AdvancedClass);
             Logger.Write("Discipline: " + BuddyTor.Me.Discipline);
-
+            
             RotationFactory f = new RotationFactory();
             RotationBase b = f.Build(BuddyTor.Me.Discipline.ToString());
+
+            CombatHotkeys.Initialize();
 
             if (b == null)
                 b = f.Build(BuddyTor.Me.CharacterClass.ToString());
@@ -65,22 +67,23 @@ namespace DefaultCombat
                 Logger.Write("Healing Enabled");
             }
 
-            _ooc = new Decorator(ret => !BuddyTor.Me.IsDead && !BuddyTor.Me.IsMounted,
+            _ooc = new Decorator(ret => !BuddyTor.Me.IsDead && !BuddyTor.Me.IsMounted && !CombatHotkeys.PauseRotation,
                 new PrioritySelector(
                     Spell.Buff(BuddyTor.Me.SelfBuffName()),
                     b.Buffs,
                     Rest.HandleRest
                     ));
 
-            _combat = new LockSelector(
-                Spell.WaitForCast(),
-                MedPack.UseItem(ret => BuddyTor.Me.HealthPercent <= 30),
-                Targeting.ScanTargets,
-                b.Cooldowns,
-                b.AreaOfEffect,
-                b.SingleTarget);
+            _combat = new Decorator(ret => !CombatHotkeys.PauseRotation,                
+                        new LockSelector(
+                            Spell.WaitForCast(),
+                            MedPack.UseItem(ret => BuddyTor.Me.HealthPercent <= 30),
+                            Targeting.ScanTargets,
+                            b.Cooldowns,
+                            new Decorator(ret => CombatHotkeys.EnableAOE, b.AreaOfEffect),
+                            b.SingleTarget));
 
-            _pull = new Decorator( ret => !DefaultCombat.MovementDisabled || DefaultCombat.IsHealer,
+            _pull = new Decorator( ret => !CombatHotkeys.PauseRotation && !DefaultCombat.MovementDisabled || DefaultCombat.IsHealer,
                 _combat
                 );
         }
