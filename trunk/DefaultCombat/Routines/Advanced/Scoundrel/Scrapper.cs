@@ -40,16 +40,21 @@ namespace DefaultCombat.Routines
                     //Movement
                     CombatMovement.CloseDistance(Distance.Melee),
 
-                    Spell.Cast("Backblast", ret => (Me.IsBehind(Me.CurrentTarget))),
+                    //Low Energy
+                    new Decorator(ret => Me.EnergyPercent < 60,
+                        new LockSelector(
+                            Spell.Cast("Flurry of Bolts")
+                            )),
+
+                    //Rotation
+                    Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting),
+                    Spell.Cast("Back Blast", ret => (Me.IsBehind(Me.CurrentTarget))),
+                    Spell.Cast("Sucker Punch", ret => Me.HasBuff("Upper Hand") && Me.CurrentTarget.HasDebuff("Bleeding (Vital Shot)")),
                     Spell.DoT("Vital Shot", "Bleeding (Vital Shot)"),
-                    Spell.Cast("Sucker Punch", ret => Me.HasBuff("Upper Hand")),
                     Spell.Cast("Blood Boiler"),
-                    Spell.Cast("Bludgeon"),
-                    Spell.Cast("Shank Shot"),
-                    Spell.Cast("Blaster Whip"),
-                    Spell.Cast("Dirty Kick"),
-                    Spell.Cast("Quick Shot", ret => Me.EnergyPercent >= 87),
-                    Spell.Cast("Flurry of Bolts")
+                    Spell.Cast("Bludgeon", ret => Me.Level >= 41),
+                    Spell.Cast("Blaster Whip", ret => Me.Level < 41),
+                    Spell.Cast("Quick Shot", ret => Me.EnergyPercent >= 75)
                     );
             }
         }
@@ -61,7 +66,7 @@ namespace DefaultCombat.Routines
                 return new Decorator(ret => Targeting.ShouldAOE,
                     new LockSelector(
                         Spell.Cast("Thermal Grenade"),
-                        Spell.Cast("Blaster Volley", ret => Me.HasBuff("Upper Hand")))
+                        Spell.Cast("Blaster Volley", ret => Me.HasBuff("Upper Hand") && Me.CurrentTarget.Distance <= 10f))
                 );
             }
         }

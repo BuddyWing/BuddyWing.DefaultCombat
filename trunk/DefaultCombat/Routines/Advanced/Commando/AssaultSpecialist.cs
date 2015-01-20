@@ -49,16 +49,17 @@ namespace DefaultCombat.Routines
                     //Movement
                    CombatMovement.CloseDistance(Distance.Ranged),
 
-                    //Rotation
+                   //Rotation
                     Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
 
                     Spell.Cast("Mag Bolt", ret => Me.HasBuff("Ionic Accelerator") && Me.Level >= 57),
                     Spell.Cast("High Impact Bolt", ret => Me.HasBuff("Ionic Accelerator") && Me.Level < 57),
                     Spell.Cast("Explosive Round", ret => Me.HasBuff("Hyper Assault Rounds")),
                     Spell.Cast("Assault Plastique"),
-                    Spell.Cast("Serrated Bolt", ret => !Me.CurrentTarget.HasDebuff("Bleeding")),
-                    Spell.Cast("Incendiary Round", ret => !Me.CurrentTarget.HasDebuff("Burning (Incendiary Round)")),
+                    Spell.DoT("Serrated Bolt", "Bleeding"),
+                    Spell.DoT("Incendiary Round", "Burning (Incendiary Round)"),
                     Spell.Cast("Electro Net"),
+                    Spell.Cast("Full Auto"),
                     Spell.Cast("Mag Bolt", ret => Me.Level >= 57),
                     Spell.Cast("High Impact Bolt", ret => Me.Level < 57),
                     Spell.Cast("Charged Bolts")
@@ -72,8 +73,8 @@ namespace DefaultCombat.Routines
             {
                 return new Decorator(ret => Targeting.ShouldAOE,
                             new LockSelector(
-                               Spell.Cast("Incendiary Round", ret => !Me.CurrentTarget.HasDebuff("Burning (Incendiary Round)")),
-                               Spell.Cast("Serrated Bolt", ret => !Me.CurrentTarget.HasDebuff("Bleeding")),
+                               Spell.DoT("Serrated Bolt", "Bleeding"),
+                               Spell.DoT("Incendiary Round", "Burning (Incendiary Round)"),
                                Spell.Cast("Plasma Grenade", ret => Me.CurrentTarget.HasDebuff("Burning (Incendiary Round)")),
                                Spell.Cast("Sticky Grenade", ret => Me.CurrentTarget.HasDebuff("Bleeding")),
                                Spell.Cast("Explosive Round", ret => Me.HasBuff("Hyper Assault Rounds")),

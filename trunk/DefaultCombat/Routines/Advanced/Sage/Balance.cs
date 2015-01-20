@@ -24,6 +24,7 @@ namespace DefaultCombat.Routines
             {
                 return new LockSelector(
                     Spell.Buff("Force Barrier", ret => Me.HealthPercent <= 20),
+                    Spell.Buff("Force Armor", ret => !Me.HasBuff("Force Armor") && !Me.HasDebuff("Force-imbalance")),
                     Spell.Buff("Force Mend", ret => Me.HealthPercent <= 50),
                     Spell.Buff("Mental Alacrity", ret => Me.CurrentTarget.BossOrGreater()),
                     Spell.Buff("Force Potency")

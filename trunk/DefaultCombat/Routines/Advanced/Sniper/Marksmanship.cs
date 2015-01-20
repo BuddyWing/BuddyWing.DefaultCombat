@@ -55,7 +55,7 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Followthrough"),
                     Spell.Cast("Penetrating Blasts", ret => Me.IsInCover() && Me.Level >= 26),
                     Spell.Cast("Series of Shots", ret => Me.IsInCover() && Me.Level < 26),
-                    Spell.DoT("Corrosive Dart", "", 15000, ret => Me.CurrentTarget.StrongOrGreater()),
+                    Spell.DoT("Corrosive Dart", "Poisoned (Corrosive Dart)"),
                     Spell.Cast("Ambush", ret => Me.IsInCover() && Me.BuffCount("Zeroing Shots") == 2),
                     Spell.Cast("Takedown", ret => Me.CurrentTarget.HealthPercent <= 30),
                     Spell.Cast("Snipe", ret => Me.IsInCover()),
