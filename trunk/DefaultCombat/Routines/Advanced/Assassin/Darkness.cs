@@ -53,16 +53,18 @@ namespace DefaultCombat.Routines
 
                     //Harnessed Darkness
                     new Decorator(ret => Me.BuffCount("Harnessed Darkness") == 3,
+                        Spell.Cast("Force Lightning")),
+                    new Decorator(ret => Me.BuffCount("Harnessed Darkness") < 3,
                         new LockSelector(
-                            Spell.Cast("Force Lightning")
+                            Spell.Cast("Wither"),
+                            Spell.Cast("Shock"),
+                            Spell.Cast("Maul", ret => Me.HasBuff("Conspirator's Cloak")),
+                            Spell.Cast("Assassinate", ret => Me.CurrentTarget.HealthPercent <= 30),
+                            Spell.Cast("Discharge"),
+                            Spell.Cast("Thrash"),
+                            Spell.Cast("Saber Strike")
                             )),
-                    Spell.Cast("Wither"),
-                    Spell.Cast("Shock"),
-                    Spell.Cast("Maul", ret => Me.HasBuff("Conspirator's Cloak")),
-                    Spell.Cast("Assassinate", ret => Me.CurrentTarget.HealthPercent <= 30),
-                    Spell.Cast("Discharge"),
-                    Spell.Cast("Thrash"),
-                    Spell.Cast("Saber Strike"),
+                    
                     Spell.Cast("Force Speed", ret => Me.CurrentTarget.Distance >= 1.1f && Me.IsMoving && Me.InCombat)
                     );
             }
