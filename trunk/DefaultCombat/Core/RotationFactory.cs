@@ -19,6 +19,11 @@ namespace DefaultCombat.Core
                 name = "Concentration";
             }
 
+            if (name == "DirtyFighting" && BuddyTor.Me.AdvancedClass == AdvancedClass.Scoundrel)
+            {
+                name = "Ruffian";
+            }
+
             string ns = "DefaultCombat.Routines";
             var assmebly = Assembly.GetExecutingAssembly();
             var type = assmebly.GetType(ns + "." + name);

@@ -26,7 +26,7 @@ namespace DefaultCombat.Routines
             get
             {
                 return new LockSelector(
-                    Spell.Buff("Dark Ward", ret => Me.BuffCount("Dark Ward") <= 1 || Me.BuffTimeLeft("Dark Ward") < 2),
+                    Spell.Buff("Dark Ward", ret => Me.BuffCount("Dark Ward") < 2 || Me.BuffTimeLeft("Dark Ward") < 2),
                     Spell.Buff("Unbreakable Will"),
                     Spell.Buff("Overcharge Saber", ret => Me.HealthPercent <= 85),
                     Spell.Buff("Deflection", ret => Me.HealthPercent <= 60),

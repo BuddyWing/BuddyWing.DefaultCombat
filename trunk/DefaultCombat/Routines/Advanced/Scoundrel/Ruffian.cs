@@ -37,21 +37,25 @@ namespace DefaultCombat.Routines
             get
             {
                 return new LockSelector(
-                    Spell.Cast("Shoot First", ret => Me.IsStealthed && Me.IsBehind(Me.CurrentTarget)),
-
                     //Movement
                     CombatMovement.CloseDistance(Distance.Melee),
 
+                    //Low Energy
+                    new Decorator(ret => Me.EnergyPercent < 60,
+                        new LockSelector(
+                            Spell.Cast("Flurry of Bolts")
+                            )),
+
                     //Rotation
-                    Spell.Cast("Flurry of Bolts", ret => Me.EnergyPercent < 60),
                     Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && Me.CurrentTarget.Distance <= 1f),
-                    Spell.Cast("Shoot First", ret => !Me.HasBuff("Upper Hand") && Me.IsBehind(Me.CurrentTarget) && Me.IsStealthed),
+
+                    Spell.Cast("Brutal Shots", ret => Me.CurrentTarget.HasDebuff("Bleeding (Vital Shot)") && Me.CurrentTarget.HasDebuff("Bleeding (Tech)") && Me.HasBuff("Upper Hand")),
+                    Spell.Cast("Sanguinary Shot", ret => Me.CurrentTarget.HasDebuff("Bleeding (Vital Shot)") && Me.CurrentTarget.HasDebuff("Bleeding (Tech)")),
                     Spell.DoT("Vital Shot", "Bleeding (Vital Shot)"),
-                    Spell.DoT("Shrap Bomb", "", 18000),
-                    Spell.Cast("Hemorrhaging Blast"),
-                    Spell.Cast("Wounding Shots", ret => Me.HasBuff("Upper Hand")),
+                    Spell.DoT("Shrap Bomb", "Bleeding (Tech)"),
                     Spell.Cast("Blaster Whip", ret => Me.BuffCount("Upper Hand") < 2 || Me.BuffTimeLeft("Upper Hand") < 6),
-                    Spell.Cast("Back Blast", ret => Me.IsBehind(Me.CurrentTarget)),
+                    Spell.Cast("Point Blank Shot", ret => Me.Level >= 57),
+                    Spell.Cast("Back Blast", ret => Me.IsBehind(Me.CurrentTarget) && Me.Level < 57),
                     Spell.Cast("Quick Shot")
                     );
             }
@@ -63,7 +67,7 @@ namespace DefaultCombat.Routines
             {
                 return new Decorator(ret => Targeting.ShouldAOE,
                         new LockSelector(
-                            Spell.DoT("Shrap Bomb", "", 17000),
+                            Spell.DoT("Shrap Bomb", "Bleeding (Tech)"),
                             Spell.Cast("Thermal Grenade"),
                             Spell.Cast("Blaster Volley", ret => Me.HasBuff("Upper Hand"))
                 ));
