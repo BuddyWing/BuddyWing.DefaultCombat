@@ -24,6 +24,11 @@ namespace DefaultCombat.Core
                 name = "Ruffian";
             }
 
+            if (name == "Balance" && BuddyTor.Me.AdvancedClass == AdvancedClass.Shadow)
+            {
+                name = "Serenity";
+            }
+
             string ns = "DefaultCombat.Routines";
             var assmebly = Assembly.GetExecutingAssembly();
             var type = assmebly.GetType(ns + "." + name);
