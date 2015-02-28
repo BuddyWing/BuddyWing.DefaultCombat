@@ -9,6 +9,12 @@ namespace DefaultCombat.Core
     {
         public RotationBase Build(string name)
         {
+            //Set the basic class as the rotation if char has no advanced class
+            if (BuddyTor.Me.AdvancedClass == AdvancedClass.None)
+            {
+                name = BuddyTor.Me.CharacterClass.ToString();
+            }
+
             if (name == "Rage" && BuddyTor.Me.AdvancedClass == AdvancedClass.Marauder)
             {
                 name = "Fury";
