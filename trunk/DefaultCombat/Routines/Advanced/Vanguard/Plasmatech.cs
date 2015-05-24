@@ -26,7 +26,7 @@ namespace DefaultCombat.Routines
                 return new LockSelector(
                     Spell.Buff("Tenacity"),
                     Spell.Buff("Battle Focus"),
-                    Spell.Buff("Recharge Cells", ret => Me.ResourcePercent() >= 50),
+                    Spell.Buff("Recharge Cells", ret => Me.ResourcePercent() <= 50),
                     Spell.Buff("Reserve Powercell"),
                     Spell.Buff("Reactive Shield", ret => Me.HealthPercent <= 60),
                     Spell.Buff("Adrenaline Rush", ret => Me.HealthPercent <= 30)
@@ -51,7 +51,7 @@ namespace DefaultCombat.Routines
                     Spell.Cast("High Impact Bolt"),
                     Spell.Cast("Assault Plastique"),
                     Spell.DoT("Incendiary Round", "", 12000),
-                    Spell.Cast("Stockstrike"),
+                    Spell.Cast("Shockstrike"),
                     Spell.Cast("Ion Pulse")
                     );
             }
@@ -63,7 +63,7 @@ namespace DefaultCombat.Routines
             {
                 return new Decorator(ret => Targeting.ShouldAOE,
                         new LockSelector(
-                            Spell.CastOnGround("Mortar Volley", ret => Me.CurrentTarget.Distance > .5f),
+                            Spell.CastOnGround("Mortar Volley"),
                             Spell.Cast("Pulse Cannon", ret => Me.CurrentTarget.Distance <= 1f),
                             Spell.Cast("Explosive Surge", ret => Me.CurrentTarget.Distance <= .5f)
                 ));

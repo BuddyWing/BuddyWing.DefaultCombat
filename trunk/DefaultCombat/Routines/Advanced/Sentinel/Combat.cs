@@ -14,7 +14,7 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Ataru Form"),
-                        Spell.Buff("Force Might")
+                    Spell.Buff("Force Might")
                     );
             }
         }
@@ -52,11 +52,12 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Dispatch", ret => Me.CurrentTarget.HealthPercent <= 30),
                     Spell.Cast("Precision"),
                     Spell.Cast("Master Strike", ret => Me.HasBuff("Precision")),
-                    Spell.Cast("Clashing Blast", ret => Me.HasBuff("Opportune Attack")),
+                    Spell.Cast("Clashing Blast", ret => Me.HasBuff("Opportune Attack") && Me.Level >= 57),
+                    Spell.Cast("Blade Storm", ret => Me.HasBuff("Opportune Attack") && Me.Level < 57),
                     Spell.Cast("Blade Rush"),
+                    Spell.Cast("Slash", ret => Me.ActionPoints >= 7 && Me.Level < 26),
                     Spell.Cast("Zealous Strike", ret => Me.ActionPoints <= 7),
-                    Spell.Cast("Strike", ret => Me.ActionPoints <= 9),
-                    Spell.Cast("Riposte")
+                    Spell.Cast("Strike", ret => Me.ActionPoints <= 9)
                     );
             }
         }
