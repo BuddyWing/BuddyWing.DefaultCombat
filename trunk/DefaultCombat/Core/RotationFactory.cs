@@ -36,8 +36,8 @@ namespace DefaultCombat.Core
             }
 
             string ns = "DefaultCombat.Routines";
-            var assmebly = Assembly.GetExecutingAssembly();
-            var type = assmebly.GetType(ns + "." + name);
+            var assembly = Assembly.GetExecutingAssembly();
+            var type = assembly.GetType(ns + "." + name);
             var instance = Activator.CreateInstance(type);
             return (RotationBase)instance;
         } 

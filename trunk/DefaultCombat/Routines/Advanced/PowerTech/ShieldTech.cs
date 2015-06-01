@@ -4,7 +4,7 @@ using DefaultCombat.Helpers;
 
 namespace DefaultCombat.Routines
 {
-    public class Shieldtech : RotationBase
+    public class ShieldTech : RotationBase
     {
         public override string Name { get { return "PowerTech Shieldtech"; } }
 
