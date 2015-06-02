@@ -29,7 +29,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Saber Reflect", ret => Me.HealthPercent <= 70),
                     Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 50),
                     Spell.Buff("Valorous Call", ret => Me.BuffCount("Centering") < 5),
-                    Spell.Buff("Zen")
+                    Spell.Buff("Zen", ret => Me.CurrentTarget.Distance <= 0.4f)
                     );
             }
         }
@@ -48,16 +48,15 @@ namespace DefaultCombat.Routines
 
                     //Rotation
                     Spell.Cast("Force Kick", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
-                    Spell.Cast("Dispatch", ret => Me.HasBuff("Hand of Justice")),
-                    Spell.Cast("Dispatch", ret => Me.CurrentTarget.HealthPercent <= 30),
-                    Spell.Cast("Precision"),
+                    Spell.Cast("Dispatch", ret => Me.HasBuff("Hand of Justice") || Me.CurrentTarget.HealthPercent <= 30),
+                    Spell.Cast("Precision", ret => Me.CurrentTarget.Distance <= 0.4f),
                     Spell.Cast("Master Strike", ret => Me.HasBuff("Precision")),
                     Spell.Cast("Clashing Blast", ret => Me.HasBuff("Opportune Attack") && Me.Level >= 57),
                     Spell.Cast("Blade Storm", ret => Me.HasBuff("Opportune Attack") && Me.Level < 57),
                     Spell.Cast("Blade Rush"),
                     Spell.Cast("Slash", ret => Me.ActionPoints >= 7 && Me.Level < 26),
                     Spell.Cast("Zealous Strike", ret => Me.ActionPoints <= 7),
-                    Spell.Cast("Strike", ret => Me.ActionPoints <= 9)
+                    Spell.Cast("Strike", ret => Me.ActionPoints <= 10)
                     );
             }
         }

@@ -41,17 +41,17 @@ namespace DefaultCombat.Routines
 
                     //Rotation
                     Spell.Cast("Force Kick", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
-                    Spell.Buff("Zen", ret => Me.HasBuff("Centering") && Me.BuffCount("Centering") > 29),
-                    Spell.Buff("Valorous Call", ret => Me.HasBuff("Centering") && Me.BuffCount("Centering") < 15),
-                    Spell.Cast("Cauterize", ret => !Me.CurrentTarget.HasDebuff("Burning (Cauterize)")),
-                    Spell.Cast("Merciless Slash"),
-                    Spell.Cast("Force Melt"),
+                    Spell.Buff("Zen", ret => Me.BuffCount("Centering") > 29),
+                    Spell.Buff("Valorous Call", ret => Me.BuffCount("Centering") < 5),
+                    Spell.Buff("Overload Saber", ret => !Me.HasBuff("Overload Saber")),
+                    Spell.DoT("Cauterize", "Burning (Cauterize)"),
+                    Spell.DoT("Force Melt", "Burning (Force Melt)"),
                     Spell.Cast("Dispatch", ret => Me.CurrentTarget.HealthPercent <= 30),
-                    Spell.Buff("Overload Saber"),
+                    Spell.Cast("Merciless Slash"),
                     Spell.Cast("Zealous Strike", ret => Me.ActionPoints <= 5),
                     Spell.Cast("Master Strike"),
-                    Spell.Cast("Slash"),
-                    Spell.Cast("Strike")
+                    Spell.Cast("Slash", ret => Me.Level < 41),
+                    Spell.Cast("Strike", ret => Me.ActionPoints <= 10)
                     );
             }
         }
