@@ -4,9 +4,9 @@ using DefaultCombat.Helpers;
 
 namespace DefaultCombat.Routines
 {
-    class Suboteur : RotationBase
+    class Saboteur : RotationBase
     {
-        public override string Name { get { return "Gunslinger Subateur"; } }
+        public override string Name { get { return "Gunslinger Saboteur"; } }
 
         public override Composite Buffs
         {
