@@ -24,7 +24,7 @@ namespace DefaultCombat.Routines
             {
                 return new LockSelector(
                     Spell.Buff("Force Potency", ret => Targeting.ShouldAOEHeal),
-                    Spell.Buff("Noble Sacrifice", ret => NeedSacrifice()),
+                    Spell.Buff("Vindicate", ret => NeedSacrifice()),
                     Spell.Buff("Force Mend", ret => Me.HealthPercent <= 75)
                     );
             }

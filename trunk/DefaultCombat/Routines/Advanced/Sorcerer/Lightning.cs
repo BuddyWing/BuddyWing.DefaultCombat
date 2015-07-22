@@ -27,7 +27,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Polarity Shift"),
                     Spell.Buff("Static Barrier", ret => !Me.HasBuff("Deionized")),
                     Spell.Buff("Unnatural Preservation", ret => Me.HealthPercent < 50),
-                    Spell.Buff("Consumption", ret => Me.HealthPercent > 15 && Me.ForcePercent < 40)
+                    Spell.Buff("Consuming Darkness", ret => Me.HealthPercent > 15 && Me.ForcePercent < 40)
                     );
             }
         }

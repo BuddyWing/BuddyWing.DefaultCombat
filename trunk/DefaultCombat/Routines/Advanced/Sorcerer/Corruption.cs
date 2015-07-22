@@ -78,7 +78,7 @@ namespace DefaultCombat.Routines
                     Spell.HoT("Resurgence", on => Tank, 100, ret => Tank != null && Tank.InCombat),
                     
                     //Force Regen
-                    Spell.Cast("Consumption", on => Me, ret => Me.HasBuff("Force Surge") && Me.HealthPercent > 15 && Me.ForcePercent < 80),
+                    Spell.Cast("Consuming Darkness", on => Me, ret => Me.HasBuff("Force Surge") && Me.HealthPercent > 15 && Me.ForcePercent < 80),
 
                     //Aoe Heal
                     Spell.HealGround("Revivification"),

@@ -27,7 +27,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Mental Alacrity", ret => Me.CurrentTarget.StrongOrGreater()),
                     Spell.Buff("Force Mend", ret => Me.HealthPercent <= 80),
                     Spell.HoT("Force Armor", on => Me, 99, ret => !Me.HasDebuff("Force-imbalance") && !Me.HasBuff("Force Armor")),
-                    Spell.Buff("Noble Sacrifice", ret => Me.HealthPercent > 25 && Me.ForcePercent < 50)
+                    Spell.Buff("Vindicate", ret => Me.HealthPercent > 25 && Me.ForcePercent < 50)
                     );
             }
         }
