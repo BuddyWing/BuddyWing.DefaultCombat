@@ -62,6 +62,8 @@ namespace DefaultCombat.Routines
             get
             {
                 return new LockSelector(
+                    Spell.DoT("Discharge", "Discharge"),
+                    Spell.DoT("Creeping Terror", "Creeping Terror"),
                     Spell.CastOnGround("Death Field", ret => Targeting.ShouldAOE),
                     Spell.Cast("Lacerate", ret => Me.ForcePercent >= 60 && Targeting.ShouldPBAOE)
                 );
