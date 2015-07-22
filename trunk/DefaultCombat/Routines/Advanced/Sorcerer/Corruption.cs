@@ -24,6 +24,7 @@ namespace DefaultCombat.Routines
             {
                 return new LockSelector(
                     Spell.Buff("Recklessness", ret => Targeting.ShouldAOEHeal),
+                    Spell.Buff("Consuming Darkness", ret => NeedForce()),
                     Spell.Buff("Unnatural Preservation", ret => Me.HealthPercent < 50)
                     );
             }
@@ -57,7 +58,7 @@ namespace DefaultCombat.Routines
                     Spell.Cleanse("Purge"),
 
                     //Emergency Heal (Insta-cast)
-                    Spell.Heal("Dark Heal", 40, ret => Me.HasBuff("Penetrating Darkness")),
+                    Spell.Heal("Dark Heal", 80, ret => Me.HasBuff("Dark Concentration")),
 
                     //Single Target Healing
                     Spell.Heal("Innervate", 80),
@@ -76,9 +77,6 @@ namespace DefaultCombat.Routines
                     //Build Force Bending
                     Spell.HoT("Resurgence", 80),
                     Spell.HoT("Resurgence", on => Tank, 100, ret => Tank != null && Tank.InCombat),
-                    
-                    //Force Regen
-                    Spell.Cast("Consuming Darkness", on => Me, ret => Me.HasBuff("Force Surge") && Me.HealthPercent > 15 && Me.ForcePercent < 80),
 
                     //Aoe Heal
                     Spell.HealGround("Revivification"),
@@ -87,6 +85,15 @@ namespace DefaultCombat.Routines
                     Spell.Heal("Dark Heal", 35),
                     Spell.Heal("Dark Infusion", 80));
             }
+        }
+
+        private bool NeedForce()
+        {
+            if (Me.ForcePercent <= 20)
+                return true;
+            if (Me.HasBuff("Force Surge") && Me.ForcePercent < 80 && !Me.HasBuff("Reverse Corruptions"))
+                return true;
+            return false;
         }
     }
 }

@@ -24,7 +24,7 @@ namespace DefaultCombat.Routines
             {
                 return new LockSelector(
                     Spell.Buff("Force Potency", ret => Targeting.ShouldAOEHeal),
-                    Spell.Buff("Vindicate", ret => NeedSacrifice()),
+                    Spell.Buff("Vindicate", ret => NeedForce()),
                     Spell.Buff("Force Mend", ret => Me.HealthPercent <= 75)
                     );
             }
@@ -62,7 +62,7 @@ namespace DefaultCombat.Routines
                     Spell.Cleanse("Restoration"),
 
                     //Emergency Heal (Insta-cast)
-                    Spell.Heal("Benevolence", 40, ret => Me.HasBuff("Altruism")),
+                    Spell.Heal("Benevolence", 80, ret => Me.HasBuff("Altruism")),
 
                     //Aoe Heal
                     Spell.HealGround("Salvation", ret => Targeting.ShouldAOE),
@@ -92,11 +92,11 @@ namespace DefaultCombat.Routines
             }
         }
 
-        private bool NeedSacrifice()
+        private bool NeedForce()
         {
-            if (Me.ForcePercent <= 20 && Me.HealthPercent >= 16)
+            if (Me.ForcePercent <= 20)
                 return true;
-            if (Me.HasBuff("Resplendence") && Me.HealthPercent >= 16 && Me.ForcePercent < 90)
+            if (Me.HasBuff("Resplendence") && Me.ForcePercent < 80 && !Me.HasBuff("Amnesty"))
                 return true;
             return false;
         }
