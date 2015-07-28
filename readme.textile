@@ -1,3 +1,13 @@
-h1. Assembla.readme
+h1. BuddyWing.DefaultCombat
 
-In assembla you can use "textile(Textile Basics)":http://bit.ly/textile-basics, "html(Html Basics)":http://bit.ly/html-basics or "markdown(Markdown Basics)":http://bit.ly/markdown-basics to add some sugar to your readme files. Just add the extention to your readme file, so we can recognize the markup you want to use!
+DefaultCombat is the default, all in one combat routine supplied with BuddyWing, the bot for Star Wars: The Old Republic. For more information, visit http://buddywing.com/
+
+# Contributions
+
+This combat routine has always been a community effort. Ever since its inception it has seen many branches, and even completely new combat routines being based off it.
+
+Feel free to fork this repository and submit pull requests if you feel it can be improved.
+
+# License
+
+DefaultCombat is licensed under the Apache 2.0 License.
