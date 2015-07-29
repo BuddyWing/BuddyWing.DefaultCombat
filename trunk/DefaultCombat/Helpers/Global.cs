@@ -1,4 +1,7 @@
-﻿namespace DefaultCombat.Helpers
+﻿// Copyright (C) 2011-2015 Bossland GmbH
+// See the file LICENSE for the source code's detailed license
+
+namespace DefaultCombat.Helpers
 {
 	public class Global
 	{

@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿// Copyright (C) 2011-2015 Bossland GmbH
+// See the file LICENSE for the source code's detailed license
+
+using System.Windows;
 using Buddy.BehaviorTree;
 using Buddy.CommonBot;
 using Buddy.Swtor;

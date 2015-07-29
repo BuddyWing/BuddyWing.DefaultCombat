@@ -1,4 +1,7 @@
-﻿using Buddy.BehaviorTree;
+﻿// Copyright (C) 2011-2015 Bossland GmbH
+// See the file LICENSE for the source code's detailed license
+
+using Buddy.BehaviorTree;
 using Buddy.CommonBot;
 using Buddy.Navigation;
 using Buddy.Swtor;

@@ -1,5 +1,7 @@
-﻿using System.Diagnostics;
-using System.Runtime.Remoting.Messaging;
+﻿// Copyright (C) 2011-2015 Bossland GmbH
+// See the file LICENSE for the source code's detailed license
+
+using System.Diagnostics;
 using Buddy.BehaviorTree;
 using Buddy.Common;
 using Buddy.Swtor;

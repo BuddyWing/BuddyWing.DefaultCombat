@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (C) 2011-2015 Bossland GmbH
+// See the file LICENSE for the source code's detailed license
+
+using System.Collections.Generic;
 using System.Linq;
 using Buddy.BehaviorTree;
 using Buddy.Common.Math;

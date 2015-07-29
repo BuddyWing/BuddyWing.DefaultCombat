@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (C) 2011-2015 Bossland GmbH
+// See the file LICENSE for the source code's detailed license
+
+using System;
 using System.Threading;
 using Buddy.BehaviorTree;
 using Buddy.CommonBot;
