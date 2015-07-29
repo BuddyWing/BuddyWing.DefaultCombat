@@ -1,54 +1,53 @@
 ﻿using System.Diagnostics;
-using System.Threading;
+using System.Runtime.Remoting.Messaging;
 using Buddy.BehaviorTree;
-using Buddy.Swtor;
 using Buddy.Common;
-
-using Action = Buddy.BehaviorTree.Action;
+using Buddy.Swtor;
 
 namespace DefaultCombat.Helpers
 {
-    public class IManItem
-    {
-        public delegate T Selection<out T>(object context);
+	public class InventoryManagerItem
+	{
+		public delegate T Selection<out T>(object context);
+		private ILog _log = Log.Get();
 
-        private Stopwatch Timer;
-        public string ItemName;
-        public int CoolDown;
+		private readonly Stopwatch Timer;
+		public int CoolDown;
+		public string ItemName;
 
-        public IManItem(string name, int cd)
-        {
-            this.ItemName = name;
-            this.CoolDown = cd;
-            this.Timer = new Stopwatch();
-            Logging.Write(name + "  Created!");
-        }
+		public InventoryManagerItem(string name, int cd)
+		{
+			ItemName = name;
+			CoolDown = cd;
+			Timer = new Stopwatch();
+			_log.Info(name + "  Created!");
+		}
 
-        public Composite UseItem(Selection<bool> reqs = null)
-        {
-            return new Decorator(ret => (reqs == null || reqs(ret)),
-                new Action(delegate
-                {
-                    if (Timer.IsRunning && Timer.Elapsed.TotalSeconds < CoolDown)
-                        return RunStatus.Failure;
+		public Composite UseItem(Selection<bool> reqs = null)
+		{
+			return new Decorator(ret => (reqs == null || reqs(ret)),
+				new Action(delegate
+				{
+					if (Timer.IsRunning && Timer.Elapsed.TotalSeconds < CoolDown)
+						return RunStatus.Failure;
 
-                    if (!Timer.IsRunning)
-                        Timer.Start();
+					if (!Timer.IsRunning)
+						Timer.Start();
 
-                    foreach (var o in BuddyTor.Me.InventoryEquipment)
-                    {
-                        if (o.Name.Contains(ItemName))
-                        {
-                            o.Use();
-                            o.Interact();
-                            Timer.Stop();
-                            Timer.Reset();
-                            Timer.Start();
-                            return RunStatus.Success;
-                        }
-                    }
-                    return RunStatus.Failure;
-                }));
-        }
-    }
+					foreach (var o in BuddyTor.Me.InventoryEquipment)
+					{
+						if (o.Name.Contains(ItemName))
+						{
+							o.Use();
+							o.Interact();
+							Timer.Stop();
+							Timer.Reset();
+							Timer.Start();
+							return RunStatus.Success;
+						}
+					}
+					return RunStatus.Failure;
+				}));
+		}
+	}
 }

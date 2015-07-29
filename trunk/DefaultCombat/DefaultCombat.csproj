@@ -36,7 +36,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Buddywing">
-      <HintPath>..\..\..\..\..\BuddyWing 1.0.1198.659\Buddywing.exe</HintPath>
+      <HintPath>Assemblies\Buddywing.exe</HintPath>
+    </Reference>
+    <Reference Include="GreyMagic">
+      <HintPath>Assemblies\GreyMagic.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
