@@ -1,16 +1,15 @@
-﻿v
+﻿// Copyright (C) 2011-2015 Bossland GmbH
+// See the file LICENSE for the source code's detailed license
+
 using Buddy.BehaviorTree;
 using DefaultCombat.Core;
 using DefaultCombat.Helpers;
 
 namespace DefaultCombat.Routines
 {
-	internal class Concentration : RotationBase
+	class Concentration : RotationBase
 	{
-		public override string Name
-		{
-			get { return "Sentinel Concentration"; }
-		}
+		public override string Name { get { return "Sentinel Concentration"; } }
 
 		public override Composite Buffs
 		{
@@ -65,8 +64,8 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldPbaoe,
-					new LockSelector(
-						));
+						new LockSelector(
+				));
 			}
 		}
 	}

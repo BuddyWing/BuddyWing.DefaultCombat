@@ -36,10 +36,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Buddywing">
-      <HintPath>Assemblies\Buddywing.exe</HintPath>
+      <HintPath>..\..\..\buddywing.combat\assemblies\Buddywing.exe</HintPath>
     </Reference>
     <Reference Include="GreyMagic">
-      <HintPath>Assemblies\GreyMagic.dll</HintPath>
+      <HintPath>..\..\..\buddywing.combat\assemblies\GreyMagic.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -126,7 +130,9 @@
     <Compile Include="Routines\RotationBase.cs" />
     <Compile Include="DefaultCombat.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
