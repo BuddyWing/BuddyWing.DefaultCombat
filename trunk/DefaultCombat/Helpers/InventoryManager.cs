@@ -5,6 +5,7 @@ using System.Diagnostics;
 using Buddy.BehaviorTree;
 using Buddy.Common;
 using Buddy.Swtor;
+using log4net;
 
 namespace DefaultCombat.Helpers
 {
