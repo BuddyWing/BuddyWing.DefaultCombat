@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Bossland GmbH")]
 [assembly: AssemblyProduct("DefaultCombat.Properties")]
-[assembly: AssemblyCopyright("Copyright © Chipsoft 2015")]
+[assembly: AssemblyCopyright("Copyright © Bossland GmbH 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
