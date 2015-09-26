@@ -38,26 +38,6 @@ namespace DefaultCombat.Core
 				name = "Serenity";
 			}
 
-			if (name == "Rage" && BuddyTor.Me.AdvancedClass == AdvancedClass.Marauder)
-			{
-				name = "Fury";
-			}
-
-			if (name == "Focus" && BuddyTor.Me.AdvancedClass == AdvancedClass.Sentinel)
-			{
-				name = "Concentration";
-			}
-
-			if (name == "DirtyFighting" && BuddyTor.Me.AdvancedClass == AdvancedClass.Scoundrel)
-			{
-				name = "Ruffian";
-			}
-
-			if (name == "Balance" && BuddyTor.Me.AdvancedClass == AdvancedClass.Shadow)
-			{
-				name = "Serenity";
-			}
-
 			if (name == "CombatMedic" && BuddyTor.Me.AdvancedClass == AdvancedClass.Mercenary)
 			{
 				name = "Bodyguard";
