@@ -30,6 +30,7 @@ namespace DefaultCombat.Routines
 			{
 				return new LockSelector(
 					Spell.Buff("Force Potency", ret => Targeting.ShouldAoeHeal),
+                    Spell.Buff("Mental Alacrity", ret => Targeting.ShouldAoeHeal),
 					Spell.Buff("Vindicate", ret => NeedForce()),
 					Spell.Buff("Force Mend", ret => Me.HealthPercent <= 75)
 					);
@@ -45,15 +46,12 @@ namespace DefaultCombat.Routines
 					CombatMovement.CloseDistance(Distance.Ranged),
 					Spell.Cast("Mind Snap", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
 					Spell.Cast("Force Stun", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
-					Spell.Cast("Vanquish", ret => Me.BuffCount("Presence of Mind") == 4 && Me.Level >= 57),
-					Spell.Cast("Mind Crush", ret => Me.BuffCount("Presence of Mind") == 4 && Me.Level < 57),
+                    Spell.Cast("Forcequake", ret => Targeting.ShouldAoe),
+					Spell.Cast("Mind Crush"),
 					Spell.DoT("Weaken Mind", "Weaken Mind"),
-					Spell.DoT("Sever Force", "Sever Force"),
-					Spell.CastOnGround("Force in Balance",
-						ret => Me.CurrentTarget.HasDebuff("Weaken Mind") && Me.CurrentTarget.HasDebuff("Sever Force")),
-					Spell.Cast("Force Serenity", ret => Me.CurrentTarget.HasDebuff("Weaken Mind")),
-					Spell.Cast("Disturbance", ret => Me.BuffCount("Presence of Mind") == 4),
-					Spell.Cast("Telekinetic Throw", ret => Me.BuffCount("Presence of Mind") < 4)
+                    Spell.Cast("Project"),
+                    Spell.Cast("Telekinetic Throw"),
+                    Spell.Cast("Disturbance")
 					);
 			}
 		}
