@@ -50,12 +50,11 @@ namespace DefaultCombat.Routines
 							Spell.Cast("Flame Burst", ret => Me.HasBuff("Flame Barrage")),
 							Spell.Cast("Rapid Shots")
 							)),
-					Spell.Cast("Flame Thrower", ret => Me.BuffCount("Superheated Flame Thrower") == 3),
-					Spell.DoT("Incendiary Missile", "Burning (Incendiary Missle)"),
-					Spell.DoT("Scorch", "Burning (Scorch)"),
+					Spell.Cast("Flame Thrower", ret => Me.BuffCount("Superheated Flame Thrower") == 2),
+					Spell.DoT("Incendiary Missile", "Burning (Incendiary Missile)"),
+					Spell.DoT("Scorch", "Scorch"),
 					Spell.Cast("Rail Shot", ret => Me.HasBuff("Charged Gauntlets")),
 					Spell.Cast("Immolate"),
-					Spell.Cast("Thermal Detonator"),
 					Spell.Cast("Flaming Fist"),
 					Spell.Cast("Flame Burst")
 					);
@@ -69,13 +68,13 @@ namespace DefaultCombat.Routines
 				return new LockSelector(
 					new Decorator(ret => Targeting.ShouldAoe,
 						new LockSelector(
-							Spell.DoT("Scorch", "Burning (Scorch)"),
-							Spell.CastOnGround("Death from Above", ret => Me.CurrentTarget.Distance > Distance.MeleeAoE),
+							Spell.DoT("Scorch", "Scorch"),
+							Spell.CastOnGround("Death from Above"),
 							Spell.Cast("Explosive Dart")
 							)),
 					new Decorator(ret => Targeting.ShouldPbaoe,
 						new LockSelector(
-							Spell.DoT("Scorch", "Burning (Scorch)"),
+							Spell.DoT("Scorch", "Scorch"),
 							Spell.Cast("Flame Thrower"),
 							Spell.Cast("Flame Sweep")
 							)));
