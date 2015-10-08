@@ -50,7 +50,8 @@ namespace DefaultCombat.Routines
 							Spell.Cast("Flame Burst", ret => Me.HasBuff("Flame Barrage")),
 							Spell.Cast("Rapid Shots")
 							)),
-					Spell.Cast("Flame Thrower", ret => Me.BuffCount("Superheated Flame Thrower") == 2),
+                    Spell.Cast("Quell", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
+                    Spell.Cast("Flame Thrower", ret => Me.BuffCount("Superheated Flame Thrower") == 2),
 					Spell.DoT("Incendiary Missile", "Burning (Incendiary Missile)"),
 					Spell.DoT("Scorch", "Scorch"),
 					Spell.Cast("Rail Shot", ret => Me.HasBuff("Charged Gauntlets")),
