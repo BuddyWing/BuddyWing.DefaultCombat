@@ -33,8 +33,8 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 50),
 					Spell.Buff("Evasion", ret => Me.HealthPercent <= 30),
 					Spell.Buff("Adrenaline Probe", ret => Me.EnergyPercent <= 50),
-					Spell.Buff("Laze Target"),
-					Spell.Cast("Target Acquired")
+					Spell.Buff("Laze Target", ret => Me.CurrentTarget.StrongOrGreater()),
+					Spell.Cast("Target Acquired", ret => Me.CurrentTarget.StrongOrGreater())
 					);
 			}
 		}
@@ -52,16 +52,15 @@ namespace DefaultCombat.Routines
 
 					//Rotation
 					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
-					Spell.Cast("Shatter Shot", ret => !Me.CurrentTarget.HasDebuff("Armor Reduced")),
-					Spell.DoT("Corrosive Grenade", "", 18000),
-					Spell.DoT("Corrosive Dart", "", 12000),
-					Spell.Cast("Weakening Blast"),
-					Spell.Cast("Takedown", ret => Me.CurrentTarget.HealthPercent <= 30),
-					Spell.Cast("Cull"),
-					Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving),
-					Spell.Cast("Series of Shots", ret => Me.IsInCover()),
-					Spell.Cast("Snipe", ret => Me.IsInCover()),
-					Spell.Cast("Overload Shot")
+                    Spell.DoT("Corrosive Dart", "", 24000),
+                    Spell.DoT("Corrosive Grenade", "", 24000),
+                    Spell.Cast("Weakening Blast", ret => Me.CurrentTarget.HasDebuff("Poisoned (Tech)") && Me.CurrentTarget.HasDebuff("Poisoned (Corrosive Dart)")),
+                    Spell.Cast("Cull", ret => Me.CurrentTarget.DebuffTimeLeft("Poisoned (Tech)") > 3 && Me.CurrentTarget.DebuffTimeLeft("Poisoned (Corrosive Dart)") > 3),
+                    Spell.Cast("Takedown", ret => Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("Lethal Takedown")),
+                    Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving && !DefaultCombat.MovementDisabled),
+					Spell.Cast("Series of Shots"),
+                    Spell.Cast("Lethal Shot"),
+                    Spell.Cast("Overload Shot")
 					);
 			}
 		}
@@ -74,7 +73,8 @@ namespace DefaultCombat.Routines
 					new LockSelector(
 						Spell.CastOnGround("Orbital Strike"),
 						Spell.Cast("Fragmentation Grenade"),
-						Spell.DoT("Corrosive Grenade", "", 18000),
+                        Spell.DoT("Corrosive Dart", "", 24000),
+                        Spell.Cast("Corrosive Grenade", ret => Me.CurrentTarget.HasDebuff("Poisoned (Corrosive Dart)") && !Me.CurrentTarget.HasDebuff("Poisoned (Tech)")),
 						Spell.CastOnGround("Suppressive Fire")
 						));
 			}

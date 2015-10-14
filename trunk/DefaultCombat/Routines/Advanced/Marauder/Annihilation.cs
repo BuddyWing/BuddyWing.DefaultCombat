@@ -56,8 +56,9 @@ namespace DefaultCombat.Routines
 
 					//Rotation
 					Spell.Cast("Disruption", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
-                    Spell.DoT("Force Rend", "", 15000),
-					Spell.DoT("Rupture", "", 6000),
+                    Spell.DoT("Force Rend", "Force Rend"),
+					Spell.DoT("Rupture", "Bleeding (Rupture)"),
+                    Spell.Cast("Dual Saber Throw", ret => Me.HasBuff("Pulverize")),
 					Spell.Cast("Annihilate"),
 					Spell.Cast("Vicious Throw", ret => Me.CurrentTarget.HealthPercent <= 30),
 					Spell.Cast("Ravage"),
@@ -77,8 +78,10 @@ namespace DefaultCombat.Routines
 					new LockSelector(
 						Spell.Cast("Dual Saber Throw",
 							ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
-						Spell.Cast("Smash"),
-						Spell.Cast("Sweeping Slash")
+						Spell.Cast("Smash", ret => Me.CurrentTarget.HasDebuff("Bleeding (Rupture)") && Me.CurrentTarget.HasDebuff("Force Rend")),
+                        Spell.DoT("Force Rend", "Force Rend"),
+                        Spell.DoT("Rupture", "Bleeding (Rupture)"),
+                        Spell.Cast("Sweeping Slash")
 						));
 			}
 		}
