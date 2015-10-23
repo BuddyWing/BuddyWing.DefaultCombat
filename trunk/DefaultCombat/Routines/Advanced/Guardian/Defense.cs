@@ -63,8 +63,8 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Warding Strike", ret => Me.ActionPoints <= 7 || !Me.HasBuff("Warding Strike")),
 					Spell.Cast("Force Sweep", ret => !Me.CurrentTarget.HasDebuff("Unsteady (Force)") && Targeting.ShouldPbaoe),
 					Spell.Cast("Hilt Bash", ret => !Me.CurrentTarget.IsStunned),
-					Spell.Cast("Master Strike"),
-					Spell.Cast("Dispatch", ret => Me.CurrentTarget.HealthPercent <= 30),
+					Spell.Cast("Blade Dance"),
+					Spell.Cast("Dispatch", ret => Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("Ardent Advocate")),
 					Spell.Cast("Slash", ret => Me.ActionPoints >= 9),
 					Spell.Cast("Strike"),
 					Spell.Cast("Saber Throw", ret => Me.CurrentTarget.Distance >= 0.5f && Me.InCombat)

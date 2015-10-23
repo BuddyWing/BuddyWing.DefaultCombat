@@ -64,7 +64,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Force Exhaustion", ret => Me.BuffCount("Singularity") < 3),
 					Spell.Cast("Blade Storm", ret => Me.HasBuff("Momentum")),
 					Spell.Cast("Concentrated Slice"),
-					Spell.Cast("Master Strike"),
+					Spell.Cast("Blade Dance"),
 					Spell.Cast("Riposte"),
 					Spell.Cast("Sundering Strike", ret => Me.ActionPoints < 7),
 					Spell.Cast("Strike"),
