@@ -59,7 +59,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Force Kick", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
 					Spell.Cast("Dispatch", ret => Me.HasBuff("Hand of Justice") || Me.CurrentTarget.HealthPercent <= 30),
 					Spell.Cast("Precision", ret => Me.CurrentTarget.Distance <= 0.4f),
-					Spell.Cast("Master Strike", ret => Me.HasBuff("Precision")),
+					Spell.Cast("Blade Dance", ret => Me.HasBuff("Precision")),
 					Spell.Cast("Clashing Blast", ret => Me.HasBuff("Opportune Attack") && Me.Level >= 57),
 					Spell.Cast("Blade Storm", ret => Me.HasBuff("Opportune Attack") && Me.Level < 57),
 					Spell.Cast("Blade Rush"),

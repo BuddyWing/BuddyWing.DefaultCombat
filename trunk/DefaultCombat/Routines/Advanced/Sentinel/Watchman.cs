@@ -55,7 +55,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Dispatch", ret => Me.CurrentTarget.HealthPercent <= 30),
 					Spell.Cast("Merciless Slash"),
 					Spell.Cast("Zealous Strike", ret => Me.ActionPoints <= 5),
-					Spell.Cast("Master Strike"),
+					Spell.Cast("Blade Dance"),
 					Spell.Cast("Slash", ret => Me.Level < 41),
 					Spell.Cast("Strike", ret => Me.ActionPoints <= 10)
 					);

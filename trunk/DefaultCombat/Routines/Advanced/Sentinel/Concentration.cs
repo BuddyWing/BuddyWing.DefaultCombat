@@ -50,7 +50,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Zealous Leap", ret => Me.HasBuff("Singularity")),
 					Spell.Cast("Blade Storm", ret => Me.HasBuff("Battle Cry") || Me.Energy >= 5),
 					Spell.Cast("Dual Saber Throw"),
-					Spell.Cast("Master Strike"),
+					Spell.Cast("Blade Dance"),
 					Spell.Cast("Force Stasis"),
 					Spell.Cast("Slash", ret => Me.HasBuff("Zen")),
 					Spell.Cast("Zealous Strike"),
