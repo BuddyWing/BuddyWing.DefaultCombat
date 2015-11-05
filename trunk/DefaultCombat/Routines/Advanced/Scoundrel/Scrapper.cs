@@ -55,8 +55,8 @@ namespace DefaultCombat.Routines
 					//Rotation
 					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting),
 					Spell.Cast("Back Blast", ret => (Me.IsBehind(Me.CurrentTarget))),
-					Spell.Cast("Sucker Punch", ret => Me.HasBuff("Upper Hand") && Me.CurrentTarget.HasDebuff("Bleeding (Vital Shot)")),
-					Spell.DoT("Vital Shot", "Bleeding (Vital Shot)"),
+					Spell.Cast("Sucker Punch", ret => Me.HasBuff("Upper Hand") && Me.CurrentTarget.HasDebuff("Vital Shot")),
+					Spell.DoT("Vital Shot", "Vital Shot"),
 					Spell.Cast("Blood Boiler"),
 					Spell.Cast("Bludgeon", ret => Me.Level >= 41),
 					Spell.Cast("Blaster Whip", ret => Me.Level < 41),

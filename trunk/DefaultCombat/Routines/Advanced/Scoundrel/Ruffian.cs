@@ -56,11 +56,11 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && Me.CurrentTarget.Distance <= 1f),
 					Spell.Cast("Brutal Shots",
 						ret =>
-							Me.CurrentTarget.HasDebuff("Bleeding (Vital Shot)") && Me.CurrentTarget.HasDebuff("Bleeding (Tech)") &&
+							Me.CurrentTarget.HasDebuff("Vital Shot") && Me.CurrentTarget.HasDebuff("Bleeding (Tech)") &&
 							Me.HasBuff("Upper Hand")),
 					Spell.Cast("Sanguinary Shot",
-						ret => Me.CurrentTarget.HasDebuff("Bleeding (Vital Shot)") && Me.CurrentTarget.HasDebuff("Bleeding (Tech)")),
-					Spell.DoT("Vital Shot", "Bleeding (Vital Shot)"),
+						ret => Me.CurrentTarget.HasDebuff("Vital Shot") && Me.CurrentTarget.HasDebuff("Bleeding (Tech)")),
+					Spell.DoT("Vital Shot", "Vital Shot"),
 					Spell.DoT("Shrap Bomb", "Bleeding (Tech)"),
 					Spell.Cast("Blaster Whip", ret => Me.BuffCount("Upper Hand") < 2 || Me.BuffTimeLeft("Upper Hand") < 6),
 					Spell.Cast("Point Blank Shot", ret => Me.Level >= 57),
