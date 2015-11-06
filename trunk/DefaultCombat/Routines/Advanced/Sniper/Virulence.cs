@@ -52,15 +52,13 @@ namespace DefaultCombat.Routines
 
 					//Rotation
 					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
-                    Spell.DoT("Corrosive Dart", "", 24000),
-                    Spell.DoT("Corrosive Grenade", "", 24000),
-                    Spell.Cast("Weakening Blast", ret => Me.CurrentTarget.HasDebuff("Poisoned (Tech)") && Me.CurrentTarget.HasDebuff("Poisoned (Corrosive Dart)")),
-                    Spell.Cast("Cull", ret => Me.CurrentTarget.DebuffTimeLeft("Poisoned (Tech)") > 3 && Me.CurrentTarget.DebuffTimeLeft("Poisoned (Corrosive Dart)") > 3),
+                    Spell.DoT("Corrosive Dart", "Corrosive Dart"),
+                    Spell.DoT("Corrosive Grenade", "Corrosive Grenade"),
+                    Spell.Cast("Weakening Blast", ret => Me.CurrentTarget.HasDebuff("Corrosive Dart") && Me.CurrentTarget.HasDebuff("Corrosive Grenade")),
+                    Spell.Cast("Cull", ret => Me.CurrentTarget.DebuffTimeLeft("Corrosive Dart") > 3 && Me.CurrentTarget.DebuffTimeLeft("Corrosive Grenade") > 3),
                     Spell.Cast("Takedown", ret => Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("Lethal Takedown")),
-                    Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving && !DefaultCombat.MovementDisabled),
 					Spell.Cast("Series of Shots"),
-                    Spell.Cast("Lethal Shot"),
-                    Spell.Cast("Overload Shot")
+                    Spell.Cast("Lethal Shot")
 					);
 			}
 		}
@@ -73,8 +71,8 @@ namespace DefaultCombat.Routines
 					new LockSelector(
 						Spell.CastOnGround("Orbital Strike"),
 						Spell.Cast("Fragmentation Grenade"),
-                        Spell.DoT("Corrosive Dart", "", 24000),
-                        Spell.Cast("Corrosive Grenade", ret => Me.CurrentTarget.HasDebuff("Poisoned (Corrosive Dart)") && !Me.CurrentTarget.HasDebuff("Poisoned (Tech)")),
+                        Spell.DoT("Corrosive Dart", "Corrosive Dart"),
+                        Spell.Cast("Corrosive Grenade", ret => Me.CurrentTarget.HasDebuff("Corrosive Dart") && !Me.CurrentTarget.HasDebuff("Corrosive Grenade")),
 						Spell.CastOnGround("Suppressive Fire")
 						));
 			}

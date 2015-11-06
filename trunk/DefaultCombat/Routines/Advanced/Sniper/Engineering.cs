@@ -50,24 +50,21 @@ namespace DefaultCombat.Routines
 					//Low Energy
 					new Decorator(ret => Me.EnergyPercent < 60,
 						new LockSelector(
-							Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving),
-							Spell.Cast("Series of Shots", ret => Me.IsInCover()),
-							Spell.Cast("Snipe", ret => Me.IsInCover()),
-							Spell.Cast("Overload Shot", ret => !Me.IsInCover())
+							Spell.Cast("Rifle Shot", ret => !Me.IsInCover())
 							)),
 
 					//Rotation
 					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
-					Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving),
-					Spell.Cast("Shatter Shot", ret => !Me.CurrentTarget.HasDebuff("Armor Reduced")),
-					Spell.Cast("Series of Shots", ret => Me.IsInCover()),
-					Spell.CastOnGround("Plasma Probe"),
-					Spell.DoT("Interrogation Probe", "", 15000),
-					Spell.DoT("Corrosive Dart", "", 12000),
-					Spell.Cast("Explosive Probe", ret => Me.IsInCover()),
+					Spell.Cast("Series of Shots"),
+                    Spell.Cast("Explosive Probe"),
+                    Spell.Cast("EMP Discharge", ret => Me.CurrentTarget.HasDebuff("Interrogation Probe")),
+					Spell.CastOnGround("Plasma Probe", ret => !Me.CurrentTarget.HasDebuff("Slowed")),
+					Spell.DoT("Interrogation Probe", "Interrogation Probe"),
+                    Spell.CastOnGround("Orbital Strike"),
+                    Spell.Cast("Frag Grenade", ret => Me.HasBuff("Energy Overrides")),
+					Spell.DoT("Corrosive Dart", "Corrosive Dart"),
 					Spell.Cast("Takedown", ret => Me.CurrentTarget.HealthPercent <= 30),
-					Spell.Cast("Snipe", ret => Me.IsInCover()),
-					Spell.Cast("Overload Shot", ret => !Me.IsInCover())
+                    Spell.Cast("Snipe")
 					);
 			}
 		}
@@ -78,8 +75,8 @@ namespace DefaultCombat.Routines
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new LockSelector(
-						Spell.CastOnGround("Orbital Strike"),
-						Spell.CastOnGround("Plasma Probe"),
+                        Spell.CastOnGround("Plasma Probe", ret => !Me.CurrentTarget.HasDebuff("Slowed")),
+                        Spell.CastOnGround("Orbital Strike"),
 						Spell.Cast("Fragmentation Grenade")
 						));
 			}
