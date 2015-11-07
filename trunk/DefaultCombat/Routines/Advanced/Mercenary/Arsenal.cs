@@ -69,7 +69,7 @@ namespace DefaultCombat.Routines
 					new LockSelector(
 						Spell.Buff("Thermal Sensor Override"),
 						Spell.Buff("Power Surge"),
-						Spell.CastOnGround("Death from Above", ret => Me.CurrentTarget.Distance > Distance.MeleeAoE),
+						Spell.CastOnGround("Death from Above"),
 						Spell.Cast("Fusion Missile", ret => Me.ResourcePercent() <= 10 && Me.HasBuff("Power Surge")),
 						Spell.Cast("Flame Thrower", ret => Me.CurrentTarget.Distance <= 1f),
 						Spell.CastOnGround("Sweeping Blasters", ret => Me.ResourcePercent() <= 10))

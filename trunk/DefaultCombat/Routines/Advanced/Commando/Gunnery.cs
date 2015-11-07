@@ -70,7 +70,7 @@ namespace DefaultCombat.Routines
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new LockSelector(
 						Spell.Cast("Tech Override"),
-						Spell.CastOnGround("Mortar Volley", ret => Me.CurrentTarget.Distance > 0.5f),
+						Spell.CastOnGround("Mortar Volley"),
 						Spell.Cast("Plasma Grenade", ret => Me.ResourceStat >= 90 && Me.HasBuff("Tech Override")),
 						Spell.Cast("Pulse Cannon", ret => Me.CurrentTarget.Distance <= 1f),
 						Spell.CastOnGround("Hail of Bolts", ret => Me.ResourceStat >= 90)

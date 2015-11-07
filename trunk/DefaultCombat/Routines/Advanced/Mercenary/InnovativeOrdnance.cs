@@ -71,7 +71,7 @@ namespace DefaultCombat.Routines
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new LockSelector(
-						Spell.CastOnGround("Death from Above", ret => Me.CurrentTarget.Distance > Distance.MeleeAoE),
+						Spell.CastOnGround("Death from Above"),
 						Spell.Cast("Fusion Missle", ret => Me.HasBuff("Thermal Sensor Override")),
 						Spell.Cast("Explosive Dart"))
 					);

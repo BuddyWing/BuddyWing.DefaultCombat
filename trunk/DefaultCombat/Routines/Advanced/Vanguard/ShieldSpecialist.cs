@@ -78,7 +78,7 @@ namespace DefaultCombat.Routines
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new LockSelector(
-						Spell.CastOnGround("Mortar Volley", ret => Me.CurrentTarget.Distance > .5f),
+						Spell.CastOnGround("Mortar Volley"),
 						Spell.Cast("Sticky Grenade"),
 						Spell.Cast("Pulse Cannon", ret => Me.CurrentTarget.Distance <= 1f),
 						Spell.Cast("Explosive Surge")
