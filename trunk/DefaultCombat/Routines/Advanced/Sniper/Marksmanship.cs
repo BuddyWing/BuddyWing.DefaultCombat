@@ -57,15 +57,13 @@ namespace DefaultCombat.Routines
 
 					//Rotation
 					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting),
-					Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving),
 					Spell.Cast("Followthrough"),
-					Spell.Cast("Penetrating Blasts", ret => Me.IsInCover() && Me.Level >= 26),
-					Spell.Cast("Series of Shots", ret => Me.IsInCover() && Me.Level < 26),
+					Spell.Cast("Penetrating Blasts", ret => Me.Level >= 26),
+					Spell.Cast("Series of Shots", ret => Me.Level < 26),
 					Spell.DoT("Corrosive Dart", "Poisoned (Corrosive Dart)"),
-					Spell.Cast("Ambush", ret => Me.IsInCover() && Me.BuffCount("Zeroing Shots") == 2),
+					Spell.Cast("Ambush", ret => Me.BuffCount("Zeroing Shots") == 2),
 					Spell.Cast("Takedown", ret => Me.CurrentTarget.HealthPercent <= 30),
-					Spell.Cast("Snipe", ret => Me.IsInCover()),
-					Spell.Cast("Overload Shot", ret => !Me.IsInCover())
+					Spell.Cast("Snipe")
 					);
 			}
 		}

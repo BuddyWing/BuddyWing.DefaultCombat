@@ -48,23 +48,25 @@ namespace DefaultCombat.Routines
 					CombatMovement.CloseDistance(Distance.Melee),
 
 					//Low Energy
-					new Decorator(ret => Me.EnergyPercent < 60,
+					new Decorator(ret => Me.EnergyPercent < 45,
 						new LockSelector(
-							Spell.Cast("Rifle Shot", ret => !Me.IsInCover())
+                            Spell.Cast("Fragmentation Grenade", ret => Me.HasBuff("Energy Overrides")),
+                            Spell.Cast("Rifle Shot", ret => !Me.IsInCover())
 							)),
 
 					//Rotation
 					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
 					Spell.Cast("Series of Shots"),
-                    Spell.Cast("Explosive Probe"),
                     Spell.Cast("EMP Discharge", ret => Me.CurrentTarget.HasDebuff("Interrogation Probe")),
-					Spell.CastOnGround("Plasma Probe", ret => !Me.CurrentTarget.HasDebuff("Slowed")),
-					Spell.DoT("Interrogation Probe", "Interrogation Probe"),
+                    Spell.CastOnGround("Plasma Probe", ret => Me.CurrentTarget.DebuffTimeLeft("Overwhelmed (Mental)") < 41),
+                    Spell.Cast("Explosive Probe"),
+                    Spell.Cast("Fragmentation Grenade", ret => Me.HasBuff("Energy Overrides")),
+                    Spell.DoT("Interrogation Probe", "Interrogation Probe"),
                     Spell.CastOnGround("Orbital Strike"),
-                    Spell.Cast("Frag Grenade", ret => Me.HasBuff("Energy Overrides")),
 					Spell.DoT("Corrosive Dart", "Corrosive Dart"),
 					Spell.Cast("Takedown", ret => Me.CurrentTarget.HealthPercent <= 30),
-                    Spell.Cast("Snipe")
+                    Spell.Cast("Snipe", ret => Me.EnergyPercent > 75),
+                    Spell.Cast("Rifle Shot")
 					);
 			}
 		}
@@ -75,7 +77,7 @@ namespace DefaultCombat.Routines
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new LockSelector(
-                        Spell.CastOnGround("Plasma Probe", ret => !Me.CurrentTarget.HasDebuff("Slowed")),
+                        Spell.CastOnGround("Plasma Probe", ret => Me.CurrentTarget.DebuffTimeLeft("Overwhelmed (Mental)") < 41),
                         Spell.CastOnGround("Orbital Strike"),
 						Spell.Cast("Fragmentation Grenade")
 						));
