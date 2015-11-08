@@ -58,7 +58,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
 					Spell.Cast("Series of Shots"),
                     Spell.Cast("EMP Discharge", ret => Me.CurrentTarget.HasDebuff("Interrogation Probe")),
-                    Spell.CastOnGround("Plasma Probe", ret => Me.CurrentTarget.DebuffTimeLeft("Overwhelmed (Mental)") < 41),
+                    Spell.DoTGround("Plasma Probe", 9000),
                     Spell.Cast("Explosive Probe"),
                     Spell.Cast("Fragmentation Grenade", ret => Me.HasBuff("Energy Overrides")),
                     Spell.DoT("Interrogation Probe", "Interrogation Probe"),
@@ -77,7 +77,7 @@ namespace DefaultCombat.Routines
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new LockSelector(
-                        Spell.CastOnGround("Plasma Probe", ret => Me.CurrentTarget.DebuffTimeLeft("Overwhelmed (Mental)") < 41),
+                        Spell.DoTGround("Plasma Probe", 9000),
                         Spell.CastOnGround("Orbital Strike"),
 						Spell.Cast("Fragmentation Grenade")
 						));

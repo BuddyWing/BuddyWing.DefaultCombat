@@ -101,11 +101,36 @@ namespace DefaultCombat.Core
 					new Action(ret => AbilityManager.Cast(spell, location(ret))));
 		}
 
-		#endregion
+        public static Composite DoTGround(string spell, float time = 0, Selection<bool> reqs = null)
+        {
+            return DoTGround(spell, ret => BuddyTor.Me.CurrentTarget, time, reqs);
+        }
 
-		#region DoT
 
-		public static Composite DoT(string spell, string debuff, float time = 0, Selection<bool> reqs = null)
+        public static Composite DoTGround(string spell, UnitSelectionDelegate onUnit, float time, Selection<bool> reqs = null)
+        {
+            return
+                new Decorator(
+                    ret => ((reqs == null || reqs(ret))
+                            && onUnit != null
+                            && onUnit(ret) != null
+                            && AbilityManager.CanCast(spell, onUnit(ret))
+                            && !SpellBlackListed(spell, onUnit(ret).Guid)),
+                    new PrioritySelector(
+                        new Action(ctx =>
+                        {
+                            BlackListedSpells.Add(new ExpiringItem(spell, (GetCooldown(spell) + 25 + time), onUnit(ctx).Guid));
+                            Logger.Write(">> Casting on Ground <<   " + spell);
+                            return RunStatus.Failure;
+                        }),
+                        new Action(ret => AbilityManager.Cast(spell, onUnit(ret).Position))));
+        }
+
+        #endregion
+
+        #region DoT
+
+        public static Composite DoT(string spell, string debuff, float time = 0, Selection<bool> reqs = null)
 		{
 			return DoT(spell, ret => Me.CurrentTarget, debuff, time, reqs);
 		}
