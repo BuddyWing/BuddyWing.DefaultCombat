@@ -31,7 +31,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Resolute"),
 					Spell.Buff("Saber Reflect", ret => Me.HealthPercent <= 90),
 					Spell.Buff("Enure", ret => Me.HealthPercent <= 80),
