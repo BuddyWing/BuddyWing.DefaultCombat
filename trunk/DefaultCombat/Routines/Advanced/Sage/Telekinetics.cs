@@ -29,11 +29,12 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new LockSelector(
+                    Spell.Buff("Force of Will"),
 					Spell.Buff("Force Potency", ret => Me.CurrentTarget.StrongOrGreater()),
 					Spell.Buff("Mental Alacrity", ret => Me.CurrentTarget.StrongOrGreater()),
 					Spell.Buff("Force Mend", ret => Me.HealthPercent <= 80),
 					Spell.HoT("Force Armor", on => Me, 99, ret => !Me.HasDebuff("Force-imbalance") && !Me.HasBuff("Force Armor")),
-					Spell.Buff("Vindicate", ret => Me.HealthPercent > 25 && Me.ForcePercent < 50)
+					Spell.Buff("Vindicate", ret => Me.ForcePercent < 50 && !Me.HasDebuff("Weary"))
 					);
 			}
 		}
@@ -49,7 +50,7 @@ namespace DefaultCombat.Routines
 					//Rotation
 					Spell.Cast("Weaken Mind", ret => !Me.CurrentTarget.HasDebuff("Weaken Mind")),
 					Spell.Cast("Turbulence", ret => Me.CurrentTarget.HasDebuff("Weaken Mind")),
-					Spell.Cast("Mind Crush"),
+					Spell.Cast("Mind Crush", ret => Me.HasBuff("Force Gust")),
 					Spell.Cast("Telekinetic Gust"),
 					Spell.Cast("Telekinetic Wave", ret => Me.HasBuff("Tidal Force")),
 					Spell.Cast("Telekinetic Burst", ret => Me.Level >= 57),
