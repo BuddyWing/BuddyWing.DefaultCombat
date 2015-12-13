@@ -126,12 +126,12 @@ namespace DefaultCombat.Helpers
 
 								Thread.Sleep(100);
 							}
-							while (Me.IsCasting)
-							{
-								SendMessage(_swtorhWnd, (int)0x100, (IntPtr)(char)0x1b, (IntPtr)0);
-								Thread.Sleep(100);
-							}
-							return RunStatus.Success;
+                            if (Me.IsCasting)
+                            {
+                                SendMessage(_swtorhWnd, (int)0x100, (IntPtr)(char)0x1b, (IntPtr)0);
+                                Thread.Sleep(100);
+                            }
+                            return RunStatus.Success;
 						}
 
 						return RunStatus.Failure;
