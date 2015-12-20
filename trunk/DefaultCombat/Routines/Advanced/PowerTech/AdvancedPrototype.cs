@@ -11,7 +11,7 @@ namespace DefaultCombat.Routines
 	{
 		public override string Name
 		{
-			get { return "PowerTech Advance Prototype"; }
+			get { return "PowerTech Advanced Prototype"; }
 		}
 
 		public override Composite Buffs
