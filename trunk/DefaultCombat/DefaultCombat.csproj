@@ -36,10 +36,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Buddywing">
-      <HintPath>..\..\..\..\..\..\BuddyWing 1.0.1233.726\Buddywing.exe</HintPath>
+      <HintPath>..\..\contrib\Buddywing.exe</HintPath>
     </Reference>
     <Reference Include="GreyMagic">
-      <HintPath>..\..\..\buddywing.combat\assemblies\GreyMagic.dll</HintPath>
+      <HintPath>..\..\contrib\GreyMagic.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
