@@ -89,7 +89,7 @@ namespace DefaultCombat
 					));
 
 			_combat = new Decorator(ret => !CombatHotkeys.PauseRotation,
-				new LockSelector(
+				new PrioritySelector(
 					Spell.WaitForCast(),
 					MedPack.UseItem(ret => BuddyTor.Me.HealthPercent <= 30),
 					Targeting.ScanTargets,
