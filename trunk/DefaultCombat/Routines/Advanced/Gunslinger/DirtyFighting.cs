@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2015 Bossland GmbH
+// Copyright (C) 2011-2015 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
@@ -28,13 +28,13 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Escape"),
 					Spell.Buff("Defense Screen", ret => Me.HealthPercent <= 50),
 					Spell.Buff("Dodge", ret => Me.HealthPercent <= 30),
 					Spell.Buff("Cool Head", ret => Me.EnergyPercent <= 50),
-					Spell.Buff("Smuggler's Luck"),
-					Spell.Buff("Illegal Mods")
+                    Spell.Buff("Smuggler's Luck", ret => Me.CurrentTarget.BossOrGreater()),
+                    Spell.Buff("Illegal Mods", ret => Me.CurrentTarget.BossOrGreater())
 					);
 			}
 		}
@@ -43,27 +43,23 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
-					Spell.Cast("Flurry of Bolts", ret => Me.EnergyPercent < 60),
-
+				return new PrioritySelector(
 					//Movement
 					CombatMovement.CloseDistance(Distance.Ranged),
+					
+					//Low Energy
+					Spell.Cast("Flurry of Bolts", ret => Me.EnergyPercent < 60),
 
 					//Rotation
-					Spell.Cast("Charged Burst", ret => Me.HasBuff("Smuggler's Luck")),
-					Spell.Cast("Flurry of Bolts", ret => Me.EnergyPercent < 40),
-					Spell.DoT("Flourish Shot", "Armor Reduced"),
-					Spell.Cast("Sabotage Charge", ret => Me.IsInCover()),
-					Spell.DoT("Shrap Bomb", "Shrapbomb"),
-					Spell.DoT("Vital Shot", "Bleeding (Vital Shot)"),
-					Spell.Cast("Hemorrhaging Blast"),
+					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
+					Spell.DoT("Vital Shot", "Vital Shot"),
+					Spell.DoT("Shrap Bomb", "Shrap Bomb"),
+					Spell.Cast("Hemorrhaging Blast", ret => Me.CurrentTarget.HasDebuff("Vital Shot") && Me.CurrentTarget.HasDebuff("Shrap Bomb")),
+					Spell.Cast("Wounding Shots", ret => Me.CurrentTarget.DebuffTimeLeft("Vital Shot") > 3 && Me.CurrentTarget.DebuffTimeLeft("Shrap Bomb") > 3),
 					Spell.Cast("Quickdraw", ret => Me.CurrentTarget.HealthPercent <= 30),
-					Spell.Cast("Wounding Shots"),
-					Spell.Cast("Crouch", ret => !Me.IsInCover()),
-					Spell.Cast("Speed Shot", ret => Me.IsInCover()),
-					Spell.Cast("Aimed Shot", ret => Me.IsInCover()),
-					Spell.Cast("Quick Shot", ret => !Me.IsInCover()),
-					Spell.Cast("Flurry of Bolts")
+					Spell.Cast("Speed Shot"),
+					Spell.Cast("Dirty Blast", ret => Me.Level >= 57),
+					Spell.Cast("Charged Burst", ret => Me.Level < 57)
 					);
 			}
 		}
@@ -73,10 +69,10 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
-					new LockSelector(
+					new PrioritySelector(
 						Spell.CastOnGround("XS Freighter Flyby"),
 						Spell.Cast("Thermal Grenade"),
-						Spell.DoT("Shrap Bomb", "Shrap Bomb"),
+						Spell.Cast("Shrap Bomb", ret => Me.CurrentTarget.HasDebuff("Vital Shot") && !Me.CurrentTarget.HasDebuff("Shrap Bomb")),
 						Spell.CastOnGround("Sweeping Gunfire")
 						));
 			}
