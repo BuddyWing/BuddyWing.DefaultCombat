@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2015 Bossland GmbH// See the file LICENSE for the source code's detailed license
+// Copyright (C) 2011-2015 Bossland GmbH// See the file LICENSE for the source code's detailed license
 
 
 using Buddy.BehaviorTree;
@@ -36,8 +36,8 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Defense Screen", ret => Me.HealthPercent <= 50),
                     Spell.Buff("Dodge", ret => Me.HealthPercent <= 30),
                     Spell.Buff("Cool Head", ret => Me.EnergyPercent <= 50),
-                    Spell.Buff("Smuggler's Luck"),
-                    Spell.Buff("Illegal Mods")
+                    Spell.Buff("Smuggler's Luck", ret => Me.CurrentTarget.BossOrGreater()),
+                    Spell.Buff("Illegal Mods", ret => Me.CurrentTarget.BossOrGreater())
                     );
             }
         }
@@ -52,7 +52,7 @@ namespace DefaultCombat.Routines
                     new Decorator(ret => Me.EnergyPercent < 60,
                         new PrioritySelector(
                         Spell.Cast("Thermal Grenade", ret => Me.HasBuff("Seize the Moment")),
-                        Spell.Cast("Rifle Shot")
+                        Spell.Cast("Flurry of Bolts")
                         )),
 
 
@@ -70,8 +70,7 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Thermal Grenade", ret => Me.HasBuff("Seize the Moment")),
                     Spell.CastOnGround("XS Freighter Flyby", ret => Me.EnergyPercent > 75),
                     Spell.DoT("Vital Shot", "Vital Shot"),
-                    Spell.Cast("Quickdraw", ret => Me.CurrentTarget.HealthPercent <= 30),
-                    Spell.Cast("Rifle Shot")
+                    Spell.Cast("Quickdraw", ret => Me.CurrentTarget.HealthPercent <= 30)
                     );
             }
         }
