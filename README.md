@@ -1,3 +1,5 @@
+![Build Status](https://ci.appveyor.com/api/projects/status/github/BosslandGmbH/BuddyWing.DefaultCombat?branch=master&svg=true)
+
 BuddyWing.DefaultCombat
 =====
 
