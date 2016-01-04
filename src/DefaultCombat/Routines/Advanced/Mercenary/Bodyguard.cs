@@ -29,7 +29,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Determination", ret => Me.IsStunned),
 					Spell.Buff("Supercharged Gas", ret => Me.BuffCount("Supercharge") == 30
 														  && Me.ResourcePercent() <= 60
@@ -45,7 +45,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					//Movement
 					CombatMovement.CloseDistance(Distance.Ranged),
 					Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting),
@@ -61,7 +61,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
-					new LockSelector(
+					new PrioritySelector(
 						//BuffLog.Instance.LogTargetBuffs,
 						Spell.Cleanse("Cure"),
 

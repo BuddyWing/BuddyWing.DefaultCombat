@@ -27,14 +27,14 @@ namespace DefaultCombat.Routines
 
 		public override Composite Cooldowns
 		{
-			get { return new LockSelector(); }
+			get { return new PrioritySelector(); }
 		}
 
 		public override Composite SingleTarget
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Cast("Force Charge",
 						ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance > 1f && Me.CurrentTarget.Distance <= 3f),
 					CombatMovement.CloseDistance(Distance.Melee),
@@ -53,7 +53,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldPbaoe,
-					new LockSelector(
+					new PrioritySelector(
 						Spell.Cast("Smash", ret => Me.CurrentTarget.Distance <= Distance.MeleeAoE)
 						));
 			}

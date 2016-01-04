@@ -28,7 +28,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Cast("Saber Ward", ret => Me.HealthPercent <= 70)
 					);
 			}
@@ -38,7 +38,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					CombatMovement.CloseDistance(Distance.Ranged),
 					Spell.DoT("Vital Shot", "Bleeding (Vital Shot)"),
 					Spell.Cast("Blaster Whip", ret => Me.CurrentTarget.Distance <= Distance.Melee),
@@ -54,7 +54,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
-					new LockSelector(
+					new PrioritySelector(
 						Spell.Cast("Thermal Grenade", ret => Me.CurrentTarget.Distance <= Distance.Ranged)
 						));
 			}

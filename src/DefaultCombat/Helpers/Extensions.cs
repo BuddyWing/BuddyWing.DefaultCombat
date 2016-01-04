@@ -47,38 +47,38 @@ namespace DefaultCombat.Helpers
 				Class = CharacterClass.Knight,
 				RejuvenateAbilityName = "Introspection",
 				SelfBuffName = "Force Might",
-				IsRejuvenationNeeded = torPlayer => (torPlayer.HealthPercent < 70),
-				IsRejuvenationComplete = torPlayer => (torPlayer.HealthPercent >= 95),
-				NormalizedResource = torPlayer => (torPlayer.ResourceStat)
+				IsRejuvenationNeeded = torPlayer => torPlayer.HealthPercent < 70,
+				IsRejuvenationComplete = torPlayer => torPlayer.HealthPercent >= 95,
+				NormalizedResource = torPlayer => torPlayer.ResourceStat
 			},
 			new ClassTunables
 			{
 				Class = CharacterClass.Consular,
 				RejuvenateAbilityName = "Meditation",
 				SelfBuffName = "Force Valor",
-				IsRejuvenationNeeded = torPlayer => ((torPlayer.HealthPercent < 70) || (torPlayer.ResourceStat < 70)),
+				IsRejuvenationNeeded = torPlayer => (torPlayer.HealthPercent < 70) || (torPlayer.ResourceStat < 70),
 				IsRejuvenationComplete =
-					torPlayer => ((torPlayer.HealthPercent >= 95) && (torPlayer.ResourceStat >= 95)),
-				NormalizedResource = torPlayer => (torPlayer.ResourceStat)
+					torPlayer => (torPlayer.HealthPercent >= 95) && (torPlayer.ResourceStat >= 95),
+				NormalizedResource = torPlayer => torPlayer.ResourceStat
 			},
 			new ClassTunables
 			{
 				Class = CharacterClass.Smuggler,
 				RejuvenateAbilityName = "Recuperate",
 				SelfBuffName = "Lucky Shots",
-				IsRejuvenationNeeded = torPlayer => ((torPlayer.HealthPercent < 70) || (torPlayer.ResourceStat < 70)),
+				IsRejuvenationNeeded = torPlayer => (torPlayer.HealthPercent < 70) || (torPlayer.ResourceStat < 70),
 				IsRejuvenationComplete =
-					torPlayer => ((torPlayer.HealthPercent >= 95) && (torPlayer.ResourceStat >= 95)),
-				NormalizedResource = torPlayer => (torPlayer.ResourceStat)
+					torPlayer => (torPlayer.HealthPercent >= 95) && (torPlayer.ResourceStat >= 95),
+				NormalizedResource = torPlayer => torPlayer.ResourceStat
 			},
 			new ClassTunables
 			{
 				Class = CharacterClass.Trooper,
 				RejuvenateAbilityName = "Recharge and Reload",
 				SelfBuffName = "Fortification",
-				IsRejuvenationNeeded = torPlayer => ((torPlayer.HealthPercent < 70) || (torPlayer.ResourceStat < 70)),
-				IsRejuvenationComplete = torPlayer => ((torPlayer.HealthPercent >= 95) && (torPlayer.ResourceStat > 95)),
-				NormalizedResource = torPlayer => (torPlayer.ResourceStat)
+				IsRejuvenationNeeded = torPlayer => (torPlayer.HealthPercent < 70) || (torPlayer.ResourceStat < 70),
+				IsRejuvenationComplete = torPlayer => (torPlayer.HealthPercent >= 95) && (torPlayer.ResourceStat > 95),
+				NormalizedResource = torPlayer => torPlayer.ResourceStat
 			},
 
 			// Empire
@@ -87,38 +87,38 @@ namespace DefaultCombat.Helpers
 				Class = CharacterClass.Warrior,
 				RejuvenateAbilityName = "Channel Hatred",
 				SelfBuffName = "Unnatural Might",
-				IsRejuvenationNeeded = torPlayer => (torPlayer.HealthPercent < 70),
-				IsRejuvenationComplete = torPlayer => (torPlayer.HealthPercent >= 95),
-				NormalizedResource = torPlayer => (torPlayer.ResourceStat)
+				IsRejuvenationNeeded = torPlayer => torPlayer.HealthPercent < 70,
+				IsRejuvenationComplete = torPlayer => torPlayer.HealthPercent >= 95,
+				NormalizedResource = torPlayer => torPlayer.ResourceStat
 			},
 			new ClassTunables
 			{
 				Class = CharacterClass.Inquisitor,
 				RejuvenateAbilityName = "Seethe",
 				SelfBuffName = "Mark of Power",
-				IsRejuvenationNeeded = torPlayer => ((torPlayer.HealthPercent < 70) || (torPlayer.ResourceStat < 70)),
+				IsRejuvenationNeeded = torPlayer => (torPlayer.HealthPercent < 70) || (torPlayer.ResourceStat < 70),
 				IsRejuvenationComplete =
-					torPlayer => ((torPlayer.HealthPercent >= 95) && (torPlayer.ResourceStat >= 95)),
-				NormalizedResource = torPlayer => (torPlayer.ResourceStat)
+					torPlayer => (torPlayer.HealthPercent >= 95) && (torPlayer.ResourceStat >= 95),
+				NormalizedResource = torPlayer => torPlayer.ResourceStat
 			},
 			new ClassTunables
 			{
 				Class = CharacterClass.Agent,
 				RejuvenateAbilityName = "Recuperate",
 				SelfBuffName = "Coordination",
-				IsRejuvenationNeeded = torPlayer => ((torPlayer.HealthPercent < 70) || (torPlayer.ResourceStat < 70)),
+				IsRejuvenationNeeded = torPlayer => (torPlayer.HealthPercent < 70) || (torPlayer.ResourceStat < 70),
 				IsRejuvenationComplete =
-					torPlayer => ((torPlayer.HealthPercent >= 95) && (torPlayer.ResourceStat >= 95)),
-				NormalizedResource = torPlayer => (torPlayer.ResourceStat)
+					torPlayer => (torPlayer.HealthPercent >= 95) && (torPlayer.ResourceStat >= 95),
+				NormalizedResource = torPlayer => torPlayer.ResourceStat
 			},
 			new ClassTunables
 			{
 				Class = CharacterClass.BountyHunter,
 				RejuvenateAbilityName = "Recharge and Reload",
 				SelfBuffName = "Hunter's Boon",
-				IsRejuvenationNeeded = torPlayer => ((torPlayer.HealthPercent < 70) || (torPlayer.ResourceStat > 30)),
-				IsRejuvenationComplete = torPlayer => ((torPlayer.HealthPercent >= 95) && (torPlayer.ResourceStat <= 5)),
-				NormalizedResource = torPlayer => (100.0f - Math.Min(torPlayer.ResourceStat, 100.0f))
+				IsRejuvenationNeeded = torPlayer => (torPlayer.HealthPercent < 70) || (torPlayer.ResourceStat > 30),
+				IsRejuvenationComplete = torPlayer => (torPlayer.HealthPercent >= 95) && (torPlayer.ResourceStat <= 5),
+				NormalizedResource = torPlayer => 100.0f - Math.Min(torPlayer.ResourceStat, 100.0f)
 			},
 
 			// Boundary condition --
@@ -127,9 +127,9 @@ namespace DefaultCombat.Helpers
 				Class = CharacterClass.Unknown,
 				RejuvenateAbilityName = "UNDEFINED",
 				SelfBuffName = "UNDEFINED",
-				IsRejuvenationNeeded = torPlayer => (false),
-				IsRejuvenationComplete = torPlayer => (true),
-				NormalizedResource = torPlayer => (0.0f)
+				IsRejuvenationNeeded = torPlayer => false,
+				IsRejuvenationComplete = torPlayer => true,
+				NormalizedResource = torPlayer => 0.0f
 			}
 		};
 
@@ -195,7 +195,7 @@ namespace DefaultCombat.Helpers
 
 		public static bool IsCrowdControlled(this TorCharacter torCharacter)
 		{
-			return (torCharacter.Debuffs.FirstOrDefault(d => DebuffNames_CrowdControl.Contains(d.Name)) != null);
+			return torCharacter.Debuffs.FirstOrDefault(d => DebuffNames_CrowdControl.Contains(d.Name)) != null;
 		}
 
 		public static int GetStacks(this TorEffect t)
@@ -258,27 +258,27 @@ namespace DefaultCombat.Helpers
 
 		public static bool IsInCover(this TorCharacter torCharacter)
 		{
-			return (torCharacter.Buffs.Any(b => BuffNamesForCoverVariants.Contains(b.Name)));
+			return torCharacter.Buffs.Any(b => BuffNamesForCoverVariants.Contains(b.Name));
 		}
 
 		public static bool IsBehind(this TorCharacter torCharacter, TorCharacter Target)
 		{
-			return (Math.Abs(BuddyTor.Me.Heading - Target.Heading) <= 150); // && CurrentTarget.IsInRange(0.35f)
+			return Math.Abs(BuddyTor.Me.Heading - Target.Heading) <= 150; // && CurrentTarget.IsInRange(0.35f)
 		}
 
 		public static float ResourcePercent(this TorPlayer torPlayer)
 		{
-			return (TunablesMap[torPlayer.Class].NormalizedResource(torPlayer));
+			return TunablesMap[torPlayer.Class].NormalizedResource(torPlayer);
 		}
 
 		public static string RejuvenateAbilityName(this TorPlayer torPlayer)
 		{
-			return (TunablesMap[torPlayer.Class].RejuvenateAbilityName);
+			return TunablesMap[torPlayer.Class].RejuvenateAbilityName;
 		}
 
 		public static string SelfBuffName(this TorPlayer torPlayer)
 		{
-			return (TunablesMap[torPlayer.Class].SelfBuffName);
+			return TunablesMap[torPlayer.Class].SelfBuffName;
 		}
 
 		private delegate bool PredicateDelegate(TorPlayer torPlayer);
@@ -292,12 +292,12 @@ namespace DefaultCombat.Helpers
 			/// </summary>
 			public CharacterClass Class = CharacterClass.Unknown;
 
-			public PredicateDelegate IsRejuvenationComplete = torPlayer => (true);
-			public PredicateDelegate IsRejuvenationNeeded = torPlayer => (false);
-			public NormalizedResourceDelegate NormalizedResource = torPlayer => (0.0f);
+			public PredicateDelegate IsRejuvenationComplete = torPlayer => true;
+			public PredicateDelegate IsRejuvenationNeeded = torPlayer => false;
+			public NormalizedResourceDelegate NormalizedResource = torPlayer => 0.0f;
 			public string RejuvenateAbilityName = "UNDEFINED";
 			public string SelfBuffName = "UNDEFINED";
-		};
+		}
 	}
 
 	public class Debuff

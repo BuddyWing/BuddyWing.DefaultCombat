@@ -29,7 +29,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Determination", ret => Me.IsStunned),
 					Spell.Buff("Vent Heat", ret => Me.ResourcePercent() >= 50),
 					Spell.Buff("Supercharged Gas", ret => Me.BuffCount("Supercharge") == 10),
@@ -43,7 +43,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					//Movement
 					CombatMovement.CloseDistance(Distance.Ranged),
 
@@ -66,7 +66,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
-					new LockSelector(
+					new PrioritySelector(
 						Spell.Buff("Thermal Sensor Override"),
 						Spell.Buff("Power Surge"),
 						Spell.CastOnGround("Death from Above"),

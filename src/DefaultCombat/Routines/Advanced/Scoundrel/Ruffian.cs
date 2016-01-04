@@ -29,7 +29,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Cool Head", ret => Me.EnergyPercent <= 45),
 					Spell.Buff("Pugnacity", ret => !Me.HasBuff("Upper Hand") && Me.InCombat),
 					Spell.Buff("Defense Screen", ret => Me.HealthPercent <= 75),
@@ -42,13 +42,13 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
 
 					//Low Energy
 					new Decorator(ret => Me.EnergyPercent < 60,
-						new LockSelector(
+						new PrioritySelector(
 							Spell.Cast("Flurry of Bolts")
 							)),
 
@@ -75,7 +75,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
-					new LockSelector(
+					new PrioritySelector(
 						Spell.DoT("Shrap Bomb", "Bleeding (Tech)"),
 						Spell.Cast("Thermal Grenade"),
 						Spell.Cast("Blaster Volley", ret => Me.HasBuff("Upper Hand"))

@@ -29,7 +29,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Resolute", ret => Me.IsStunned),
 					Spell.Buff("Saber Reflect", ret => Me.HealthPercent <= 90),
 					Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 50),
@@ -44,7 +44,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Cast("Saber Throw",
 						ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 0.5f && Me.CurrentTarget.Distance <= 3f),
 					Spell.Cast("Force Leap",
@@ -78,7 +78,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldPbaoe,
-					new LockSelector(
+					new PrioritySelector(
 						Spell.Cast("Force Sweep", ret => Me.HasBuff("Felling Blow") && Me.BuffCount("Singularity") == 3),
 						Spell.Cast("Cyclone Smash")
 						));

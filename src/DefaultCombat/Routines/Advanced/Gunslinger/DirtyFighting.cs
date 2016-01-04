@@ -33,8 +33,8 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Defense Screen", ret => Me.HealthPercent <= 50),
 					Spell.Buff("Dodge", ret => Me.HealthPercent <= 30),
 					Spell.Buff("Cool Head", ret => Me.EnergyPercent <= 50),
-                    Spell.Buff("Smuggler's Luck", ret => Me.CurrentTarget.BossOrGreater()),
-                    Spell.Buff("Illegal Mods", ret => Me.CurrentTarget.BossOrGreater())
+					Spell.Buff("Smuggler's Luck", ret => Me.CurrentTarget.BossOrGreater()),
+					Spell.Buff("Illegal Mods", ret => Me.CurrentTarget.BossOrGreater())
 					);
 			}
 		}
@@ -46,7 +46,7 @@ namespace DefaultCombat.Routines
 				return new PrioritySelector(
 					//Movement
 					CombatMovement.CloseDistance(Distance.Ranged),
-					
+
 					//Low Energy
 					Spell.Cast("Flurry of Bolts", ret => Me.EnergyPercent < 60),
 
@@ -54,8 +54,10 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
 					Spell.DoT("Vital Shot", "Vital Shot"),
 					Spell.DoT("Shrap Bomb", "Shrap Bomb"),
-					Spell.Cast("Hemorrhaging Blast", ret => Me.CurrentTarget.HasDebuff("Vital Shot") && Me.CurrentTarget.HasDebuff("Shrap Bomb")),
-					Spell.Cast("Wounding Shots", ret => Me.CurrentTarget.DebuffTimeLeft("Vital Shot") > 3 && Me.CurrentTarget.DebuffTimeLeft("Shrap Bomb") > 3),
+					Spell.Cast("Hemorrhaging Blast",
+						ret => Me.CurrentTarget.HasDebuff("Vital Shot") && Me.CurrentTarget.HasDebuff("Shrap Bomb")),
+					Spell.Cast("Wounding Shots",
+						ret => Me.CurrentTarget.DebuffTimeLeft("Vital Shot") > 3 && Me.CurrentTarget.DebuffTimeLeft("Shrap Bomb") > 3),
 					Spell.Cast("Quickdraw", ret => Me.CurrentTarget.HealthPercent <= 30),
 					Spell.Cast("Speed Shot"),
 					Spell.Cast("Dirty Blast", ret => Me.Level >= 57),
@@ -72,7 +74,8 @@ namespace DefaultCombat.Routines
 					new PrioritySelector(
 						Spell.CastOnGround("XS Freighter Flyby"),
 						Spell.Cast("Thermal Grenade"),
-						Spell.Cast("Shrap Bomb", ret => Me.CurrentTarget.HasDebuff("Vital Shot") && !Me.CurrentTarget.HasDebuff("Shrap Bomb")),
+						Spell.Cast("Shrap Bomb",
+							ret => Me.CurrentTarget.HasDebuff("Vital Shot") && !Me.CurrentTarget.HasDebuff("Shrap Bomb")),
 						Spell.CastOnGround("Sweeping Gunfire")
 						));
 			}

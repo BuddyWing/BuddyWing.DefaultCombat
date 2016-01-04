@@ -44,7 +44,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Cast("Saber Throw",
 						ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 0.5f && Me.CurrentTarget.Distance <= 3f),
 					Spell.Cast("Force Leap",
@@ -61,7 +61,8 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Overhead Slash"),
 					Spell.Cast("Blade Storm", ret => Me.BuffCount("Force Rush") == 2),
 					Spell.Cast("Blade Dance"),
-					Spell.Cast("Dispatch", ret => Me.HasBuff("Keening") || Me.HasBuff("Ardent Advocate") || Me.CurrentTarget.HealthPercent <= 30),
+					Spell.Cast("Dispatch",
+						ret => Me.HasBuff("Keening") || Me.HasBuff("Ardent Advocate") || Me.CurrentTarget.HealthPercent <= 30),
 					Spell.Cast("Sundering Strike", ret => Me.ActionPoints <= 7),
 					Spell.Cast("Slash", ret => Me.ActionPoints >= 9),
 					Spell.Cast("Strike"),
@@ -76,7 +77,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldPbaoe,
-					new LockSelector(
+					new PrioritySelector(
 						Spell.Cast("Vigilant Thrust",
 							ret =>
 								Me.Level >= 57 && Me.CurrentTarget.HasDebuff("Burning (Plasma Brand)") &&

@@ -17,6 +17,9 @@ namespace DefaultCombat.Core
 		private const int MaxHealth = Health.Max;
 		private const float HealingDistance = Distance.Ranged;
 		private const float AoeHealDist = Distance.MeleeAoE;
+		private const int AoeHealHp = Health.High;
+		private const int AoeHealCountNeeded = 2;
+		private const int AoedpsCountNeeded = 3;
 		//Static Points and People
 		public static string TankName = "";
 		public static TorCharacter Tank;
@@ -30,9 +33,6 @@ namespace DefaultCombat.Core
 		public static int AoeHealCount;
 		public static int AoeDpsCount;
 		public static int AoePeanutButterCount;
-		private const int AoeHealHp = Health.High;
-		private const int AoeHealCountNeeded = 2;
-		private const int AoedpsCountNeeded = 3;
 		private static int _aoepbCountNeeded = 3;
 		public static bool ShouldAoeHeal;
 		public static bool ShouldAoe;
@@ -170,7 +170,7 @@ namespace DefaultCombat.Core
                 */
 				var npcs = ObjectManager.GetObjects<TorNpc>();
 				var objects = npcs.Cast<TorCharacter>().ToList();
-				
+
 				if (DefaultCombat.IsHealer)
 				{
 					var players = ObjectManager.GetObjects<TorPlayer>();

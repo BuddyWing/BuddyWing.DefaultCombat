@@ -28,7 +28,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					CombatMovement.CloseDistance(Distance.Melee),
 					Spell.Cast("Telekinetic Throw"),
 					Spell.Cast("Project", ret => Me.Force > 75),
@@ -43,7 +43,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
-					new LockSelector(
+					new PrioritySelector(
 						Spell.Cast("Force Wave", ret => Me.CurrentTarget.Distance <= Distance.MeleeAoE))
 					);
 			}

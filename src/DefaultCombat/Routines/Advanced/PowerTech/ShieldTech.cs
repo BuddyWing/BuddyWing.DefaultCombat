@@ -31,7 +31,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Determination", ret => Me.IsStunned),
 					Spell.Buff("Vent Heat", ret => Me.ResourcePercent() >= 50),
 					Spell.Buff("Energy Shield", ret => Me.HealthPercent <= 40),
@@ -45,13 +45,13 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Cast("Jet Charge", ret => Me.CurrentTarget.Distance >= 1f && !DefaultCombat.MovementDisabled),
 
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
 					new Decorator(ret => Me.ResourcePercent() > 40,
-						new LockSelector(
+						new PrioritySelector(
 							Spell.Cast("Heat Blast", ret => Me.BuffCount("Heat Screen") == 3),
 							Spell.Cast("Firestorm", ret => Me.HasBuff("Flame Engine") && Me.CurrentTarget.Distance <= 1f && Me.Level >= 57),
 							Spell.Cast("Flame Thrower", ret => Me.HasBuff("Flame Engine") && Me.CurrentTarget.Distance <= 1f && Me.Level < 57),
@@ -77,14 +77,14 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					new Decorator(ret => Targeting.ShouldAoe,
-						new LockSelector(
+						new PrioritySelector(
 							Spell.CastOnGround("Death from Above"),
 							Spell.Cast("Explosive Dart")
 							)),
 					new Decorator(ret => Targeting.ShouldPbaoe,
-						new LockSelector(
+						new PrioritySelector(
 							Spell.Cast("Firestorm", ret => Me.Level >= 57),
 							Spell.Cast("Flame Thrower", ret => Me.Level < 57),
 							Spell.Cast("Flame Sweep")

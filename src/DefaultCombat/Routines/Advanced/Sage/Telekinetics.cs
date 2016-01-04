@@ -28,8 +28,8 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
-                    Spell.Buff("Force of Will"),
+				return new PrioritySelector(
+					Spell.Buff("Force of Will"),
 					Spell.Buff("Force Potency", ret => Me.CurrentTarget.StrongOrGreater()),
 					Spell.Buff("Mental Alacrity", ret => Me.CurrentTarget.StrongOrGreater()),
 					Spell.Buff("Force Mend", ret => Me.HealthPercent <= 80),
@@ -43,7 +43,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					//Movement
 					CombatMovement.CloseDistance(Distance.Ranged),
 
@@ -65,7 +65,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
-					new LockSelector(
+					new PrioritySelector(
 						Spell.Cast("Telekinetic Wave", ret => Me.HasBuff("Tidal Force")),
 						Spell.CastOnGround("Forcequake")
 						));

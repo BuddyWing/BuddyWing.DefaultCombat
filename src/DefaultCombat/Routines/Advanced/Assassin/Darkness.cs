@@ -32,7 +32,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Dark Ward", ret => !Me.HasBuff("Dark Ward")),
 					Spell.Buff("Unbreakable Will"),
 					Spell.Buff("Overcharge Saber", ret => Me.HealthPercent <= 85),
@@ -48,7 +48,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Force Speed",
 						ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
 
@@ -77,9 +77,9 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					new Decorator(ret => Targeting.ShouldAoe,
-						new LockSelector(
+						new PrioritySelector(
 							Spell.Cast("Wither"),
 							Spell.Cast("Discharge"))),
 					new Decorator(ret => Targeting.ShouldPbaoe,

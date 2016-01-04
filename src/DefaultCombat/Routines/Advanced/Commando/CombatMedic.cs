@@ -29,7 +29,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Tenacity"),
 					Spell.Buff("Supercharged Cell",
 						ret =>
@@ -48,7 +48,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					//Movement
 					CombatMovement.CloseDistance(Distance.Ranged),
 					Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting),
@@ -64,9 +64,9 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					new Decorator(ret => Me.HasBuff("Supercharged Cell"),
-						new LockSelector(
+						new PrioritySelector(
 							new Decorator(ctx => Tank != null,
 								Spell.CastOnGround("Kolto Bomb", on => Tank.Position, ret => !Tank.HasBuff("Kolto Residue"))),
 							Spell.Heal("Bacta Infusion", 60),

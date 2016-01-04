@@ -26,14 +26,14 @@ namespace DefaultCombat.Routines
 
 		public override Composite Cooldowns
 		{
-			get { return new LockSelector(); }
+			get { return new PrioritySelector(); }
 		}
 
 		public override Composite SingleTarget
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					CombatMovement.CloseDistance(Distance.Ranged),
 					Spell.Cast("Sticky Grenade"),
 					Spell.CastOnGround("Mortar Volley", ret => Me.CurrentTarget.Distance > .5f),
@@ -52,7 +52,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
-					new LockSelector());
+					new PrioritySelector());
 			}
 		}
 	}

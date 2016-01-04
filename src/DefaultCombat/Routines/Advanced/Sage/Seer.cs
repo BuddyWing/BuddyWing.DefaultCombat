@@ -28,9 +28,9 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Force Potency", ret => Targeting.ShouldAoeHeal),
-                    Spell.Buff("Mental Alacrity", ret => Targeting.ShouldAoeHeal),
+					Spell.Buff("Mental Alacrity", ret => Targeting.ShouldAoeHeal),
 					Spell.Buff("Vindicate", ret => NeedForce()),
 					Spell.Buff("Force Mend", ret => Me.HealthPercent <= 75)
 					);
@@ -41,17 +41,17 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					//Movement
 					CombatMovement.CloseDistance(Distance.Ranged),
 					Spell.Cast("Mind Snap", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
 					Spell.Cast("Force Stun", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
-                    Spell.Cast("Forcequake", ret => Targeting.ShouldAoe),
+					Spell.Cast("Forcequake", ret => Targeting.ShouldAoe),
 					Spell.Cast("Mind Crush"),
 					Spell.DoT("Weaken Mind", "Weaken Mind"),
-                    Spell.Cast("Project"),
-                    Spell.Cast("Telekinetic Throw"),
-                    Spell.Cast("Disturbance")
+					Spell.Cast("Project"),
+					Spell.Cast("Telekinetic Throw"),
+					Spell.Cast("Disturbance")
 					);
 			}
 		}
@@ -60,7 +60,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					//Cleanse if needed
 					Spell.Cleanse("Restoration"),
 
@@ -78,11 +78,12 @@ namespace DefaultCombat.Routines
 					//Buff Tank
 					Spell.Heal("Force Armor", on => Tank, 100,
 						ret => Tank != null && Tank.InCombat && !Tank.HasDebuff("Force-imbalance") && !Tank.HasBuff("Force Armor")),
-                    Spell.Heal("Wandering Mend", on => Tank, 100, ret => Tank != null && Tank.InCombat && Me.BuffCount("Wandering Mend Charges") <= 1),
+					Spell.Heal("Wandering Mend", on => Tank, 100,
+						ret => Tank != null && Tank.InCombat && Me.BuffCount("Wandering Mend Charges") <= 1),
 
 					//Use Force Bending
 					new Decorator(ret => Me.HasBuff("Conveyance"),
-						new LockSelector(
+						new PrioritySelector(
 							Spell.Heal("Healing Trance", 90),
 							Spell.Heal("Deliverance", 50)
 							)),

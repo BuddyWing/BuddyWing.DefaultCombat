@@ -29,7 +29,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Cool Head", ret => Me.EnergyPercent <= 20),
 					Spell.Buff("Pugnacity", ret => Me.EnergyPercent <= 70 && Me.BuffCount("Upper Hand") < 3),
 					Spell.Buff("Defense Screen", ret => Me.HealthPercent <= 75),
@@ -44,7 +44,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && Me.CurrentTarget.Distance <= 1f),
 					Spell.Cast("Back Blast", ret => Me.IsBehind(Me.CurrentTarget)),
 					Spell.Cast("Blaster Whip"),
@@ -61,7 +61,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Heal("Kolto Cloud", on => Tank, 80, ret => Tank != null && Targeting.ShouldAoeHeal),
 					Spell.Heal("Slow-release Medpac", on => Tank, 100, ret => Tank != null && Tank.BuffCount("Slow-release Medpac") < 2),
 					Spell.Heal("Kolto Pack", 80,

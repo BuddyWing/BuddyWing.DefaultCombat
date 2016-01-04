@@ -7,9 +7,12 @@ using DefaultCombat.Helpers;
 
 namespace DefaultCombat.Routines
 {
-	class Concentration : RotationBase
+	internal class Concentration : RotationBase
 	{
-		public override string Name { get { return "Sentinel Concentration"; } }
+		public override string Name
+		{
+			get { return "Sentinel Concentration"; }
+		}
 
 		public override Composite Buffs
 		{
@@ -26,7 +29,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Rebuke", ret => Me.HealthPercent <= 50),
 					Spell.Buff("Guarded by the Force", ret => Me.HealthPercent <= 10),
 					Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 30)
@@ -38,7 +41,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
 
@@ -64,8 +67,8 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldPbaoe,
-						new LockSelector(
-				));
+					new PrioritySelector(
+						));
 			}
 		}
 	}
