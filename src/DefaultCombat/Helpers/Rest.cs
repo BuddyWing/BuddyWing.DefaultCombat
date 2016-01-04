@@ -16,79 +16,12 @@ namespace DefaultCombat.Helpers
 {
 	public static class Rest
 	{
-		private static TorPlayer Me { get { return BuddyTor.Me; } }
-		private static int _swtorpid;                                                        // For Mounting and Spell Cancel/Stop
+		private static int _swtorpid; // For Mounting and Spell Cancel/Stop
 		private static IntPtr _swtorhWnd;
-		[DllImport("user32.dll")]
-		private static extern int SendMessage(IntPtr hWnd, int wMsg, IntPtr wParam, IntPtr lParam);  // Used for mounting/keysend
-		[DllImport("user32.dll")]
-		private static extern bool SetForegroundWindow(IntPtr HWnd);
-		public static int NormalizedResource()
-		{
-			if (Me.AdvancedClass == AdvancedClass.None)
-			{
-				switch (Me.Class)
-				{
-					//Add cases needed for reverse basic classes
-					case CharacterClass.BountyHunter:
-						return 100 - (int)Me.ResourcePercent();
-					case CharacterClass.Warrior:
-						return 100;
-					case CharacterClass.Knight:
-						return 100;
-					default:
-						return (int)Me.ResourcePercent();
-				}
-			}
-			else
-			{
-				switch (Me.AdvancedClass)
-				{
-					//Add cases needed for reverse Advance classes
-					case AdvancedClass.Mercenary:
-						return 100 - (int)Me.ResourcePercent();
-					case AdvancedClass.Powertech:
-						return 100 - (int)Me.ResourcePercent();
-					case AdvancedClass.Juggernaut:
-						return 100;
-					case AdvancedClass.Marauder:
-						return 100;
-					case AdvancedClass.Guardian:
-						return 100;
-					case AdvancedClass.Sentinel:
-						return 100;
-					default:
-						return (int)Me.ResourcePercent();
-				}
-			}
-		}
 
-		public static bool NeedRest()
+		private static TorPlayer Me
 		{
-			int resource = NormalizedResource();
-			return !DefaultCombat.MovementDisabled && !Me.InCombat && ((resource < 50 || Me.HealthPercent < 90)
-				|| (Me.Companion != null && !Me.Companion.IsDead && Me.Companion.HealthPercent < 90));
-		}
-
-		public static void SetProcessAttrs()
-		{
-			int TorMem = 0;
-			foreach (Process proc in Process.GetProcesses())
-				if (proc.ProcessName.Contains("swtor") && proc.MainWindowTitle.Contains("Star Wars"))
-
-					if (proc.PrivateMemorySize64 > TorMem)
-					{
-
-						_swtorpid = proc.Id;
-						TorMem = (int)proc.NonpagedSystemMemorySize64;
-						_swtorhWnd = proc.MainWindowHandle;
-					}
-		}
-		public static bool KeepResting()
-		{
-			int resource = NormalizedResource();
-			return !DefaultCombat.MovementDisabled && !Me.InCombat && ((resource < 100 || Me.HealthPercent < 100)
-				|| (Me.Companion != null && !Me.Companion.IsDead && Me.Companion.HealthPercent < 100));
+			get { return BuddyTor.Me; }
 		}
 
 		private static Composite ReviveCompanion
@@ -96,13 +29,13 @@ namespace DefaultCombat.Helpers
 			get
 			{
 				return new PrioritySelector(
-				   new Decorator(ret => Me.Companion != null && Me.Companion.IsDead && Me.CompanionUnlocked > 0,
+					new Decorator(ret => Me.Companion != null && Me.Companion.IsDead && Me.CompanionUnlocked > 0,
 						new PrioritySelector(
 							Spell.WaitForCast(),
 							CommonBehaviors.MoveAndStop(location => Me.Companion.Position, 0.2f, true),
 							Spell.Cast("Revive Companion", on => Me.Companion, when => Me.Companion.Distance <= 0.2f)
 							))
-				   );
+					);
 			}
 		}
 
@@ -114,7 +47,6 @@ namespace DefaultCombat.Helpers
 				{
 					return new Action(delegate
 					{
-
 						if (NeedRest())
 						{
 							SetProcessAttrs();
@@ -126,12 +58,12 @@ namespace DefaultCombat.Helpers
 
 								Thread.Sleep(100);
 							}
-                            if (Me.IsCasting)
-                            {
-                                SendMessage(_swtorhWnd, (int)0x100, (IntPtr)(char)0x1b, (IntPtr)0);
-                                Thread.Sleep(100);
-                            }
-                            return RunStatus.Success;
+							if (Me.IsCasting)
+							{
+								SendMessage(_swtorhWnd, 0x100, (IntPtr) (char) 0x1b, (IntPtr) 0);
+								Thread.Sleep(100);
+							}
+							return RunStatus.Success;
 						}
 
 						return RunStatus.Failure;
@@ -151,5 +83,77 @@ namespace DefaultCombat.Helpers
 			}
 		}
 
+		[DllImport("user32.dll")]
+		private static extern int SendMessage(IntPtr hWnd, int wMsg, IntPtr wParam, IntPtr lParam);
+
+		// Used for mounting/keysend
+
+		[DllImport("user32.dll")]
+		private static extern bool SetForegroundWindow(IntPtr HWnd);
+
+		public static int NormalizedResource()
+		{
+			if (Me.AdvancedClass == AdvancedClass.None)
+			{
+				switch (Me.Class)
+				{
+					//Add cases needed for reverse basic classes
+					case CharacterClass.BountyHunter:
+						return 100 - (int) Me.ResourcePercent();
+					case CharacterClass.Warrior:
+						return 100;
+					case CharacterClass.Knight:
+						return 100;
+					default:
+						return (int) Me.ResourcePercent();
+				}
+			}
+			switch (Me.AdvancedClass)
+			{
+				//Add cases needed for reverse Advance classes
+				case AdvancedClass.Mercenary:
+					return 100 - (int) Me.ResourcePercent();
+				case AdvancedClass.Powertech:
+					return 100 - (int) Me.ResourcePercent();
+				case AdvancedClass.Juggernaut:
+					return 100;
+				case AdvancedClass.Marauder:
+					return 100;
+				case AdvancedClass.Guardian:
+					return 100;
+				case AdvancedClass.Sentinel:
+					return 100;
+				default:
+					return (int) Me.ResourcePercent();
+			}
+		}
+
+		public static bool NeedRest()
+		{
+			var resource = NormalizedResource();
+			return !DefaultCombat.MovementDisabled && !Me.InCombat && (resource < 50 || Me.HealthPercent < 90
+																	   || (Me.Companion != null && !Me.Companion.IsDead && Me.Companion.HealthPercent < 90));
+		}
+
+		public static void SetProcessAttrs()
+		{
+			var TorMem = 0;
+			foreach (var proc in Process.GetProcesses())
+				if (proc.ProcessName.Contains("swtor") && proc.MainWindowTitle.Contains("Star Wars"))
+
+					if (proc.PrivateMemorySize64 > TorMem)
+					{
+						_swtorpid = proc.Id;
+						TorMem = (int) proc.NonpagedSystemMemorySize64;
+						_swtorhWnd = proc.MainWindowHandle;
+					}
+		}
+
+		public static bool KeepResting()
+		{
+			var resource = NormalizedResource();
+			return !DefaultCombat.MovementDisabled && !Me.InCombat && (resource < 100 || Me.HealthPercent < 100
+																	   || (Me.Companion != null && !Me.Companion.IsDead && Me.Companion.HealthPercent < 100));
+		}
 	}
 }

@@ -29,7 +29,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-                    Spell.Buff("Force of Will"),
+					Spell.Buff("Force of Will"),
 					Spell.Buff("Force Potency", ret => Me.CurrentTarget.StrongOrGreater()),
 					Spell.Buff("Mental Alacrity", ret => Me.CurrentTarget.StrongOrGreater()),
 					Spell.Buff("Force Mend", ret => Me.HealthPercent <= 80),

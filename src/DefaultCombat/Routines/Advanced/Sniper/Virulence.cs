@@ -52,13 +52,16 @@ namespace DefaultCombat.Routines
 
 					//Rotation
 					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
-                    Spell.DoT("Corrosive Dart", "Corrosive Dart"),
-                    Spell.DoT("Corrosive Grenade", "Corrosive Grenade"),
-                    Spell.Cast("Weakening Blast", ret => Me.CurrentTarget.HasDebuff("Corrosive Dart") && Me.CurrentTarget.HasDebuff("Corrosive Grenade")),
-                    Spell.Cast("Cull", ret => Me.CurrentTarget.DebuffTimeLeft("Corrosive Dart") > 3 && Me.CurrentTarget.DebuffTimeLeft("Corrosive Grenade") > 3),
-                    Spell.Cast("Takedown", ret => Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("Lethal Takedown")),
+					Spell.DoT("Corrosive Dart", "Corrosive Dart"),
+					Spell.DoT("Corrosive Grenade", "Corrosive Grenade"),
+					Spell.Cast("Weakening Blast",
+						ret => Me.CurrentTarget.HasDebuff("Corrosive Dart") && Me.CurrentTarget.HasDebuff("Corrosive Grenade")),
+					Spell.Cast("Cull",
+						ret =>
+							Me.CurrentTarget.DebuffTimeLeft("Corrosive Dart") > 3 && Me.CurrentTarget.DebuffTimeLeft("Corrosive Grenade") > 3),
+					Spell.Cast("Takedown", ret => Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("Lethal Takedown")),
 					Spell.Cast("Series of Shots"),
-                    Spell.Cast("Lethal Shot")
+					Spell.Cast("Lethal Shot")
 					);
 			}
 		}
@@ -71,8 +74,9 @@ namespace DefaultCombat.Routines
 					new PrioritySelector(
 						Spell.CastOnGround("Orbital Strike"),
 						Spell.Cast("Fragmentation Grenade"),
-                        Spell.DoT("Corrosive Dart", "Corrosive Dart"),
-                        Spell.Cast("Corrosive Grenade", ret => Me.CurrentTarget.HasDebuff("Corrosive Dart") && !Me.CurrentTarget.HasDebuff("Corrosive Grenade")),
+						Spell.DoT("Corrosive Dart", "Corrosive Dart"),
+						Spell.Cast("Corrosive Grenade",
+							ret => Me.CurrentTarget.HasDebuff("Corrosive Dart") && !Me.CurrentTarget.HasDebuff("Corrosive Grenade")),
 						Spell.CastOnGround("Suppressive Fire")
 						));
 			}

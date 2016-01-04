@@ -54,7 +54,7 @@ namespace DefaultCombat.Routines
 
 					//Rotation
 					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting),
-					Spell.Cast("Back Blast", ret => (Me.IsBehind(Me.CurrentTarget))),
+					Spell.Cast("Back Blast", ret => Me.IsBehind(Me.CurrentTarget)),
 					Spell.Cast("Sucker Punch", ret => Me.HasBuff("Upper Hand") && Me.CurrentTarget.HasDebuff("Vital Shot")),
 					Spell.DoT("Vital Shot", "Vital Shot"),
 					Spell.Cast("Blood Boiler"),

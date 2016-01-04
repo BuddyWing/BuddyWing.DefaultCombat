@@ -6,7 +6,6 @@ using Buddy.BehaviorTree;
 using DefaultCombat.Core;
 using DefaultCombat.Helpers;
 
-
 namespace DefaultCombat.Routines
 {
 	public class AdvancedPrototype : RotationBase
@@ -53,14 +52,14 @@ namespace DefaultCombat.Routines
 				return new PrioritySelector(
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
-					
+
 					//Low Energy
 					new Decorator(ret => Me.ResourcePercent() < 50,
 						new PrioritySelector(
 							Spell.Cast("Rail Shot", ret => Me.HasBuff("Prototype Particle Accelerator")),
 							Spell.Cast("Rapid Shots")
 							)),
-							
+
 					//Rotation
 					Spell.Cast("Shoulder Cannon", ret => Me.HasBuff("Shoulder Cannon") && Me.CurrentTarget.BossOrGreater()),
 					Spell.Cast("Quell", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),

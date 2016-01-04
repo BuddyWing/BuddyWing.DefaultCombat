@@ -49,7 +49,7 @@ namespace DefaultCombat.Routines
 					CombatMovement.CloseDistance(Distance.Melee),
 					new Decorator(ret => Me.ResourcePercent() < 60,
 						new PrioritySelector(
-							Spell.Cast("Backstab", ret => (Me.IsBehind(Me.CurrentTarget) || Me.HasBuff("Jarring Strike"))),
+							Spell.Cast("Backstab", ret => Me.IsBehind(Me.CurrentTarget) || Me.HasBuff("Jarring Strike")),
 							Spell.Cast("Rifle Shot")
 							)),
 					Spell.Cast("Backstab", ret => Me.IsBehind(Me.CurrentTarget)),

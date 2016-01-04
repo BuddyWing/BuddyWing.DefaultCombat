@@ -69,8 +69,8 @@ namespace DefaultCombat.Core
 			return
 				new Decorator(
 					ret =>
-						(onUnit != null && onUnit(ret) != null && (reqs == null || reqs(ret)) &&
-						 AbilityManager.CanCast(spell, onUnit(ret))),
+						onUnit != null && onUnit(ret) != null && (reqs == null || reqs(ret)) &&
+						AbilityManager.CanCast(spell, onUnit(ret)),
 					new PrioritySelector(
 						new Action(delegate
 						{
@@ -101,36 +101,36 @@ namespace DefaultCombat.Core
 					new Action(ret => AbilityManager.Cast(spell, location(ret))));
 		}
 
-        public static Composite DoTGround(string spell, float time = 0, Selection<bool> reqs = null)
-        {
-            return DoTGround(spell, ret => BuddyTor.Me.CurrentTarget, time, reqs);
-        }
+		public static Composite DoTGround(string spell, float time = 0, Selection<bool> reqs = null)
+		{
+			return DoTGround(spell, ret => BuddyTor.Me.CurrentTarget, time, reqs);
+		}
 
 
-        public static Composite DoTGround(string spell, UnitSelectionDelegate onUnit, float time, Selection<bool> reqs = null)
-        {
-            return
-                new Decorator(
-                    ret => ((reqs == null || reqs(ret))
-                            && onUnit != null
-                            && onUnit(ret) != null
-                            && AbilityManager.CanCast(spell, onUnit(ret))
-                            && !SpellBlackListed(spell, onUnit(ret).Guid)),
-                    new PrioritySelector(
-                        new Action(ctx =>
-                        {
-                            BlackListedSpells.Add(new ExpiringItem(spell, (GetCooldown(spell) + 25 + time), onUnit(ctx).Guid));
-                            Logger.Write(">> Casting on Ground <<   " + spell);
-                            return RunStatus.Failure;
-                        }),
-                        new Action(ret => AbilityManager.Cast(spell, onUnit(ret).Position))));
-        }
+		public static Composite DoTGround(string spell, UnitSelectionDelegate onUnit, float time, Selection<bool> reqs = null)
+		{
+			return
+				new Decorator(
+					ret => (reqs == null || reqs(ret))
+						   && onUnit != null
+						   && onUnit(ret) != null
+						   && AbilityManager.CanCast(spell, onUnit(ret))
+						   && !SpellBlackListed(spell, onUnit(ret).Guid),
+					new PrioritySelector(
+						new Action(ctx =>
+						{
+							BlackListedSpells.Add(new ExpiringItem(spell, GetCooldown(spell) + 25 + time, onUnit(ctx).Guid));
+							Logger.Write(">> Casting on Ground <<   " + spell);
+							return RunStatus.Failure;
+						}),
+						new Action(ret => AbilityManager.Cast(spell, onUnit(ret).Position))));
+		}
 
-        #endregion
+		#endregion
 
-        #region DoT
+		#region DoT
 
-        public static Composite DoT(string spell, string debuff, float time = 0, Selection<bool> reqs = null)
+		public static Composite DoT(string spell, string debuff, float time = 0, Selection<bool> reqs = null)
 		{
 			return DoT(spell, ret => Me.CurrentTarget, debuff, time, reqs);
 		}
@@ -140,14 +140,14 @@ namespace DefaultCombat.Core
 		{
 			return
 				new Decorator(
-					ret => (onUnit != null && onUnit(ret) != null && (reqs == null || reqs(ret))
-							&& !onUnit(ret).HasMyDebuff(debuff)
-							&& AbilityManager.CanCast(spell, onUnit(ret)))
+					ret => onUnit != null && onUnit(ret) != null && (reqs == null || reqs(ret))
+						   && !onUnit(ret).HasMyDebuff(debuff)
+						   && AbilityManager.CanCast(spell, onUnit(ret))
 						   && !SpellBlackListed(spell, onUnit(ret).Guid),
 					new PrioritySelector(
 						new Action(ctx =>
 						{
-							BlackListedSpells.Add(new ExpiringItem(spell, (GetCooldown(spell) + 25 + time), onUnit(ctx).Guid));
+							BlackListedSpells.Add(new ExpiringItem(spell, GetCooldown(spell) + 25 + time, onUnit(ctx).Guid));
 							Logger.Write(">> Casting <<   " + spell);
 							return RunStatus.Failure;
 						}),
@@ -192,7 +192,7 @@ namespace DefaultCombat.Core
 		public static Composite Cleanse(string spell, Selection<bool> reqs = null)
 		{
 			return new Decorator(
-				ret => (Targeting.DispelTarget != null && (reqs == null || reqs(ret)) && Target(Targeting.DispelTarget)),
+				ret => Targeting.DispelTarget != null && (reqs == null || reqs(ret)) && Target(Targeting.DispelTarget),
 				Cast(spell, ret => Targeting.DispelTarget, reqs));
 		}
 
@@ -206,15 +206,15 @@ namespace DefaultCombat.Core
 		{
 			return new Decorator(
 				ret =>
-					(onUnit != null && onUnit(ret) != null && (reqs == null || reqs(ret)) && onUnit(ret).HealthPercent <= hp &&
-					 Target(onUnit(ret))),
+					onUnit != null && onUnit(ret) != null && (reqs == null || reqs(ret)) && onUnit(ret).HealthPercent <= hp &&
+					Target(onUnit(ret)),
 				Cast(spell, onUnit, reqs));
 		}
 
 		public static Composite HealAoe(string spell, Selection<bool> reqs = null)
 		{
 			return new Decorator(
-				ret => ((reqs == null || reqs(ret)) && Targeting.ShouldAoeHeal && Targeting.AoeHealTarget != null),
+				ret => (reqs == null || reqs(ret)) && Targeting.ShouldAoeHeal && Targeting.AoeHealTarget != null,
 				Cast(spell, onUnit => Targeting.AoeHealTarget, reqs));
 		}
 
@@ -228,8 +228,8 @@ namespace DefaultCombat.Core
 		{
 			return new Decorator(
 				ret =>
-					(onUnit != null && onUnit(ret) != null && (reqs == null || reqs(ret)) && !onUnit(ret).HasMyBuff(spell) &&
-					 onUnit(ret).HealthPercent <= hp),
+					onUnit != null && onUnit(ret) != null && (reqs == null || reqs(ret)) && !onUnit(ret).HasMyBuff(spell) &&
+					onUnit(ret).HealthPercent <= hp,
 				Cast(spell, onUnit, reqs));
 		}
 
@@ -237,8 +237,8 @@ namespace DefaultCombat.Core
 		{
 			return new Decorator(
 				ret =>
-					(Targeting.AoeHealPoint != Vector3.Zero && (reqs == null || reqs(ret)) &&
-					 Targeting.ShouldAoeHeal),
+					Targeting.AoeHealPoint != Vector3.Zero && (reqs == null || reqs(ret)) &&
+					Targeting.ShouldAoeHeal,
 				CastOnGround(spell, ret => Targeting.AoeHealPoint, ret => true));
 		}
 

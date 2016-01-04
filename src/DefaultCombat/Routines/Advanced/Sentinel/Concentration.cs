@@ -7,9 +7,12 @@ using DefaultCombat.Helpers;
 
 namespace DefaultCombat.Routines
 {
-	class Concentration : RotationBase
+	internal class Concentration : RotationBase
 	{
-		public override string Name { get { return "Sentinel Concentration"; } }
+		public override string Name
+		{
+			get { return "Sentinel Concentration"; }
+		}
 
 		public override Composite Buffs
 		{
@@ -64,8 +67,8 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldPbaoe,
-						new PrioritySelector(
-				));
+					new PrioritySelector(
+						));
 			}
 		}
 	}
