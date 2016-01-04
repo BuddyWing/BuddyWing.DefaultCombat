@@ -1,4 +1,4 @@
-![Build Status](https://ci.appveyor.com/api/projects/status/github/BosslandGmbH/BuddyWing.DefaultCombat?branch=master&svg=true)
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/BosslandGmbH/BuddyWing.DefaultCombat?branch=master&svg=true)](https://ci.appveyor.com/project/Aevitas/buddywing-defaultcombat)
 
 BuddyWing.DefaultCombat
 =====
