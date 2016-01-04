@@ -32,7 +32,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Force of Will"),
 					Spell.Buff("Battle Readiness", ret => Me.HealthPercent <= 85),
 					Spell.Buff("Deflection", ret => Me.HealthPercent <= 60),
@@ -47,7 +47,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Force Speed",
 						ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
 
@@ -78,7 +78,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldPbaoe,
-					new LockSelector(
+					new PrioritySelector(
 						Spell.DoT("Force Breach", "Crushed (Force Breach)"),
 						Spell.Cast("Sever Force", ret => !Me.CurrentTarget.HasDebuff("Sever Force")),
 						Spell.CastOnGround("Force in Balance"),

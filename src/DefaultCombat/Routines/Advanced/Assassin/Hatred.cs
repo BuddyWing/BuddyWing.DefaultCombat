@@ -30,7 +30,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Unbreakable Will", ret => Me.IsStunned),
 					Spell.Buff("Overcharge Saber", ret => Me.HealthPercent <= 85),
 					Spell.Buff("Deflection", ret => Me.HealthPercent <= 60),
@@ -44,7 +44,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Force Speed",
 						ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
 
@@ -72,7 +72,7 @@ namespace DefaultCombat.Routines
 			get
 			{
                 return new Decorator(ret => Targeting.ShouldAoe,
-                    new LockSelector(
+                    new PrioritySelector(
                     Spell.DoT("Discharge", "Discharge"),
 					Spell.DoT("Creeping Terror", "Creeping Terror"),
 					Spell.CastOnGround("Death Field"),

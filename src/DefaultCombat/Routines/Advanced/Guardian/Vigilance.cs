@@ -44,7 +44,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Cast("Saber Throw",
 						ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 0.5f && Me.CurrentTarget.Distance <= 3f),
 					Spell.Cast("Force Leap",
@@ -76,7 +76,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldPbaoe,
-					new LockSelector(
+					new PrioritySelector(
 						Spell.Cast("Vigilant Thrust",
 							ret =>
 								Me.Level >= 57 && Me.CurrentTarget.HasDebuff("Burning (Plasma Brand)") &&

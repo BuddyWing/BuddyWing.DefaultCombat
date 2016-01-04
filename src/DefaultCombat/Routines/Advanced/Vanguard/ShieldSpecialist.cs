@@ -31,7 +31,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Tenacity", ret => Me.IsStunned),
 					Spell.Buff("Recharge Cells", ret => Me.ResourcePercent() >= 50),
 					Spell.Buff("Reactive Shield", ret => Me.HealthPercent <= 40),
@@ -45,13 +45,13 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Cast("Storm", ret => Me.CurrentTarget.Distance >= 1f && !DefaultCombat.MovementDisabled),
 
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
 					new Decorator(ret => Me.ResourcePercent() < 60,
-						new LockSelector(
+						new PrioritySelector(
 							Spell.Cast("Energy Blast", ret => Me.BuffCount("Power Screen") == 3),
 							Spell.Cast("Pulse Cannon", ret => Me.HasBuff("Pulse Engine") && Me.CurrentTarget.Distance <= 1f),
 							Spell.Cast("Explosive Surge", ret => Me.HasBuff("Static Surge") && Me.CurrentTarget.Distance <= 0.5f),
@@ -77,7 +77,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
-					new LockSelector(
+					new PrioritySelector(
 						Spell.CastOnGround("Mortar Volley"),
 						Spell.Cast("Sticky Grenade"),
 						Spell.Cast("Pulse Cannon", ret => Me.CurrentTarget.Distance <= 1f),

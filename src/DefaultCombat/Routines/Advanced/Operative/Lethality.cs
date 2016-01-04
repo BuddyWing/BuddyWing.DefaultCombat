@@ -29,7 +29,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Adrenaline Probe", ret => Me.EnergyPercent <= 45),
 					Spell.Buff("Stim Boost", ret => Me.BuffCount("Tactical Advantage") <= 2),
 					Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 75),
@@ -42,7 +42,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Cast("Hidden Strike", ret => Me.IsStealthed && Me.IsBehind(Me.CurrentTarget)),
 
 					//Movement
@@ -66,7 +66,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
-					new LockSelector(
+					new PrioritySelector(
 						Spell.CastOnGround("Orbital Strike"),
 						Spell.DoT("Corrosive Grenade", "", 18000),
 						Spell.Cast("Fragmentation Grenade"),

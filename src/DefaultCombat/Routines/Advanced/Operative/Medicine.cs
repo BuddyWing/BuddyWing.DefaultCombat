@@ -29,7 +29,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Adrenaline Probe", ret => Me.EnergyPercent <= 20),
 					Spell.Buff("Stim Boost", ret => Me.EnergyPercent <= 70 && !Me.HasBuff("Tactical Advantage")),
 					Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 75),
@@ -43,7 +43,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
 					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && Me.CurrentTarget.Distance <= 1f),
@@ -64,7 +64,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Heal("Surgical Probe", 30),
 					Spell.Heal("Recuperative Nanotech", on => Tank, 80, ret => Targeting.ShouldAoeHeal),
 					Spell.Heal("Kolto Probe", on => Tank, 100,

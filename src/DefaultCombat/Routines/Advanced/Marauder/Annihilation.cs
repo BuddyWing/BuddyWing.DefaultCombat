@@ -29,7 +29,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Cloak of Pain", ret => Me.HealthPercent <= 90),
 					Spell.Buff("Undying Rage", ret => Me.HealthPercent <= 20),
 					Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 50),
@@ -44,7 +44,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Cast("Dual Saber Throw",
 						ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
 
@@ -75,7 +75,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldPbaoe,
-					new LockSelector(
+					new PrioritySelector(
 						Spell.Cast("Dual Saber Throw",
 							ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
 						Spell.Cast("Smash", ret => Me.CurrentTarget.HasDebuff("Bleeding (Rupture)") && Me.CurrentTarget.HasDebuff("Force Rend")),

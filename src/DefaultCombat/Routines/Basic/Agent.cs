@@ -26,14 +26,14 @@ namespace DefaultCombat.Routines
 
 		public override Composite Cooldowns
 		{
-			get { return new LockSelector(); }
+			get { return new PrioritySelector(); }
 		}
 
 		public override Composite SingleTarget
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					CombatMovement.CloseDistance(Distance.Melee),
 					Spell.DoT("Corrosive Dart", "", 15000),
 					Spell.Cast("Shiv", ret => Me.CurrentTarget.Distance <= Distance.Melee),
@@ -49,7 +49,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
-					new LockSelector(
+					new PrioritySelector(
 						Spell.Cast("Fragmentation Grenade", ret => Me.CurrentTarget.Distance <= Distance.Ranged)
 						));
 			}

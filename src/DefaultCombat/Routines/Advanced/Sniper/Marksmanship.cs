@@ -28,7 +28,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Escape", ret => Me.IsStunned),
 					Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 70),
 					Spell.Buff("Evasion", ret => Me.HealthPercent <= 30),
@@ -45,13 +45,13 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					//Movement
 					CombatMovement.CloseDistance(Distance.Ranged),
 
 					//Low Energy
 					new Decorator(ret => Me.EnergyPercent < 60,
-						new LockSelector(
+						new PrioritySelector(
 							Spell.Cast("Rifle Shot")
 							)),
 
@@ -73,7 +73,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
-					new LockSelector(
+					new PrioritySelector(
 						Spell.CastOnGround("Orbital Strike"),
 						Spell.Cast("Fragmentation Grenade"),
 						Spell.CastOnGround("Suppressive Fire")

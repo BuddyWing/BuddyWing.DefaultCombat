@@ -50,14 +50,14 @@ namespace DefaultCombat.Routines
 
                     //Low Energy
                     new Decorator(ret => Me.EnergyPercent < 30,
-                        new LockSelector(
+                        new PrioritySelector(
                             Spell.Cast("Fragmentation Grenade", ret => Me.HasBuff("Energy Overrides")),
                             Spell.Cast("Rifle Shot")
                             )),
 
                     //Burn-ish
                     new Decorator(ret => Me.CurrentTarget.HealthPercent < 30,
-                        new LockSelector(
+                        new PrioritySelector(
                             Spell.Cast("Explosive Probe"),
                             Spell.Cast("Series of Shots"),
                             Spell.DoTGround("Plasma Probe", 8500),

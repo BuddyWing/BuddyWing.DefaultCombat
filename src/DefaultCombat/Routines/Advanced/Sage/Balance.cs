@@ -28,7 +28,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Force Barrier", ret => Me.HealthPercent <= 20),
 					Spell.Buff("Force Armor", ret => !Me.HasBuff("Force Armor") && !Me.HasDebuff("Force-imbalance")),
 					Spell.Buff("Force Mend", ret => Me.HealthPercent <= 50),
@@ -42,7 +42,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					//Movement
 					CombatMovement.CloseDistance(Distance.Ranged),
 					Spell.Cast("Mind Snap", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
@@ -65,7 +65,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
-					new LockSelector(
+					new PrioritySelector(
 						Spell.DoT("Weaken Mind", "Weaken Mind"),
 						Spell.DoT("Sever Force", "Sever Force"),
 						Spell.CastOnGround("Force in Balance",

@@ -29,7 +29,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Tenacity"),
 					Spell.Buff("Reactive Shield", ret => Me.HealthPercent <= 70),
 					Spell.Buff("Adrenaline Rush", ret => Me.HealthPercent <= 30),
@@ -44,7 +44,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Cast("Hammer Shot", ret => Me.ResourcePercent() < 60),
 
 					//Movement
@@ -68,7 +68,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
-					new LockSelector(
+					new PrioritySelector(
 						Spell.Cast("Tech Override"),
 						Spell.CastOnGround("Mortar Volley"),
 						Spell.Cast("Plasma Grenade", ret => Me.ResourceStat >= 90 && Me.HasBuff("Tech Override")),

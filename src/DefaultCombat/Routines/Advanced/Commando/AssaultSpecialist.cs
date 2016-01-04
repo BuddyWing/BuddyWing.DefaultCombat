@@ -29,7 +29,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Tenacity", ret => Me.IsStunned),
 					Spell.Buff("Recharge Cells", ret => Me.ResourceStat <= 40),
 					Spell.Buff("Reactive Shield", ret => Me.HealthPercent <= 70),
@@ -44,9 +44,9 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					new Decorator(ret => Me.ResourcePercent() < 60,
-						new LockSelector(
+						new PrioritySelector(
 							Spell.Cast("Mag Bolt", ret => Me.HasBuff("Ionic Accelerator") && Me.Level >= 57),
 							Spell.Cast("High Impact Bolt", ret => Me.HasBuff("Ionic Accelerator") && Me.Level < 57),
 							Spell.Cast("Hammer Shot")
@@ -77,7 +77,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
-					new LockSelector(
+					new PrioritySelector(
 						Spell.DoT("Serrated Bolt", "Bleeding"),
 						Spell.DoT("Incendiary Round", "Burning (Incendiary Round)"),
 						Spell.Cast("Plasma Grenade", ret => Me.CurrentTarget.HasDebuff("Burning (Incendiary Round)")),

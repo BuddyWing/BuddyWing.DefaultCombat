@@ -29,7 +29,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Adrenaline Probe", ret => Me.EnergyPercent <= 45),
 					Spell.Buff("Stim Boost", ret => Me.BuffCount("Tactical Advantage") <= 2),
 					Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 75),
@@ -42,13 +42,13 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Cast("Backstab", ret => Me.IsStealthed && Me.IsBehind(Me.CurrentTarget)),
 
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
 					new Decorator(ret => Me.ResourcePercent() < 60,
-						new LockSelector(
+						new PrioritySelector(
 							Spell.Cast("Backstab", ret => (Me.IsBehind(Me.CurrentTarget) || Me.HasBuff("Jarring Strike"))),
 							Spell.Cast("Rifle Shot")
 							)),
@@ -68,7 +68,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
-					new LockSelector(
+					new PrioritySelector(
 						Spell.Cast("Fragmentation Grenade"),
 						Spell.Cast("Carbine Burst", ret => Me.HasBuff("Tactical Advantage")))
 					);

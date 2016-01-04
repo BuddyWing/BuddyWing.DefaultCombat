@@ -28,7 +28,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Recklessness", ret => Targeting.ShouldAoeHeal),
 					Spell.Buff("Consuming Darkness", ret => NeedForce()),
 					Spell.Buff("Unnatural Preservation", ret => Me.HealthPercent < 50)
@@ -40,7 +40,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					//Movement
 					CombatMovement.CloseDistance(Distance.Ranged),
 
@@ -57,7 +57,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					//BuffLog.Instance.LogTargetBuffs,
 
 					//Cleanse if needed
@@ -75,7 +75,7 @@ namespace DefaultCombat.Routines
 
 					//Use Force Bending
 					new Decorator(ret => Me.HasBuff("Force Bending"),
-						new LockSelector(
+						new PrioritySelector(
 							Spell.Heal("Innervate", 90),
 							Spell.Heal("Dark Infusion", 50)
 							)),

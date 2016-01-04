@@ -42,7 +42,7 @@ namespace DefaultCombat.Routines
         {
             get
             {
-                return new LockSelector(
+                return new PrioritySelector(
 
                     //Movement
                     CombatMovement.CloseDistance(Distance.Ranged),

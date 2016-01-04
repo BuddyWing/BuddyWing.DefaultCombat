@@ -28,7 +28,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Force Potency", ret => Targeting.ShouldAoeHeal),
                     Spell.Buff("Mental Alacrity", ret => Targeting.ShouldAoeHeal),
 					Spell.Buff("Vindicate", ret => NeedForce()),
@@ -41,7 +41,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					//Movement
 					CombatMovement.CloseDistance(Distance.Ranged),
 					Spell.Cast("Mind Snap", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
@@ -60,7 +60,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					//Cleanse if needed
 					Spell.Cleanse("Restoration"),
 
@@ -82,7 +82,7 @@ namespace DefaultCombat.Routines
 
 					//Use Force Bending
 					new Decorator(ret => Me.HasBuff("Conveyance"),
-						new LockSelector(
+						new PrioritySelector(
 							Spell.Heal("Healing Trance", 90),
 							Spell.Heal("Deliverance", 50)
 							)),

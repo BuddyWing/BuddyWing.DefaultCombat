@@ -29,7 +29,7 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					Spell.Buff("Tenacity"),
 					Spell.Buff("Recharge Cells", ret => Me.ResourcePercent() <= 50),
 					Spell.Buff("Reactive Shield", ret => Me.HealthPercent <= 60),
@@ -44,12 +44,12 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					//Movement
 					Spell.Cast("Storm", ret => Me.CurrentTarget.Distance >= 1f && !DefaultCombat.MovementDisabled),
 					CombatMovement.CloseDistance(Distance.Melee),
 					new Decorator(ret => Me.ResourcePercent() > 40,
-						new LockSelector(
+						new PrioritySelector(
 							Spell.Cast("High Impact Bolt", ret => Me.HasBuff("Tactical Accelerator")),
 							Spell.Cast("Hammer Shot")
 							)),
@@ -70,14 +70,14 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new LockSelector(
+				return new PrioritySelector(
 					new Decorator(ret => Targeting.ShouldAoe,
-						new LockSelector(
+						new PrioritySelector(
 							Spell.CastOnGround("Morter Volley"),
 							Spell.Cast("Sticky Grenade", ret => Me.CurrentTarget.HasDebuff("Bleeding (Retractable Blade)"))
 							)),
 					new Decorator(ret => Targeting.ShouldPbaoe,
-						new LockSelector(
+						new PrioritySelector(
 							Spell.Cast("Pulse Cannon"),
 							Spell.Cast("Explosive Surge"))
 						));
