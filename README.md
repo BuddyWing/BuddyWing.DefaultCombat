@@ -10,12 +10,21 @@ Contributions
 
 This combat routine has always been a community effort. Ever since its inception it has seen many branches, and even completely new combat routines being based off it.
 
-Feel free to fork this repository and submit pull requests if you feel it can be improved.
+### Pull Requests
+After forking the repository and making your changes, feel free to submit a pull request to merge your changes into the master branch. When submitting a pull request, please take the following into account:
+
+* Ensure your pull request is accompanied by an issue on the [issue tracker](https://github.com/BosslandGmbH/BuddyWing.DefaultCombat/issues) and describe how your PR addresses this issue.
+* Make sure your pull request builds. To help with this, we provide _AppVeyor_ build integration which automatically builds all pull requests. PRs that don't build can unfortunately not be merged.
+* Make sure your code follows the [Microsoft coding conventions and naming guidelines](https://msdn.microsoft.com/en-us/library/ff926074.aspx).
+
+Every pull request is reviewed by someone with write access to the repository, and if accepted, will be shipped as a part of BuddyWing.
 
 License
 =====
 
-DefaultCombat is licensed under the Apache 2.0 License.
+DefaultCombat is licensed under the Apache 2.0 License. For more information, please see the LICENSE file.
+
+The code is licensed very permissively, as long as the notices required by the licenses, commercial usage is also allowed.
 
 Contributors
 =====
