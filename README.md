@@ -24,7 +24,7 @@ License
 
 DefaultCombat is licensed under the Apache 2.0 License. For more information, please see the LICENSE file.
 
-The code is licensed very permissively, as long as the notices required by the licenses, commercial usage is also allowed.
+The code is licensed very permissively, as long as the notices required by the licenses are included, commercial usage is also allowed.
 
 Contributors
 =====
