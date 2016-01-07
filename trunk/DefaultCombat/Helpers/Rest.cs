@@ -89,7 +89,7 @@ namespace DefaultCombat.Helpers
 		// Used for mounting/keysend
 
 		[DllImport("user32.dll")]
-		private static extern bool SetForegroundWindow(IntPtr HWnd);
+		private static extern bool SetForegroundWindow(IntPtr hWnd);
 
 		public static int NormalizedResource()
 		{
@@ -137,14 +137,14 @@ namespace DefaultCombat.Helpers
 
 		public static void SetProcessAttrs()
 		{
-			var TorMem = 0;
+			var torMem = 0;
 			foreach (var proc in Process.GetProcesses())
 				if (proc.ProcessName.Contains("swtor") && proc.MainWindowTitle.Contains("Star Wars"))
 
-					if (proc.PrivateMemorySize64 > TorMem)
+					if (proc.PrivateMemorySize64 > torMem)
 					{
 						_swtorpid = proc.Id;
-						TorMem = (int) proc.NonpagedSystemMemorySize64;
+						torMem = (int) proc.NonpagedSystemMemorySize64;
 						_swtorhWnd = proc.MainWindowHandle;
 					}
 		}

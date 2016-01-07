@@ -13,7 +13,7 @@ namespace DefaultCombat.Helpers
 	{
 		public delegate T Selection<out T>(object context);
 
-		private readonly Stopwatch Timer;
+		private readonly Stopwatch _timer;
 		private readonly ILog _log = Log.Get();
 		public int CoolDown;
 		public string ItemName;
@@ -22,7 +22,7 @@ namespace DefaultCombat.Helpers
 		{
 			ItemName = name;
 			CoolDown = cd;
-			Timer = new Stopwatch();
+			_timer = new Stopwatch();
 			_log.Info(name + "  Created!");
 		}
 
@@ -31,11 +31,11 @@ namespace DefaultCombat.Helpers
 			return new Decorator(ret => reqs == null || reqs(ret),
 				new Action(delegate
 				{
-					if (Timer.IsRunning && Timer.Elapsed.TotalSeconds < CoolDown)
+					if (_timer.IsRunning && _timer.Elapsed.TotalSeconds < CoolDown)
 						return RunStatus.Failure;
 
-					if (!Timer.IsRunning)
-						Timer.Start();
+					if (!_timer.IsRunning)
+						_timer.Start();
 
 					foreach (var o in BuddyTor.Me.InventoryEquipment)
 					{
@@ -43,9 +43,9 @@ namespace DefaultCombat.Helpers
 						{
 							o.Use();
 							o.Interact();
-							Timer.Stop();
-							Timer.Reset();
-							Timer.Start();
+							_timer.Stop();
+							_timer.Reset();
+							_timer.Start();
 							return RunStatus.Success;
 						}
 					}

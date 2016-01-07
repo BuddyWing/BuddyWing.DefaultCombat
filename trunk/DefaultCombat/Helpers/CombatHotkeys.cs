@@ -17,7 +17,7 @@ namespace DefaultCombat.Helpers
 			EnableAoe = true;
 			PauseRotation = false;
 
-			Hotkeys.RegisterHotkey("Toggle AOE (F7)", ChangeAOE, Keys.F7);
+			Hotkeys.RegisterHotkey("Toggle AOE (F7)", ChangeAoe, Keys.F7);
 			Logger.Write("[Hot Key][F7] Toggle AOE");
 
 			Hotkeys.RegisterHotkey("Pause Rotation (F8)", ChangePause, Keys.F8);
@@ -27,7 +27,7 @@ namespace DefaultCombat.Helpers
 			Logger.Write("[Hot Key][F12] Set Tank");
 		}
 
-		private static void ChangeAOE()
+		private static void ChangeAoe()
 		{
 			if (EnableAoe)
 			{

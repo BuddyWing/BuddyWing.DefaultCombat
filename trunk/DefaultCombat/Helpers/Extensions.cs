@@ -19,7 +19,7 @@ namespace DefaultCombat.Helpers
 			new Debuff("Laser", 4)
 		};
 
-		public static string[] DebuffNames_CrowdControl =
+		public static string[] DebuffNamesCrowdControl =
 		{
 			"Afraid (Mental)", // from Intimidating Roar / Awe
 			"Blinded (Tech)", // from Flash Grenade / Flash Bang
@@ -31,7 +31,7 @@ namespace DefaultCombat.Helpers
 		};
 
 		// This table contains the list of debuff names which prevent us from being shielded...
-		public static string[] DebuffNames_Shielded =
+		public static string[] DebuffNamesShielded =
 		{
 			"Deionized", // Result of Sorcerer shielding
 			"Force-imbalance" // Result of Sage shielding
@@ -195,7 +195,7 @@ namespace DefaultCombat.Helpers
 
 		public static bool IsCrowdControlled(this TorCharacter torCharacter)
 		{
-			return torCharacter.Debuffs.FirstOrDefault(d => DebuffNames_CrowdControl.Contains(d.Name)) != null;
+			return torCharacter.Debuffs.FirstOrDefault(d => DebuffNamesCrowdControl.Contains(d.Name)) != null;
 		}
 
 		public static int GetStacks(this TorEffect t)
@@ -261,9 +261,9 @@ namespace DefaultCombat.Helpers
 			return torCharacter.Buffs.Any(b => BuffNamesForCoverVariants.Contains(b.Name));
 		}
 
-		public static bool IsBehind(this TorCharacter torCharacter, TorCharacter Target)
+		public static bool IsBehind(this TorCharacter torCharacter, TorCharacter target)
 		{
-			return Math.Abs(BuddyTor.Me.Heading - Target.Heading) <= 150; // && CurrentTarget.IsInRange(0.35f)
+			return Math.Abs(BuddyTor.Me.Heading - target.Heading) <= 150; // && CurrentTarget.IsInRange(0.35f)
 		}
 
 		public static float ResourcePercent(this TorPlayer torPlayer)
