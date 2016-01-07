@@ -29,11 +29,11 @@ namespace DefaultCombat.Helpers
 			get
 			{
 				return new PrioritySelector(
-					new Decorator(ret => Me.Companion != null && Me.Companion.IsDead && Me.CompanionUnlocked > 0,
+					new Decorator(ret => Me.Companion != null && Me.Companion.IsDead,
 						new PrioritySelector(
 							Spell.WaitForCast(),
 							CommonBehaviors.MoveAndStop(location => Me.Companion.Position, 0.2f, true),
-							Spell.Cast("Revive Companion", on => Me.Companion, when => Me.Companion.Distance <= 0.2f)
+							Spell.Cast("Revive Companion", on => Me.Companion, when => Me.Companion.Distance <= 0.3f)
 							))
 					);
 			}
