@@ -131,8 +131,8 @@ namespace DefaultCombat.Helpers
 		public static bool NeedRest()
 		{
 			var resource = NormalizedResource();
-			return !DefaultCombat.MovementDisabled && !Me.InCombat && (resource < 50 || Me.HealthPercent < 90
-																	   || (Me.Companion != null && !Me.Companion.IsDead && Me.Companion.HealthPercent < 90));
+			return !DefaultCombat.MovementDisabled && !Me.InCombat && (resource < 50 || Me.HealthPercent < 50
+																	   || (Me.Companion != null && !Me.Companion.IsDead && Me.Companion.HealthPercent < 50));
 		}
 
 		public static void SetProcessAttrs()
