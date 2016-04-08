@@ -57,7 +57,7 @@ namespace DefaultCombat.Routines
 
 					//Movement
 					CombatMovement.CloseDistance(Distance.Ranged),
-
+					Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving),
 
 					//Rotation
 					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
@@ -81,7 +81,8 @@ namespace DefaultCombat.Routines
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new PrioritySelector(
-						Spell.CastOnGround("XS Freighter Flyby"),
+						Spell.CastOnGround("XS Freighter Flyby", ret => Me.IsInCover() && Me.EnergyPercent > 30),
+						Spell.CastOnGround("Sweeping Gunfire", ret => Me.IsInCover() && Me.EnergyPercent > 30),	
 						Spell.Cast("Incendiary Grenade"),
 						Spell.Cast("Thermal Grenade")
 						));

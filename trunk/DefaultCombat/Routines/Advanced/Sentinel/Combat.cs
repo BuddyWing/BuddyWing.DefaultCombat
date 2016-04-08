@@ -33,6 +33,8 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Resolute"),
 					Spell.Buff("Rebuke", ret => Me.HealthPercent <= 90),
 					Spell.Buff("Saber Reflect", ret => Me.HealthPercent <= 70),
+					Spell.Buff("Guarded by the Force", ret => Me.HealthPercent <= 50),
+					Spell.Buff("Unity", ret => Me.HealthPercent <= 30),					
 					Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 50),
 					Spell.Buff("Valorous Call", ret => Me.BuffCount("Centering") < 5),
 					Spell.Buff("Zen", ret => Me.CurrentTarget.Distance <= 0.4f)
