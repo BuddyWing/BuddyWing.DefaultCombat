@@ -1,4 +1,4 @@
-// Copyright (C) 2011-2016 Bossland GmbH
+﻿// Copyright (C) 2011-2016 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
@@ -7,7 +7,7 @@ using DefaultCombat.Helpers;
 
 namespace DefaultCombat.Routines
 {
-	public class AssaultSpecialist : RotationBase
+	internal class AssaultSpecialist : RotationBase
 	{
 		public override string Name
 		{
@@ -45,18 +45,15 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-                    
-                    //Movement
-                    CombatMovement.CloseDistance(Distance.Ranged),
-
-                    new Decorator(ret => Me.ResourcePercent() > 40,
+					new Decorator(ret => Me.ResourcePercent() < 60,
 						new PrioritySelector(
 							Spell.Cast("Mag Bolt", ret => Me.HasBuff("Ionic Accelerator") && Me.Level >= 57),
 							Spell.Cast("High Impact Bolt", ret => Me.HasBuff("Ionic Accelerator") && Me.Level < 57),
 							Spell.Cast("Hammer Shot")
-							));
+							)),
 
-
+					//Movement
+					CombatMovement.CloseDistance(Distance.Ranged),
 
 					//Rotation
 					Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
@@ -88,7 +85,6 @@ namespace DefaultCombat.Routines
 						Spell.Cast("Explosive Round", ret => Me.HasBuff("Hyper Assault Rounds")),
 						Spell.CastOnGround("Hail of Bolts", ret => Me.ResourcePercent() >= 90)
 						));
-						
 			}
 		}
 	}
