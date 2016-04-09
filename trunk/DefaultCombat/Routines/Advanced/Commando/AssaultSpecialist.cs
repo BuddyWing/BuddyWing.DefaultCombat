@@ -7,7 +7,7 @@ using DefaultCombat.Helpers;
 
 namespace DefaultCombat.Routines
 {
-	internal class AssaultSpecialist : RotationBase
+	public class AssaultSpecialist : RotationBase
 	{
 		public override string Name
 		{
@@ -45,15 +45,18 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					new Decorator(ret => Me.ResourcePercent() < 60,
+                    
+                    //Movement
+                    CombatMovement.CloseDistance(Distance.Ranged),
+
+                    new Decorator(ret => Me.ResourcePercent() > 40,
 						new PrioritySelector(
 							Spell.Cast("Mag Bolt", ret => Me.HasBuff("Ionic Accelerator") && Me.Level >= 57),
 							Spell.Cast("High Impact Bolt", ret => Me.HasBuff("Ionic Accelerator") && Me.Level < 57),
 							Spell.Cast("Hammer Shot")
 							)),
 
-					//Movement
-					CombatMovement.CloseDistance(Distance.Ranged),
+
 
 					//Rotation
 					Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
