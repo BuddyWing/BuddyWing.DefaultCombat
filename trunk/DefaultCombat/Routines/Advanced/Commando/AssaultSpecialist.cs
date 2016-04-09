@@ -92,4 +92,3 @@ namespace DefaultCombat.Routines
 		}
 	}
 }
-
