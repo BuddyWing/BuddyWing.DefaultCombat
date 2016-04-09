@@ -89,6 +89,9 @@ namespace DefaultCombat.Routines
 						Spell.CastOnGround("Hail of Bolts", ret => Me.ResourcePercent() >= 90)
 						));
 			}
+			
 		}
+		
 	}
+	
 }
