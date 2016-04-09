@@ -19,12 +19,17 @@ namespace DefaultCombat
 		private Composite _ooc;
 		private Composite _pull;
 
-		public static bool MovementDisabled
+        public static bool MovementDisabled
 		{
 			get { return BotMain.CurrentBot.Name == "Combat Bot"; }
 		}
 
-		public override string Name
+        public static bool Grind
+        {
+            get { return BotMain.CurrentBot.Name == "Grind Bot"; }
+        }
+
+        public override string Name
 		{
 			get { return "DefaultCombat"; }
 		}
@@ -85,7 +90,8 @@ namespace DefaultCombat
 				new PrioritySelector(
 					Spell.Buff(BuddyTor.Me.SelfBuffName()),
 					b.Buffs,
-					Rest.HandleRest
+					Rest.HandleRest,
+                    Scavenge.ScavengeCorpse
 					));
 
 			_combat = new Decorator(ret => !CombatHotkeys.PauseRotation,
@@ -97,7 +103,7 @@ namespace DefaultCombat
 					new Decorator(ret => CombatHotkeys.EnableAoe, b.AreaOfEffect),
 					b.SingleTarget));
 
-			_pull = new Decorator(ret => !CombatHotkeys.PauseRotation && !MovementDisabled || IsHealer,
+			_pull = new Decorator(ret => !CombatHotkeys.PauseRotation && !MovementDisabled || IsHealer && !Grind,
 				_combat
 				);
 		}
