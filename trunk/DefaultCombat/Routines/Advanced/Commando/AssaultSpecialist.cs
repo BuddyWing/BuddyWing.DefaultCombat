@@ -88,10 +88,8 @@ namespace DefaultCombat.Routines
 						Spell.Cast("Explosive Round", ret => Me.HasBuff("Hyper Assault Rounds")),
 						Spell.CastOnGround("Hail of Bolts", ret => Me.ResourcePercent() >= 90)
 						));
+						
 			}
-			
 		}
-		
 	}
-	
 }
