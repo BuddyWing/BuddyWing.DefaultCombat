@@ -13,8 +13,9 @@ namespace DefaultCombat.Helpers
 	{
 		public delegate T Selection<out T>(object context);
 
-		private readonly Stopwatch _timer;
 		private readonly ILog _log = Log.Get();
+
+		private readonly Stopwatch _timer;
 		public int CoolDown;
 		public string ItemName;
 

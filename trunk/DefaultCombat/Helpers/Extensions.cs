@@ -11,11 +11,13 @@ namespace DefaultCombat.Helpers
 {
 	public static class Extensions
 	{
-        public delegate bool TorCharacterPredicateDelegate(TorCharacter torCharacter);
-        public delegate bool TorPlayerPredicateDelegate(TorPlayer torPlayer);
-        public delegate bool TorEffectPredicateDelegate(TorEffect torEffect);
+		public delegate bool TorCharacterPredicateDelegate(TorCharacter torCharacter);
 
-        public static Debuff[] DebuffList =
+		public delegate bool TorEffectPredicateDelegate(TorEffect torEffect);
+
+		public delegate bool TorPlayerPredicateDelegate(TorPlayer torPlayer);
+
+		public static Debuff[] DebuffList =
 		{
 			new Debuff("Crushing Affliction (Force)", 0),
 			new Debuff("Crushing Affliction (All)", 0),
@@ -195,66 +197,74 @@ namespace DefaultCombat.Helpers
 					return true;
 			}
 			return false;
-        }
+		}
 
 
-public static IEnumerable<TorCharacter> PartyMembers(this TorPlayer torPlayer, bool includeCompanions = true, TorCharacterPredicateDelegate memberQualifier = null)
-        {
-            memberQualifier = memberQualifier ?? (c => true);   // resolve playerQualifier to something sane
+		public static IEnumerable<TorCharacter> PartyMembers(this TorPlayer torPlayer, bool includeCompanions = true,
+			TorCharacterPredicateDelegate memberQualifier = null)
+		{
+			memberQualifier = memberQualifier ?? (c => true); // resolve playerQualifier to something sane
 
-            IEnumerable<TorCharacter> partyMembers = torPlayer.PartyPlayers();
+			IEnumerable<TorCharacter> partyMembers = torPlayer.PartyPlayers();
 
-            if (includeCompanions)
-            { partyMembers = partyMembers.Concat(torPlayer.PartyCompanions()); }
+			if (includeCompanions)
+			{
+				partyMembers = partyMembers.Concat(torPlayer.PartyCompanions());
+			}
 
-            return (partyMembers.Where(c => memberQualifier(c)));
-        }
+			return partyMembers.Where(c => memberQualifier(c));
+		}
 
-        public static bool IsPartyRoleTank(this TorCharacter torCharacter)
-        {
-            Global.PartyRole role = torCharacter.PartyRole();
-            return ((role == Global.PartyRole.MeleeTank) || (role == Global.PartyRole.RangedTank));
-        }
+		public static bool IsPartyRoleTank(this TorCharacter torCharacter)
+		{
+			var role = torCharacter.PartyRole();
+			return (role == Global.PartyRole.MeleeTank) || (role == Global.PartyRole.RangedTank);
+		}
 
-        public static IEnumerable<TorNpc> PartyCompanions(this TorPlayer torPlayer, TorCharacterPredicateDelegate companionQualifier = null)
-        {
-            // Extension methods guarantee the 'this' argument is never null, so no need to check a contract here
+		public static IEnumerable<TorNpc> PartyCompanions(this TorPlayer torPlayer,
+			TorCharacterPredicateDelegate companionQualifier = null)
+		{
+			// Extension methods guarantee the 'this' argument is never null, so no need to check a contract here
 
-            companionQualifier = companionQualifier ?? (ctx => true);       // resolve playerQualifier to something sane
+			companionQualifier = companionQualifier ?? (ctx => true); // resolve playerQualifier to something sane
 
-            return (torPlayer.PartyPlayers(p => p.IsCompanionInUse() && companionQualifier(p.Companion)).Select(p => p.Companion));
-        }
+			return torPlayer.PartyPlayers(p => p.IsCompanionInUse() && companionQualifier(p.Companion)).Select(p => p.Companion);
+		}
 
-        public static Global.PartyRole PartyRole(this TorCharacter torCharacter)
-        {
-            //Idk if this was working anyway.
-            return Global.PartyRole.RangedDPS;
-        }
+		public static Global.PartyRole PartyRole(this TorCharacter torCharacter)
+		{
+			//Idk if this was working anyway.
+			return Global.PartyRole.RangedDPS;
+		}
 
-        public static bool IsCompanionInUse(this TorPlayer torPlayer)
-        {
-            // Extension methods guarantee the 'this' argument is never null, so no need to check a contract here
-            return ((torPlayer.CompanionUnlocked > 0) && (torPlayer.Companion != null));
-        }
+		public static bool IsCompanionInUse(this TorPlayer torPlayer)
+		{
+			// Extension methods guarantee the 'this' argument is never null, so no need to check a contract here
+			return (torPlayer.CompanionUnlocked > 0) && (torPlayer.Companion != null);
+		}
 
-        public static IEnumerable<TorPlayer> PartyPlayers(this TorPlayer torPlayer, TorPlayerPredicateDelegate playerQualifier = null)
-        {
-            playerQualifier = playerQualifier ?? (ctx => true);       // resolve playerQualifier to something sane
+		public static IEnumerable<TorPlayer> PartyPlayers(this TorPlayer torPlayer,
+			TorPlayerPredicateDelegate playerQualifier = null)
+		{
+			playerQualifier = playerQualifier ?? (ctx => true); // resolve playerQualifier to something sane
 
-            ulong playerGroupId = torPlayer.GroupId;
+			var playerGroupId = torPlayer.GroupId;
 
-            // If we're solo, only have the torPlayer on the list...
-            // We can't build this list using the 'normal' query, as all solo players have the common GroupId of zero.
-            // We don't want a list of 'solo' players (what the normal query would do), we want a list with only the solo torPlayer on it.
-            if (playerGroupId == 0)
-            { return (ObjectManager.GetObjects<TorPlayer>().Where(p => (p == BuddyTor.Me) && playerQualifier(p))); }
+			// If we're solo, only have the torPlayer on the list...
+			// We can't build this list using the 'normal' query, as all solo players have the common GroupId of zero.
+			// We don't want a list of 'solo' players (what the normal query would do), we want a list with only the solo torPlayer on it.
+			if (playerGroupId == 0)
+			{
+				return ObjectManager.GetObjects<TorPlayer>().Where(p => (p == BuddyTor.Me) && playerQualifier(p));
+			}
 
-            // NB: IsInParty() is implemented in terms of PartyPlayers().  Be careful not to implement this method in terms of
-            // IsInParty(); otherwise, infinite recursive descent will occur.
-            return (ObjectManager.GetObjects<TorPlayer>().Where(p => !p.IsDeleted && playerQualifier(p) && (p.GroupId == playerGroupId)));
-        }
+			// NB: IsInParty() is implemented in terms of PartyPlayers().  Be careful not to implement this method in terms of
+			// IsInParty(); otherwise, infinite recursive descent will occur.
+			return
+				ObjectManager.GetObjects<TorPlayer>().Where(p => !p.IsDeleted && playerQualifier(p) && (p.GroupId == playerGroupId));
+		}
 
-        public static bool IsCrowdControlled(this TorCharacter torCharacter)
+		public static bool IsCrowdControlled(this TorCharacter torCharacter)
 		{
 			return torCharacter.Debuffs.FirstOrDefault(d => DebuffNamesCrowdControl.Contains(d.Name)) != null;
 		}
@@ -275,15 +285,15 @@ public static IEnumerable<TorCharacter> PartyMembers(this TorPlayer torPlayer, b
 
 		public static bool IsValidTarget(this TorCharacter c)
 		{
-            try
-            {
-                return c != null && !c.IsDeleted && c.InCombat && c.IsHostile && !c.IsDead && !c.IsStunned && !c.IsCrowdControlled();
-            }
-            catch
-            {
-                return false;
-            }
-        }
+			try
+			{
+				return c != null && !c.IsDeleted && c.InCombat && c.IsHostile && !c.IsDead && !c.IsStunned && !c.IsCrowdControlled();
+			}
+			catch
+			{
+				return false;
+			}
+		}
 
 		public static bool BossOrGreater(this TorCharacter unit)
 		{

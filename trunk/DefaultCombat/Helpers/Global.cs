@@ -3,31 +3,31 @@
 
 namespace DefaultCombat.Helpers
 {
-    public class Global
-    {
-        public const int EnergyMinimum = 65;
-        public const int CellMinimum = 8;
-        public enum PartyRole
-        {
-            MeleeTank,
-            RangedTank,
-            MeleeDPS,
-            RangedDPS,
-            Healer
-        }
+	public class Global
+	{
+		public enum PartyRole
+		{
+			MeleeTank,
+			RangedTank,
+			MeleeDPS,
+			RangedDPS,
+			Healer
+		}
 
-    }
+		public const int EnergyMinimum = 65;
+		public const int CellMinimum = 8;
+	}
+
 	public class Distance
 	{
 		public const float Melee = 0.4f;
 		public const float MeleeAoE = 0.8f;
 		public const float Ranged = 2.8f;
-        public const float HealAoe = 1.2f;
+		public const float HealAoe = 1.2f;
 	}
 
 
-
-    public class Health
+	public class Health
 	{
 		public const int Max = 95;
 		public const int Shield = 90;

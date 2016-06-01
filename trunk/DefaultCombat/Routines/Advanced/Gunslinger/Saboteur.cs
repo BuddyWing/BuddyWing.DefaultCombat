@@ -82,7 +82,7 @@ namespace DefaultCombat.Routines
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new PrioritySelector(
 						Spell.CastOnGround("XS Freighter Flyby", ret => Me.IsInCover() && Me.EnergyPercent > 30),
-						Spell.CastOnGround("Sweeping Gunfire", ret => Me.IsInCover() && Me.EnergyPercent > 30),	
+						Spell.CastOnGround("Sweeping Gunfire", ret => Me.IsInCover() && Me.EnergyPercent > 30),
 						Spell.Cast("Incendiary Grenade"),
 						Spell.Cast("Thermal Grenade")
 						));

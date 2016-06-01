@@ -19,17 +19,17 @@ namespace DefaultCombat
 		private Composite _ooc;
 		private Composite _pull;
 
-        public static bool MovementDisabled
+		public static bool MovementDisabled
 		{
 			get { return BotMain.CurrentBot.Name == "Combat Bot"; }
 		}
 
-        public static bool Grind
-        {
-            get { return BotMain.CurrentBot.Name == "Grind Bot"; }
-        }
+		public static bool Grind
+		{
+			get { return BotMain.CurrentBot.Name == "Grind Bot"; }
+		}
 
-        public override string Name
+		public override string Name
 		{
 			get { return "DefaultCombat"; }
 		}
@@ -91,7 +91,7 @@ namespace DefaultCombat
 					Spell.Buff(BuddyTor.Me.SelfBuffName()),
 					b.Buffs,
 					Rest.HandleRest,
-                    Scavenge.ScavengeCorpse
+					Scavenge.ScavengeCorpse
 					));
 
 			_combat = new Decorator(ret => !CombatHotkeys.PauseRotation,

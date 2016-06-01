@@ -2,8 +2,10 @@
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
+using Buddy.CommonBot;
 using DefaultCombat.Core;
 using DefaultCombat.Helpers;
+using Targeting = DefaultCombat.Core.Targeting;
 
 namespace DefaultCombat.Routines
 {
@@ -47,57 +49,57 @@ namespace DefaultCombat.Routines
 
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
-					new Decorator(ret => Me.ResourcePercent() < 60 && !Buddy.CommonBot.AbilityManager.CanCast("Adrenaline Probe", Me),
+					new Decorator(ret => Me.ResourcePercent() < 60 && !AbilityManager.CanCast("Adrenaline Probe", Me),
 						new PrioritySelector(
 							Spell.Cast("Rifle Shot")
 							)),
 					new Decorator(
-						ret => 
-						(Me.CurrentTarget.HasDebuff("Poisoned (Acid Blade)") || Me.CurrentTarget.HasDebuff("Corrosive Dart")) &&
-						!Me.IsStealthed,
+						ret =>
+							(Me.CurrentTarget.HasDebuff("Poisoned (Acid Blade)") || Me.CurrentTarget.HasDebuff("Corrosive Dart")) &&
+							!Me.IsStealthed,
 						new PrioritySelector(Spell.Cast("Volatile Substance")))
-						,
+					,
 					new Decorator(
-						ret => 
-						Me.HasBuff("Tactical Advantage") && 
-						!Me.IsStealthed,
+						ret =>
+							Me.HasBuff("Tactical Advantage") &&
+							!Me.IsStealthed,
 						new PrioritySelector(Spell.Cast("Laceration")))
-						,
+					,
 					new Decorator(
-						ret => 
-						(!Me.CurrentTarget.HasDebuff("Corrosive Dart") || Me.CurrentTarget.DebuffTimeLeft("Corrosive Dart") <= 2) &&
-						!Me.IsStealthed,
+						ret =>
+							(!Me.CurrentTarget.HasDebuff("Corrosive Dart") || Me.CurrentTarget.DebuffTimeLeft("Corrosive Dart") <= 2) &&
+							!Me.IsStealthed,
 						new PrioritySelector(Spell.Cast("Corrosive Dart")))
-						,
+					,
 					new Decorator(
-						ret => 
-						!Me.HasBuff("Tactical Advantage") &&
-						!Me.IsStealthed,
+						ret =>
+							!Me.HasBuff("Tactical Advantage") &&
+							!Me.IsStealthed,
 						new PrioritySelector(Spell.Cast("Veiled Strike")))
-						,
+					,
 					new Decorator(
-						ret => 
-						!Me.HasBuff("Tactical Advantage") &&
-						!Buddy.CommonBot.AbilityManager.CanCast("Veiled Strike", Me.CurrentTarget) &&
-						Me.IsBehind(Me.CurrentTarget),
+						ret =>
+							!Me.HasBuff("Tactical Advantage") &&
+							!AbilityManager.CanCast("Veiled Strike", Me.CurrentTarget) &&
+							Me.IsBehind(Me.CurrentTarget),
 						new PrioritySelector(Spell.Cast("Backstab")))
-						,
+					,
 					new Decorator(
-						ret => 
-						!Me.HasBuff("Tactical Advantage") &&
-						!Buddy.CommonBot.AbilityManager.CanCast("Veiled Strike", Me.CurrentTarget) &&
-						!Buddy.CommonBot.AbilityManager.CanCast("Backstab", Me.CurrentTarget) &&
-						!Me.IsStealthed,
+						ret =>
+							!Me.HasBuff("Tactical Advantage") &&
+							!AbilityManager.CanCast("Veiled Strike", Me.CurrentTarget) &&
+							!AbilityManager.CanCast("Backstab", Me.CurrentTarget) &&
+							!Me.IsStealthed,
 						new PrioritySelector(Spell.Cast("Crippling Slice")))
-						,
+					,
 					new Decorator(
-						ret => 
-						!Me.HasBuff("Tactical Advantage") &&
-						Me.EnergyPercent >= 87 &&
-						!Buddy.CommonBot.AbilityManager.CanCast("Veiled Strike", Me.CurrentTarget) &&
-						!Buddy.CommonBot.AbilityManager.CanCast("Crippling Slice", Me.CurrentTarget) &&
-						!Buddy.CommonBot.AbilityManager.CanCast("Backstab", Me.CurrentTarget) &&
-						!Me.IsStealthed,
+						ret =>
+							!Me.HasBuff("Tactical Advantage") &&
+							Me.EnergyPercent >= 87 &&
+							!AbilityManager.CanCast("Veiled Strike", Me.CurrentTarget) &&
+							!AbilityManager.CanCast("Crippling Slice", Me.CurrentTarget) &&
+							!AbilityManager.CanCast("Backstab", Me.CurrentTarget) &&
+							!Me.IsStealthed,
 						new PrioritySelector(Spell.Cast("Overload Shot")))
 					);
 			}

@@ -2,8 +2,6 @@
 // See the file LICENSE for the source code's detailed license
 
 using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Threading;
 using Buddy.BehaviorTree;
 using Buddy.CommonBot;
@@ -16,8 +14,7 @@ namespace DefaultCombat.Helpers
 {
 	public static class Rest
 	{
-
-        private static TorPlayer Me
+		private static TorPlayer Me
 		{
 			get { return BuddyTor.Me; }
 		}
@@ -55,9 +52,9 @@ namespace DefaultCombat.Helpers
 
 								Thread.Sleep(100);
 							}
-                            Movement.Move(Buddy.Swtor.MovementDirection.Forward, System.TimeSpan.FromMilliseconds(1));
-                            return RunStatus.Success;
-                        }
+							Movement.Move(MovementDirection.Forward, TimeSpan.FromMilliseconds(1));
+							return RunStatus.Success;
+						}
 
 						return RunStatus.Failure;
 					});
@@ -75,7 +72,6 @@ namespace DefaultCombat.Helpers
 					);
 			}
 		}
-
 
 
 		public static int NormalizedResource()
@@ -115,12 +111,12 @@ namespace DefaultCombat.Helpers
 			}
 		}
 
-        public static bool NeedRest()
-        {
-            var resource = NormalizedResource();
-            return !DefaultCombat.MovementDisabled && !Me.InCombat && (resource < 50 || Me.HealthPercent < 50
-                                                                       || (Me.Companion != null && !Me.Companion.IsDead && Me.Companion.HealthPercent < 50));
-        }
+		public static bool NeedRest()
+		{
+			var resource = NormalizedResource();
+			return !DefaultCombat.MovementDisabled && !Me.InCombat && (resource < 50 || Me.HealthPercent < 50
+																	   || (Me.Companion != null && !Me.Companion.IsDead && Me.Companion.HealthPercent < 50));
+		}
 
 		public static bool KeepResting()
 		{
