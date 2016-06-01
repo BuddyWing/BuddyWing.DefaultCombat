@@ -21,7 +21,7 @@ namespace DefaultCombat.Helpers
 			Logger.Write("[Hot Key][F7] Toggle AOE");
 
 			Hotkeys.RegisterHotkey("Pause Rotation (F8)", ChangePause, Keys.F8);
-			Logger.Write("[Hot Key][F8] Load UI");
+			Logger.Write("[Hot Key][F8] Pause Rotation");
 
 			Hotkeys.RegisterHotkey("Set Tank (F12)", Targeting.SetTank, Keys.F12);
 			Logger.Write("[Hot Key][F12] Set Tank");
