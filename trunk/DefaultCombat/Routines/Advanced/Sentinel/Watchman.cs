@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2016 Bossland GmbH
+// Copyright (C) 2011-2016 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
@@ -19,7 +19,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Juyo Form"),
 					Spell.Buff("Force Might")
 					);
 			}
@@ -55,7 +54,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Dispatch", ret => Me.CurrentTarget.HealthPercent <= 30),
 					Spell.Cast("Merciless Slash"),
 					Spell.Cast("Zealous Strike", ret => Me.ActionPoints <= 5),
-					Spell.Cast("Blade Dance"),
+					Spell.Cast("Blade Barrage"),
 					Spell.Cast("Slash", ret => Me.Level < 41),
 					Spell.Cast("Strike", ret => Me.ActionPoints <= 10)
 					);
