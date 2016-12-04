@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2016 Bossland GmbH
+// Copyright (C) 2011-2016 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
@@ -16,10 +16,10 @@ namespace DefaultCombat.Routines
 
 		public override Composite Buffs
 		{
-			get
-			{
+			get 
+			{ 
 				return new PrioritySelector(
-					Spell.Buff("Shii-Cho Form")
+					Spell.Buff("Force Might")
 					);
 			}
 		}
@@ -42,7 +42,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Force Leap",
 						ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance > 1f && Me.CurrentTarget.Distance <= 3f),
 					CombatMovement.CloseDistance(Distance.Melee),
-					Spell.Cast("Master Strike"),
+					Spell.Cast("Blade Barrage"),
 					Spell.Cast("Blade Storm"),
 					Spell.Cast("Riposte"),
 					Spell.Cast("Slash", ret => Me.ActionPoints >= 7),

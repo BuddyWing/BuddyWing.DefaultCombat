@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2016 Bossland GmbH
+// Copyright (C) 2011-2016 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
@@ -19,7 +19,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Soresu Form"),
 					Spell.Buff("Force Might"),
 					Spell.Cast("Guard", on => Me.Companion,
 						ret => Me.Companion != null && !Me.Companion.IsDead && !Me.Companion.HasBuff("Guard"))
@@ -63,7 +62,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Warding Strike", ret => Me.ActionPoints <= 7 || !Me.HasBuff("Warding Strike")),
 					Spell.Cast("Force Sweep", ret => !Me.CurrentTarget.HasDebuff("Unsteady (Force)") && Targeting.ShouldPbaoe),
 					Spell.Cast("Hilt Bash", ret => !Me.CurrentTarget.IsStunned),
-					Spell.Cast("Blade Dance"),
+					Spell.Cast("Blade Barrage"),
 					Spell.Cast("Dispatch", ret => Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("Ardent Advocate")),
 					Spell.Cast("Slash", ret => Me.ActionPoints >= 9),
 					Spell.Cast("Strike"),

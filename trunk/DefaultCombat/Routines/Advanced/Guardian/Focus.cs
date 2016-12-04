@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2016 Bossland GmbH
+// Copyright (C) 2011-2016 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
@@ -19,7 +19,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Shii-Cho Form"),
 					Spell.Buff("Force Might")
 					);
 			}
@@ -64,7 +63,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Force Exhaustion", ret => Me.BuffCount("Singularity") < 3),
 					Spell.Cast("Blade Storm", ret => Me.HasBuff("Momentum")),
 					Spell.Cast("Concentrated Slice"),
-					Spell.Cast("Blade Dance"),
+					Spell.Cast("Blade Barrage"),
 					Spell.Cast("Riposte"),
 					Spell.Cast("Sundering Strike", ret => Me.ActionPoints < 7),
 					Spell.Cast("Strike"),

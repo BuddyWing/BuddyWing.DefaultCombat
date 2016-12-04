@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2016 Bossland GmbH
+// Copyright (C) 2011-2016 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
@@ -35,12 +35,8 @@ namespace DefaultCombat.Routines
 			{
 				return new PrioritySelector(
 					CombatMovement.CloseDistance(Distance.Ranged),
-					Spell.Cast("Sticky Grenade"),
-					Spell.CastOnGround("Mortar Volley", ret => Me.CurrentTarget.Distance > .5f),
 					Spell.Cast("High Impact Bolt"),
 					Spell.Cast("Recharge Cells", ret => Me.ResourcePercent() <= 50),
-					Spell.Cast("Stockstrike", ret => Me.CurrentTarget.Distance <= .4f),
-					Spell.Cast("Pulse Cannon", ret => Me.CurrentTarget.Distance <= 1f),
 					Spell.Cast("Ion Pulse", ret => Me.ResourcePercent() >= 50),
 					Spell.Cast("Hammer Shot")
 					);

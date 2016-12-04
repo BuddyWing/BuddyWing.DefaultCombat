@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2016 Bossland GmbH
+// Copyright (C) 2011-2016 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
@@ -19,7 +19,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Plasma Cell"),
 					Spell.Buff("Fortification")
 					);
 			}
@@ -35,7 +34,8 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Reactive Shield", ret => Me.HealthPercent <= 70),
 					Spell.Buff("Adrenaline Rush", ret => Me.HealthPercent <= 30),
 					Spell.Buff("Supercharged Cell", ret => Me.BuffCount("Supercharge") == 10),
-					Spell.Buff("Reserve Powercell", ret => Me.ResourceStat <= 60)
+					Spell.Buff("Reserve Powercell", ret => Me.ResourceStat <= 60),
+					Spell.Cast("Echoing Deterrence", ret => Tank != null && Me.HealthPercent <= 30)
 					);
 			}
 		}
@@ -78,6 +78,7 @@ namespace DefaultCombat.Routines
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new PrioritySelector(
+						Spell.CastOnGround("Mortar Volley"),
 						Spell.DoT("Serrated Bolt", "Bleeding"),
 						Spell.DoT("Incendiary Round", "Burning (Incendiary Round)"),
 						Spell.Cast("Plasma Grenade", ret => Me.CurrentTarget.HasDebuff("Burning (Incendiary Round)")),

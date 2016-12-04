@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2016 Bossland GmbH
+// Copyright (C) 2011-2016 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
@@ -19,7 +19,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Ataru Form"),
 					Spell.Buff("Force Might")
 					);
 			}
@@ -61,10 +60,11 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Force Kick", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
 					Spell.Cast("Dispatch", ret => Me.HasBuff("Hand of Justice") || Me.CurrentTarget.HealthPercent <= 30),
 					Spell.Cast("Precision", ret => Me.CurrentTarget.Distance <= 0.4f),
-					Spell.Cast("Blade Dance", ret => Me.HasBuff("Precision")),
+					Spell.Cast("Blade Barrage", ret => Me.HasBuff("Precision")), // Renamed in patch 5.0 from Blade Dance
 					Spell.Cast("Clashing Blast", ret => Me.HasBuff("Opportune Attack") && Me.Level >= 57),
 					Spell.Cast("Blade Storm", ret => Me.HasBuff("Opportune Attack") && Me.Level < 57),
 					Spell.Cast("Blade Rush"),
+					Spell.Cast("Lance"), //New patch 5.0 ability
 					Spell.Cast("Slash", ret => Me.ActionPoints >= 7 && Me.Level < 26),
 					Spell.Cast("Zealous Strike", ret => Me.ActionPoints <= 7),
 					Spell.Cast("Strike", ret => Me.ActionPoints <= 10)
