@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2016 Bossland GmbH
+// Copyright (C) 2011-2016 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
@@ -19,7 +19,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Shien Form"),
 					Spell.Buff("Force Might")
 					);
 			}
@@ -60,9 +59,9 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Plasma Brand"),
 					Spell.Cast("Overhead Slash"),
 					Spell.Cast("Blade Storm", ret => Me.BuffCount("Force Rush") == 2),
-					Spell.Cast("Blade Dance"),
-					Spell.Cast("Dispatch",
-						ret => Me.HasBuff("Keening") || Me.HasBuff("Ardent Advocate") || Me.CurrentTarget.HealthPercent <= 30),
+					Spell.Cast("Blade Barrage"),
+					//Spell.Cast("Dispatch", ret => Me.HasBuff("Keening") || Me.HasBuff("Ardent Advocate") || Me.CurrentTarget.HealthPercent <= 30), Dispatch will be replaced for Whirling Blade in patch 5.0
+					Spell.Cast("Whirling Blade", ret => Me.HasBuff("Keening") || Me.HasBuff("Ardent Advocate") || Me.CurrentTarget.HealthPercent <= 30), //Whirling Blade might not like the Me.HasBuff requirements
 					Spell.Cast("Sundering Strike", ret => Me.ActionPoints <= 7),
 					Spell.Cast("Slash", ret => Me.ActionPoints >= 9),
 					Spell.Cast("Strike"),
