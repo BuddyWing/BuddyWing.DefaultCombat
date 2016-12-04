@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2016 Bossland GmbH 
+// Copyright (C) 2011-2016 Bossland GmbH 
 // See the file LICENSE for the source code's detailed license 
 
 using Buddy.BehaviorTree;
@@ -19,8 +19,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Fortification"),
-					Spell.Buff("Combat Support Cell")
+					Spell.Buff("Fortification")
 					);
 			}
 		}
@@ -31,15 +30,13 @@ namespace DefaultCombat.Routines
 			{
 				return new PrioritySelector(
 					Spell.Buff("Tenacity"),
-					Spell.Buff("Supercharged Cell",
-						ret =>
-							Me.ResourceStat >= 20 && HealTarget != null && HealTarget.HealthPercent <= 80 &&
-							Me.BuffCount("Supercharge") == 10),
+					Spell.Buff("Supercharged Cell",	ret => Me.ResourceStat >= 20 && HealTarget != null && HealTarget.HealthPercent <= 80 &&	Me.BuffCount("Supercharge") == 10),
 					Spell.Buff("Adrenaline Rush", ret => Me.HealthPercent <= 30),
 					Spell.Buff("Reactive Shield", ret => Me.HealthPercent <= 70),
 					Spell.Buff("Reserve Powercell", ret => Me.ResourceStat <= 60),
 					Spell.Buff("Recharge Cells", ret => Me.ResourceStat <= 50),
-					Spell.Cast("Tech Override", ret => Tank != null && Tank.HealthPercent <= 50)
+					Spell.Cast("Tech Override", ret => Tank != null && Tank.HealthPercent <= 50),
+					Spell.Cast("Echoing Deterrence", ret => Tank != null && Me.HealthPercent <= 30)
 					);
 			}
 		}
@@ -68,6 +65,8 @@ namespace DefaultCombat.Routines
 					new Decorator(ret => Me.HasBuff("Supercharged Cell"),
 						new PrioritySelector(
 							Spell.HealGround("Kolto Bomb", ret => !Tank.HasBuff("Kolto Residue")),
+							Spell.CastOnGround("Mortar Volley"),
+							Spell.Cast("Sticky Grenade"),
 							Spell.Heal("Bacta Infusion", 60),
 							Spell.Heal("Advanced Medical Probe", 85)
 							)),
