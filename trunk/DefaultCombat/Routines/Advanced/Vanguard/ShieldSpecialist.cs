@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2016 Bossland GmbH
+// Copyright (C) 2011-2016 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
@@ -19,10 +19,8 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Ion Cell"),
 					Spell.Buff("Fortification"),
-					Spell.Cast("Guard", on => Me.Companion,
-						ret => Me.Companion != null && !Me.Companion.IsDead && !Me.Companion.HasBuff("Guard"))
+					Spell.Cast("Guard", on => Me.Companion,	ret => Me.Companion != null && !Me.Companion.IsDead && !Me.Companion.HasBuff("Guard"))
 					);
 			}
 		}
@@ -54,16 +52,14 @@ namespace DefaultCombat.Routines
 						new PrioritySelector(
 							Spell.Cast("Energy Blast", ret => Me.BuffCount("Power Screen") == 3),
 							Spell.Cast("Pulse Cannon", ret => Me.HasBuff("Pulse Engine") && Me.CurrentTarget.Distance <= 1f),
+							Spell.Cast("Stockstrike", ret => Me.CurrentTarget.Distance <= .4f),
 							Spell.Cast("Explosive Surge", ret => Me.HasBuff("Static Surge") && Me.CurrentTarget.Distance <= 0.5f),
 							Spell.Cast("Hammer Shot")
 							)),
 					Spell.CastOnGround("Smoke Grenade", ret => Me.CurrentTarget.BossOrGreater() && Me.CurrentTarget.Distance <= 0.8f),
 					Spell.Cast("Shoulder Cannon", ret => Me.HasBuff("Shoulder Cannon") && Me.CurrentTarget.BossOrGreater()),
-					Spell.Cast("Riot Strike",
-						ret =>
-							Me.CurrentTarget.IsCasting && Me.CurrentTarget.Distance <= Distance.Melee && !DefaultCombat.MovementDisabled),
+					Spell.Cast("Riot Strike",	ret =>	Me.CurrentTarget.IsCasting && Me.CurrentTarget.Distance <= Distance.Melee && !DefaultCombat.MovementDisabled),
 					Spell.Cast("Energy Blast", ret => Me.BuffCount("Power Screen") == 3),
-					Spell.Cast("Stockstrike"),
 					Spell.Cast("High Impact Bolt"),
 					Spell.Cast("Pulse Cannon", ret => Me.HasBuff("Pulse Engine") && Me.CurrentTarget.Distance <= 1f),
 					Spell.Cast("Explosive Surge", ret => Me.HasBuff("Static Surge") && Me.CurrentTarget.Distance <= 0.5f),
@@ -78,9 +74,9 @@ namespace DefaultCombat.Routines
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new PrioritySelector(
-						Spell.CastOnGround("Mortar Volley"),
-						Spell.Cast("Sticky Grenade"),
-						Spell.Cast("Pulse Cannon", ret => Me.CurrentTarget.Distance <= 1f),
+						Spell.CastOnGround("Artillery Blitz"),
+						Spell.Cast("Ion Wave", ret => Me.CurrentTarget.Distance <= 1f),
+						Spell.Cast("Flak Shell", ret => Me.CurrentTarget.Distance <= 1f),
 						Spell.Cast("Explosive Surge")
 						));
 			}
