@@ -30,9 +30,7 @@ namespace DefaultCombat.Routines
 			{
 				return new PrioritySelector(
 					CombatMovement.CloseDistance(Distance.Melee),
-					Spell.Cast("Telekinetic Throw"),
 					Spell.Cast("Project", ret => Me.Force > 75),
-					Spell.Cast("Double Strike", ret => Me.Force > 70),
 					Spell.Cast("Saber Strike")
 					);
 			}
