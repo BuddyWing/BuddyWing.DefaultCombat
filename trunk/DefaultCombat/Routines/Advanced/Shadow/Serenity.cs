@@ -19,10 +19,8 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Force Technique"),
 					Spell.Buff("Force Valor"),
-					Spell.Cast("Guard", on => Me.Companion,
-						ret => Me.Companion != null && !Me.Companion.IsDead && !Me.Companion.HasBuff("Guard")),
+					Spell.Cast("Guard", on => Me.Companion,	ret => Me.Companion != null && !Me.Companion.IsDead && !Me.Companion.HasBuff("Guard")),
 					Spell.Buff("Stealth", ret => !Rest.KeepResting() && !DefaultCombat.MovementDisabled)
 					);
 			}
@@ -37,8 +35,7 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Battle Readiness", ret => Me.HealthPercent <= 85),
 					Spell.Buff("Deflection", ret => Me.HealthPercent <= 60),
 					Spell.Buff("Resilience", ret => Me.HealthPercent <= 50),
-					Spell.Buff("Force Potency"),
-					Spell.Buff("Blackout", ret => Me.ForcePercent <= 40)
+					Spell.Buff("Force Potency")
 					);
 			}
 		}
@@ -48,8 +45,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Force Speed",
-						ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
+					Spell.Buff("Force Speed", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
 
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
@@ -63,7 +59,7 @@ namespace DefaultCombat.Routines
 					Spell.CastOnGround("Force in Balance"),
 					Spell.Cast("Sever Force", ret => !Me.CurrentTarget.HasDebuff("Sever Force")),
 					Spell.DoT("Force Breach", "Crushed (Force Breach)"),
-					Spell.Cast("Vanquish", ret => Me.HasBuff("Force Strike") && Me.Level >= 57),
+					Spell.Cast("Squelch", ret => Me.HasBuff("Force Strike") && Me.Level >= 57),
 					Spell.Cast("Mind Crush", ret => Me.HasBuff("Force Strike") && Me.Level < 57),
 					Spell.Cast("Spinning Strike", ret => Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("Crush Spirit")),
 					Spell.Cast("Serenity Strike", ret => Me.HealthPercent <= 70),
