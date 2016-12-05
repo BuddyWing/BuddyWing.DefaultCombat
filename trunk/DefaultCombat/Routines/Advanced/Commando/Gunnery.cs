@@ -19,7 +19,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Armor-piercing Cell"),
 					Spell.Buff("Fortification")
 					);
 			}
@@ -69,6 +68,7 @@ namespace DefaultCombat.Routines
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new PrioritySelector(
+						Spell.Cast("Sticky Grenade"),
 						Spell.Cast("Tech Override"),
 						Spell.CastOnGround("Mortar Volley"),
 						Spell.Cast("Plasma Grenade", ret => Me.ResourceStat >= 90 && Me.HasBuff("Tech Override")),
