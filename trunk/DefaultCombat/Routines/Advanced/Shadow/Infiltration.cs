@@ -19,10 +19,8 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Shadow Technique"),
 					Spell.Buff("Force Valor"),
-					Spell.Cast("Guard", on => Me.Companion,
-						ret => Me.Companion != null && !Me.Companion.IsDead && !Me.Companion.HasBuff("Guard")),
+					Spell.Cast("Guard", on => Me.Companion, ret => Me.Companion != null && !Me.Companion.IsDead && !Me.Companion.HasBuff("Guard")),
 					Spell.Buff("Stealth", ret => !Rest.KeepResting() && !DefaultCombat.MovementDisabled)
 					);
 			}
@@ -37,8 +35,7 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Battle Readiness", ret => Me.HealthPercent <= 85),
 					Spell.Buff("Deflection", ret => Me.HealthPercent <= 60),
 					Spell.Buff("Resilience", ret => Me.HealthPercent <= 50),
-					Spell.Buff("Force Potency"),
-					Spell.Buff("Blackout", ret => Me.ForcePercent <= 40)
+					Spell.Buff("Force Potency")
 					);
 			}
 		}
@@ -49,8 +46,7 @@ namespace DefaultCombat.Routines
 			{
 				return new PrioritySelector(
 					Spell.Cast("Spinning Kick", ret => Me.IsStealthed),
-					Spell.Buff("Force Speed",
-						ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
+					Spell.Buff("Force Speed", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
 
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
@@ -63,6 +59,7 @@ namespace DefaultCombat.Routines
 					//Rotation
 					Spell.Cast("Force Breach", ret => Me.BuffCount("Breaching Shadows") == 3),
 					Spell.Cast("Shadow Strike", ret => Me.HasBuff("Stealth") || Me.HasBuff("Infiltration Tactics")),
+					Spell.Cast("Vaulting Slash", ret => Me.HasBuff("Stealth")),
 					Spell.Cast("Project", ret => Me.BuffCount("Circling Shadows") == 2),
 					Spell.Cast("Spinning Strike", ret => Me.CurrentTarget.HealthPercent <= 30),
 					Spell.Cast("Clairvoyant Strike"),
