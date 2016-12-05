@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2016 Bossland GmbH
+// Copyright (C) 2011-2016 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
@@ -19,7 +19,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Force Technique"),
 					Spell.Buff("Force Valor"),
 					Spell.Cast("Guard", on => Me.Companion,
 						ret => Me.Companion != null && !Me.Companion.IsDead && !Me.Companion.HasBuff("Guard")),
@@ -37,8 +36,7 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Battle Readiness", ret => Me.HealthPercent <= 85),
 					Spell.Buff("Deflection", ret => Me.HealthPercent <= 60),
 					Spell.Buff("Resilience", ret => Me.HealthPercent <= 50),
-					Spell.Buff("Force Potency"),
-					Spell.Buff("Blackout", ret => Me.ForcePercent <= 40)
+					Spell.Buff("Force Potency")
 					);
 			}
 		}
@@ -63,7 +61,7 @@ namespace DefaultCombat.Routines
 					Spell.CastOnGround("Force in Balance"),
 					Spell.Cast("Sever Force", ret => !Me.CurrentTarget.HasDebuff("Sever Force")),
 					Spell.DoT("Force Breach", "Crushed (Force Breach)"),
-					Spell.Cast("Vanquish", ret => Me.HasBuff("Force Strike") && Me.Level >= 57),
+					Spell.Cast("Squelch", ret => Me.HasBuff("Force Strike") && Me.Level >= 57),
 					Spell.Cast("Mind Crush", ret => Me.HasBuff("Force Strike") && Me.Level < 57),
 					Spell.Cast("Spinning Strike", ret => Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("Crush Spirit")),
 					Spell.Cast("Serenity Strike", ret => Me.HealthPercent <= 70),
