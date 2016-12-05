@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2016 Bossland GmbH
+// Copyright (C) 2011-2016 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
@@ -53,7 +53,7 @@ namespace DefaultCombat.Routines
 					CombatMovement.CloseDistance(Distance.Melee),
 
 					//Rotation
-					Spell.Cast("Vicious Throw", ret => Me.CurrentTarget.HealthPercent <= 30),
+					Spell.Cast("Vicious Throw", ret => Me.CurrentTarget.HealthPercent <= 30), //Is this renamed to Hew in patch 5.0?
 					Spell.Cast("Smash",
 						ret => Me.BuffCount("Shockwave") == 3 && Me.HasBuff("Dominate") && Me.CurrentTarget.Distance <= 0.5f),
 					Spell.Cast("Force Choke", ret => Me.BuffCount("Shockwave") < 4),
