@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2016 Bossland GmbH
+// Copyright (C) 2011-2016 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
@@ -16,7 +16,10 @@ namespace DefaultCombat.Routines
 
 		public override Composite Buffs
 		{
-			get { return new PrioritySelector(); }
+			get
+			{
+				return new PrioritySelector();
+			}
 		}
 
 		public override Composite Cooldowns
@@ -30,9 +33,7 @@ namespace DefaultCombat.Routines
 			{
 				return new PrioritySelector(
 					CombatMovement.CloseDistance(Distance.Melee),
-					Spell.Cast("Telekinetic Throw"),
 					Spell.Cast("Project", ret => Me.Force > 75),
-					Spell.Cast("Double Strike", ret => Me.Force > 70),
 					Spell.Cast("Saber Strike")
 					);
 			}
