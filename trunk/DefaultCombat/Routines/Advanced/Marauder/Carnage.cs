@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2016 Bossland GmbH
+// Copyright (C) 2011-2016 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
@@ -19,7 +19,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Ataru Form"),
 					Spell.Buff("Unnatural Might")
 					);
 			}
@@ -59,7 +58,8 @@ namespace DefaultCombat.Routines
 					//Rotation
 					Spell.Cast("Disruption", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
 					Spell.Cast("Massacre", ret => !Me.HasBuff("Massacre")),
-					Spell.Cast("Gore"),
+					Spell.Cast("Ferocity"), // Renamed in patch 5.0 from Gore
+					Spell.Cast("Gore"), // New ability in patch 5.0: New Active Ability: Gore. Impales the target with both lightsabers, dealing weapon damage and hindering the target for 1.5 seconds, preventing the use of high mobility actions and escapes. Requires two lightsabers.  
 					Spell.Cast("Ravage", ret => Me.HasBuff("Gore")),
 					Spell.Cast("Vicious Throw"),
 					Spell.Cast("Force Scream", ret => Me.HasBuff("Execute") && Me.Level < 58),
