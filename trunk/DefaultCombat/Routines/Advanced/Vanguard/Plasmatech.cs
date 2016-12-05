@@ -19,7 +19,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Fortification")
+					Spell.Buff("Fortificationx")
 					);
 			}
 		}
