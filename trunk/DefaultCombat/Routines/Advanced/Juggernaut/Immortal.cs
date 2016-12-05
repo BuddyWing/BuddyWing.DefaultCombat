@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2016 Bossland GmbH
+// Copyright (C) 2011-2016 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
@@ -19,7 +19,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Soresu Form"),
 					Spell.Buff("Unnatural Might"),
 					Spell.Cast("Guard", on => Me.Companion,
 						ret => Me.Companion != null && !Me.Companion.IsDead && !Me.Companion.HasBuff("Guard"))
@@ -64,7 +63,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Smash", ret => !Me.CurrentTarget.HasDebuff("Unsteady (Force)") && Targeting.ShouldPbaoe),
 					Spell.Cast("Backhand", ret => !Me.CurrentTarget.IsStunned),
 					Spell.Cast("Ravage"),
-					Spell.Cast("Vicious Throw", ret => Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("War Bringer")),
+					Spell.Cast("Vicious Throw", ret => Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("War Bringer")), //Is this renamed to Hew in patch 5.0?
 					Spell.Cast("Vicious Slash", ret => Me.ActionPoints >= 9),
 					Spell.Cast("Assault"),
 					Spell.Cast("Saber Throw", ret => Me.CurrentTarget.Distance >= 0.5f && Me.InCombat)
