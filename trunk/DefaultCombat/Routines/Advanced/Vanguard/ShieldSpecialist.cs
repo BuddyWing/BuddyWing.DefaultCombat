@@ -20,7 +20,8 @@ namespace DefaultCombat.Routines
 			{
 				return new PrioritySelector(
 					Spell.Buff("Fortification"),
-					Spell.Cast("Guard", on => Me.Companion,	ret => Me.Companion != null && !Me.Companion.IsDead && !Me.Companion.HasBuff("Guard"))
+					Spell.Cast("Guard", on => Me.Companion,
+						ret => Me.Companion != null && !Me.Companion.IsDead && !Me.Companion.HasBuff("Guard"))
 					);
 			}
 		}
@@ -58,7 +59,9 @@ namespace DefaultCombat.Routines
 							)),
 					Spell.CastOnGround("Smoke Grenade", ret => Me.CurrentTarget.BossOrGreater() && Me.CurrentTarget.Distance <= 0.8f),
 					Spell.Cast("Shoulder Cannon", ret => Me.HasBuff("Shoulder Cannon") && Me.CurrentTarget.BossOrGreater()),
-					Spell.Cast("Riot Strike",	ret =>	Me.CurrentTarget.IsCasting && Me.CurrentTarget.Distance <= Distance.Melee && !DefaultCombat.MovementDisabled),
+					Spell.Cast("Riot Strike",
+						ret =>
+							Me.CurrentTarget.IsCasting && Me.CurrentTarget.Distance <= Distance.Melee && !DefaultCombat.MovementDisabled),
 					Spell.Cast("Energy Blast", ret => Me.BuffCount("Power Screen") == 3),
 					Spell.Cast("High Impact Bolt"),
 					Spell.Cast("Pulse Cannon", ret => Me.HasBuff("Pulse Engine") && Me.CurrentTarget.Distance <= 1f),
