@@ -24,7 +24,7 @@ namespace DefaultCombat.Routines
 			}
 		}
 
-x		public override Composite Cooldowns
+		public override Composite Cooldowns
 		{
 			get
 			{
