@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2016 Bossland GmbH
+// Copyright (C) 2011-2016 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
@@ -19,7 +19,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Shien Form"),
 					Spell.Buff("Unnatural Might")
 					);
 			}
@@ -56,7 +55,7 @@ namespace DefaultCombat.Routines
 					//Rotation
 					Spell.Cast("Disruption", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
 					Spell.Cast("Force Scream", ret => Me.BuffCount("Savagery") == 2),
-					Spell.Cast("Vicious Throw", ret => Me.HasBuff("Destroyer") || Me.CurrentTarget.HealthPercent <= 30),
+					Spell.Cast("Hew", ret => Me.HasBuff("Destroyer") || Me.CurrentTarget.HealthPercent <= 30), //New patch 5.0 ability, renamed from Vicious Throw
 					Spell.Cast("Shatter"),
 					Spell.Cast("Impale"),
 					Spell.Cast("Sundering Assault", ret => Me.ActionPoints <= 7),
