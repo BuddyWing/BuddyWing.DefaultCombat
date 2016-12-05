@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2016 Bossland GmbH
+// Copyright (C) 2011-2016 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
@@ -19,7 +19,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Combat Technique"),
 					Spell.Buff("Force Valor"),
 					Spell.Cast("Guard", on => Me.Companion,
 						ret => Me.Companion != null && !Me.Companion.IsDead && !Me.Companion.HasBuff("Guard")),
