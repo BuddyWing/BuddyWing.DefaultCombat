@@ -35,7 +35,7 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Adrenaline Rush", ret => Me.HealthPercent <= 30),
 					Spell.Buff("Supercharged Cell", ret => Me.BuffCount("Supercharge") == 10),
 					Spell.Buff("Reserve Powercell", ret => Me.ResourceStat <= 60),
-					Spell.Cast("Echoing Deterrence", ret => Tank != null && Me.HealthPercent <= 30)
+					Spell.Cast("Echoing Deterrence", ret => Me.HealthPercent <= 30)
 					);
 			}
 		}
