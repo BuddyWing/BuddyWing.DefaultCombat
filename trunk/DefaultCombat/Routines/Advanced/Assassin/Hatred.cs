@@ -19,7 +19,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Lightning Charge"),
 					Spell.Buff("Mark of Power"),
 					Spell.Buff("Stealth", ret => !Rest.KeepResting() && !DefaultCombat.MovementDisabled)
 					);
@@ -56,8 +55,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Jolt", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
 					Spell.CastOnGround("Death Field"),
 					Spell.Cast("Assassinate", ret => Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("Bloodletting")),
-					Spell.Cast("Demolish", ret => Me.HasBuff("Raze") && Me.Level >= 57),
-					Spell.Cast("Crushing Darkness", ret => Me.HasBuff("Raze") && Me.Level < 57),
+					Spell.Cast("Eradicate", ret => Me.HasBuff("Raze") && Me.Level >= 57),
 					Spell.DoT("Discharge", "Shocked (Discharge)"),
 					Spell.DoT("Creeping Terror", "Creeping Terror"),
 					Spell.Cast("Leeching Strike"),
@@ -73,12 +71,12 @@ namespace DefaultCombat.Routines
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new PrioritySelector(
-						Spell.DoT("Discharge", "Discharge"),
+						Spell.DoT("Discharge", "Shocked (Discharge)"),
 						Spell.DoT("Creeping Terror", "Creeping Terror"),
 						Spell.CastOnGround("Death Field"),
 						Spell.Cast("Lacerate",
 							ret =>
-								Me.CurrentTarget.HasDebuff("Discharge") && Me.CurrentTarget.HasDebuff("Creeping Terror") &&
+								Me.CurrentTarget.HasDebuff("Shocked (Discharge)") && Me.CurrentTarget.HasDebuff("Creeping Terror") &&
 								Me.ForcePercent >= 60 && Targeting.ShouldPbaoe)
 						));
 			}
