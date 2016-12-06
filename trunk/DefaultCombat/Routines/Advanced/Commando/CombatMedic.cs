@@ -36,7 +36,7 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Reserve Powercell", ret => Me.ResourceStat <= 60),
 					Spell.Buff("Recharge Cells", ret => Me.ResourceStat <= 50),
 					Spell.Cast("Tech Override", ret => Tank != null && Tank.HealthPercent <= 50),
-					Spell.Cast("Echoing Deterrence", ret => Tank != null && Me.HealthPercent <= 30)
+					Spell.Cast("Echoing Deterrence", ret => Me.HealthPercent <= 30)
 					);
 			}
 		}
