@@ -19,7 +19,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("High Energy Cell"),
 					Spell.Buff("Fortification")
 					);
 			}
@@ -73,14 +72,14 @@ namespace DefaultCombat.Routines
 				return new PrioritySelector(
 					new Decorator(ret => Targeting.ShouldAoe,
 						new PrioritySelector(
-							Spell.CastOnGround("Morter Volley"),
-							Spell.Cast("Sticky Grenade", ret => Me.CurrentTarget.HasDebuff("Bleeding (Retractable Blade)"))
+							Spell.CastOnGround("Artillery Blitz")
 							)),
 					new Decorator(ret => Targeting.ShouldPbaoe,
 						new PrioritySelector(
-							Spell.Cast("Pulse Cannon"),
-							Spell.Cast("Explosive Surge"))
-						));
+							Spell.Cast("Ion Wave", ret => Me.CurrentTarget.Distance <= 1f),
+ 							Spell.Cast("Flak Shell", ret => Me.CurrentTarget.Distance <= 1f),
+ 							Spell.Cast("Explosive Surge", ret => Me.CurrentTarget.Distance <= .5f)
+						)));
 			}
 		}
 	}
