@@ -31,6 +31,7 @@ namespace DefaultCombat.Routines
 				return new PrioritySelector(
 					Spell.Buff("Tenacity"),
 					Spell.Buff("Reactive Shield", ret => Me.HealthPercent <= 70),
+					Spell.Cast("Echoing Deterrence", ret => Me.HealthPercent <= 30),
 					Spell.Buff("Adrenaline Rush", ret => Me.HealthPercent <= 30),
 					Spell.Buff("Recharge Cells", ret => Me.ResourceStat <= 40),
 					Spell.Buff("Supercharged Cell", ret => Me.BuffCount("Supercharge") == 10),
