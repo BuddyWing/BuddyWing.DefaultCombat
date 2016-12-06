@@ -39,9 +39,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Cast("Force Leap",
-						ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance > 1f && Me.CurrentTarget.Distance <= 3f),
-					CombatMovement.CloseDistance(Distance.Melee),
+					Spell.Cast("Force Leap", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance > 1f && Me.CurrentTarget.Distance <= 3f), CombatMovement.CloseDistance(Distance.Melee),
 					Spell.Cast("Master Strike"),
 					Spell.Cast("Blade Storm"),
 					Spell.Cast("Riposte"),
