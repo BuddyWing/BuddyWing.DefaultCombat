@@ -78,7 +78,7 @@ namespace DefaultCombat.Routines
 						Spell.CastOnGround("Artillery Blitz"),
 						Spell.Cast("Ion Wave", ret => Me.CurrentTarget.Distance <= 1f),
 						Spell.Cast("Flak Shell", ret => Me.CurrentTarget.Distance <= 1f),
-						Spell.Cast("Explosive Surge")
+						Spell.Cast("Explosive Surge", ret => Me.CurrentTarget.Distance <= .5f)
 						));
 			}
 		}
