@@ -19,7 +19,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Plasma Cell"),
 					Spell.Buff("Fortification")
 					);
 			}
@@ -53,6 +52,7 @@ namespace DefaultCombat.Routines
 							Spell.Cast("Hammer Shot")
 							)),
 					Spell.Cast("High Impact Bolt"),
+					Spell.Cast("Stockstrike", ret => Me.CurrentTarget.Distance <= .4f),
 					Spell.Cast("Assault Plastique"),
 					Spell.DoT("Incendiary Round", "", 12000),
 					Spell.Cast("Shockstrike"),
@@ -67,8 +67,9 @@ namespace DefaultCombat.Routines
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new PrioritySelector(
-						Spell.CastOnGround("Mortar Volley"),
-						Spell.Cast("Pulse Cannon", ret => Me.CurrentTarget.Distance <= 1f),
+						Spell.CastOnGround("Artillery Blitz"),
+						Spell.Cast("Ion Wave", ret => Me.CurrentTarget.Distance <= 1f),
+						Spell.Cast("Flak Shell", ret => Me.CurrentTarget.Distance <= 1f),
 						Spell.Cast("Explosive Surge", ret => Me.CurrentTarget.Distance <= .5f)
 						));
 			}
