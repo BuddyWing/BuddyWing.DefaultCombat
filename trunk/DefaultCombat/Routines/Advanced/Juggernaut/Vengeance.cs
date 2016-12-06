@@ -19,7 +19,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Shien Form"),
 					Spell.Buff("Unnatural Might")
 					);
 			}
@@ -45,10 +44,8 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Cast("Saber Throw",
-						ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 0.5f && Me.CurrentTarget.Distance <= 3f),
-					Spell.Cast("Force Charge",
-						ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
+					Spell.Cast("Saber Throw", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 0.5f && Me.CurrentTarget.Distance <= 3f),
+					Spell.Cast("Force Charge", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
 
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
@@ -56,7 +53,7 @@ namespace DefaultCombat.Routines
 					//Rotation
 					Spell.Cast("Disruption", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
 					Spell.Cast("Force Scream", ret => Me.BuffCount("Savagery") == 2),
-					Spell.Cast("Vicious Throw", ret => Me.HasBuff("Destroyer") || Me.CurrentTarget.HealthPercent <= 30),
+					Spell.Cast("Hew", ret => Me.HasBuff("Destroyer") || Me.CurrentTarget.HealthPercent <= 30),
 					Spell.Cast("Shatter"),
 					Spell.Cast("Impale"),
 					Spell.Cast("Sundering Assault", ret => Me.ActionPoints <= 7),
