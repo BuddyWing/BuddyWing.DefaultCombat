@@ -77,9 +77,9 @@ namespace DefaultCombat.Routines
 					new Decorator(ret => Targeting.ShouldPbaoe,
 						new PrioritySelector(
 							Spell.Cast("Ion Wave", ret => Me.CurrentTarget.Distance <= 1f),
- +							Spell.Cast("Flak Shell", ret => Me.CurrentTarget.Distance <= 1f),
- +							Spell.Cast("Explosive Surge", ret => Me.CurrentTarget.Distance <= .5f)
-						));
+ 							Spell.Cast("Flak Shell", ret => Me.CurrentTarget.Distance <= 1f),
+ 							Spell.Cast("Explosive Surge", ret => Me.CurrentTarget.Distance <= .5f)
+						)));
 			}
 		}
 	}
