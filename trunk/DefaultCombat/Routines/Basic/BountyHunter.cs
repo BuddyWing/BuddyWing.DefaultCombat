@@ -35,12 +35,8 @@ namespace DefaultCombat.Routines
 			{
 				return new PrioritySelector(
 					CombatMovement.CloseDistance(Distance.Ranged),
-					Spell.Cast("Explosive Dart"),
-					Spell.CastOnGround("Death from Above", ret => Me.CurrentTarget.Distance > .5f),
 					Spell.Cast("Rail Shot"),
 					Spell.Cast("Vent Heat", ret => Me.ResourcePercent() >= 50),
-					Spell.Cast("Rocket Punch", ret => Me.CurrentTarget.Distance <= .4f),
-					Spell.Cast("Flame Thrower", ret => Me.CurrentTarget.Distance <= 1f),
 					Spell.Cast("Flame Burst", ret => Me.ResourcePercent() <= 50),
 					Spell.Cast("Rapid Shots")
 					);

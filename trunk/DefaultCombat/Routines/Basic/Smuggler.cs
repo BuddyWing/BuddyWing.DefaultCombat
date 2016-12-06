@@ -41,9 +41,7 @@ namespace DefaultCombat.Routines
 				return new PrioritySelector(
 					CombatMovement.CloseDistance(Distance.Ranged),
 					Spell.DoT("Vital Shot", "Bleeding (Vital Shot)"),
-					Spell.Cast("Blaster Whip", ret => Me.CurrentTarget.Distance <= Distance.Melee),
 					Spell.Cast("Sabotage Charge"),
-					Spell.Cast("Charged Burst"),
 					Spell.Cast("Flurry of Bolts")
 					);
 			}
