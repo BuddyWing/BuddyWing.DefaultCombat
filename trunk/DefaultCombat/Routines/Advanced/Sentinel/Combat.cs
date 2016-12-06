@@ -47,12 +47,9 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Cast("Saber Throw",
-						ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 0.5f && Me.CurrentTarget.Distance <= 3f),
-					Spell.Cast("Force Leap",
-						ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
-					Spell.Cast("Dual Saber Throw",
-						ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
+					Spell.Cast("Saber Throw", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 0.5f && Me.CurrentTarget.Distance <= 3f),
+					Spell.Cast("Force Leap", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
+					Spell.Cast("Dual Saber Throw", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
 
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
@@ -61,10 +58,11 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Force Kick", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
 					Spell.Cast("Dispatch", ret => Me.HasBuff("Hand of Justice") || Me.CurrentTarget.HealthPercent <= 30),
 					Spell.Cast("Precision", ret => Me.CurrentTarget.Distance <= 0.4f),
-					Spell.Cast("Blade Dance", ret => Me.HasBuff("Precision")),
+					Spell.Cast("Blade Barrage", ret => Me.HasBuff("Precision")),
 					Spell.Cast("Clashing Blast", ret => Me.HasBuff("Opportune Attack") && Me.Level >= 57),
 					Spell.Cast("Blade Storm", ret => Me.HasBuff("Opportune Attack") && Me.Level < 57),
 					Spell.Cast("Blade Rush"),
+					Spell.Cast("Lance"),
 					Spell.Cast("Slash", ret => Me.ActionPoints >= 7 && Me.Level < 26),
 					Spell.Cast("Zealous Strike", ret => Me.ActionPoints <= 7),
 					Spell.Cast("Strike", ret => Me.ActionPoints <= 10)
