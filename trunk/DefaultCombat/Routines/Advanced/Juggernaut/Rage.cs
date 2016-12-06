@@ -19,7 +19,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Shii-Cho Form"),
 					Spell.Buff("Unnatural Might")
 					);
 			}
@@ -44,18 +43,15 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Cast("Saber Throw",
-						ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 0.5f && Me.CurrentTarget.Distance <= 3f),
-					Spell.Cast("Force Charge",
-						ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
+					Spell.Cast("Saber Throw", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 0.5f && Me.CurrentTarget.Distance <= 3f),
+					Spell.Cast("Force Charge", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
 
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
 
 					//Rotation
 					Spell.Cast("Vicious Throw", ret => Me.CurrentTarget.HealthPercent <= 30),
-					Spell.Cast("Smash",
-						ret => Me.BuffCount("Shockwave") == 3 && Me.HasBuff("Dominate") && Me.CurrentTarget.Distance <= 0.5f),
+					Spell.Cast("Smash", ret => Me.BuffCount("Shockwave") == 3 && Me.HasBuff("Dominate") && Me.CurrentTarget.Distance <= 0.5f),
 					Spell.Cast("Force Choke", ret => Me.BuffCount("Shockwave") < 4),
 					Spell.Cast("Force Crush", ret => Me.BuffCount("Shockwave") < 4),
 					Spell.Cast("Obliterate", ret => Me.HasBuff("Shockwave")),
