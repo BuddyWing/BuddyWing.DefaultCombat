@@ -19,7 +19,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Combat Support Cylinder"),
 					Spell.Buff("Hunter's Boon")
 					);
 			}
