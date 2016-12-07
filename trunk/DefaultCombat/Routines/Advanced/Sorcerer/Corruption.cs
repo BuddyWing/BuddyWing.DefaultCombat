@@ -46,6 +46,7 @@ namespace DefaultCombat.Routines
 
 					//Rotation
 					Spell.Cast("Jolt", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
+					Spell.Cast("Force Lightning"),
 					Spell.Cast("Crushing Darkness"),
 					Spell.Cast("Affliction", ret => !Me.CurrentTarget.HasDebuff("Affliction")),
 					Spell.Cast("Lightning Strike"),

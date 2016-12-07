@@ -53,10 +53,10 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Demolish", ret => Me.BuffCount("Wrath") == 4),
 					Spell.DoT("Affliction", "Affliction"),
 					Spell.DoT("Creeping Terror", "Creeping Terror"),
-					Spell.CastOnGround("Death Field",
-						ret => Me.CurrentTarget.HasDebuff("Affliction") && Me.CurrentTarget.HasDebuff("Creeping Terror")),
+					Spell.CastOnGround("Death Field",	ret => Me.CurrentTarget.HasDebuff("Affliction") && Me.CurrentTarget.HasDebuff("Creeping Terror")),
 					Spell.Cast("Force Leach", ret => Me.CurrentTarget.HasDebuff("Affliction")),
 					Spell.Cast("Lightning Strike", ret => Me.BuffCount("Wrath") == 4),
+					Spell.Cast("Crushing Darkness", ret => Me.HasBuff("Force Flash")),
 					Spell.Cast("Force Lightning", ret => Me.BuffCount("Wrath") < 4)
 					);
 			}
@@ -71,8 +71,7 @@ namespace DefaultCombat.Routines
 					new PrioritySelector(
 						Spell.DoT("Affliction", "Affliction"),
 						Spell.DoT("Creeping Terror", "Creeping Terror"),
-						Spell.CastOnGround("Death Field",
-							ret => Me.CurrentTarget.HasDebuff("Affliction") && Me.CurrentTarget.HasDebuff("Creeping Terror")),
+						Spell.CastOnGround("Death Field",	ret => Me.CurrentTarget.HasDebuff("Affliction") && Me.CurrentTarget.HasDebuff("Creeping Terror")),
 						Spell.CastOnGround("Force Storm", ret => Me.CurrentTarget.HasDebuff("Overwhelmed (Mental)"))
 						));
 			}
