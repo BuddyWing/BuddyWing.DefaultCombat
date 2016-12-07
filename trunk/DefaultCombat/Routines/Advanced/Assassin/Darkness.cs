@@ -19,10 +19,8 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Dark Charge"),
 					Spell.Buff("Mark of Power"),
-					Spell.Cast("Guard", on => Me.Companion,
-						ret => Me.Companion != null && !Me.Companion.IsDead && !Me.Companion.HasBuff("Guard")),
+					Spell.Cast("Guard", on => Me.Companion,	ret => Me.Companion != null && !Me.Companion.IsDead && !Me.Companion.HasBuff("Guard")),
 					Spell.Buff("Stealth", ret => !Rest.KeepResting() && !DefaultCombat.MovementDisabled)
 					);
 			}
@@ -49,8 +47,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Force Speed",
-						ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
+					Spell.Buff("Force Speed",	ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
 
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
@@ -60,7 +57,6 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Electrocute", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
 
 					//Rotation
-					Spell.Cast("Force Lightning", ret => Me.BuffCount("Harnessed Darkness") == 3),
 					Spell.Cast("Wither"),
 					Spell.Cast("Shock"),
 					Spell.Cast("Maul", ret => Me.HasBuff("Conspirator's Cloak")),

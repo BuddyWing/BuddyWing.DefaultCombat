@@ -36,9 +36,7 @@ namespace DefaultCombat.Routines
 				return new PrioritySelector(
 					CombatMovement.CloseDistance(Distance.Melee),
 					Spell.DoT("Corrosive Dart", "", 15000),
-					Spell.Cast("Shiv", ret => Me.CurrentTarget.Distance <= Distance.Melee),
 					Spell.Cast("Explosive Probe"),
-					Spell.Cast("Snipe"),
 					Spell.Cast("Rifle Shot")
 					);
 			}

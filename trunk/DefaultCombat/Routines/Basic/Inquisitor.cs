@@ -35,9 +35,7 @@ namespace DefaultCombat.Routines
 			{
 				return new PrioritySelector(
 					CombatMovement.CloseDistance(Distance.Melee),
-					Spell.Cast("Force Lightning"),
 					Spell.Cast("Shock", ret => Me.Force > 75),
-					Spell.Cast("Thrash", ret => Me.Force > 70),
 					Spell.Cast("Saber Strike")
 					);
 			}

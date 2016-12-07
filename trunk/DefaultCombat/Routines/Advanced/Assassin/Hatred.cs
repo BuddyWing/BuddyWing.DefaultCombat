@@ -59,7 +59,7 @@ namespace DefaultCombat.Routines
 					Spell.DoT("Discharge", "Shocked (Discharge)"),
 					Spell.DoT("Creeping Terror", "Creeping Terror"),
 					Spell.Cast("Leeching Strike"),
-					Spell.Cast("Thrash"),
+					Spell.Cast("Thrash", ret => Me.Force > 70),
 					Spell.Buff("Force Speed", ret => Me.CurrentTarget.Distance >= 1.1f && Me.IsMoving && Me.InCombat)
 					);
 			}
@@ -74,10 +74,7 @@ namespace DefaultCombat.Routines
 						Spell.DoT("Discharge", "Shocked (Discharge)"),
 						Spell.DoT("Creeping Terror", "Creeping Terror"),
 						Spell.CastOnGround("Death Field"),
-						Spell.Cast("Lacerate",
-							ret =>
-								Me.CurrentTarget.HasDebuff("Shocked (Discharge)") && Me.CurrentTarget.HasDebuff("Creeping Terror") &&
-								Me.ForcePercent >= 60 && Targeting.ShouldPbaoe)
+						Spell.Cast("Lacerate", ret =>	Me.CurrentTarget.HasDebuff("Shocked (Discharge)") && Me.CurrentTarget.HasDebuff("Creeping Terror") &&	Me.ForcePercent >= 60 && Targeting.ShouldPbaoe)
 						));
 			}
 		}

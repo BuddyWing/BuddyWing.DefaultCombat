@@ -19,7 +19,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Surging Charge"),
 					Spell.Buff("Mark of Power"),
 					Spell.Buff("Stealth", ret => !Rest.KeepResting() && !DefaultCombat.MovementDisabled && !Me.IsMounted)
 					);
@@ -35,8 +34,7 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Overcharge Saber", ret => Me.HealthPercent <= 85),
 					Spell.Buff("Deflection", ret => Me.HealthPercent <= 60),
 					Spell.Buff("Force Shroud", ret => Me.HealthPercent <= 50),
-					Spell.Buff("Recklessness", ret => Me.BuffCount("Static Charge") < 1 && Me.InCombat),
-					Spell.Buff("Blackout", ret => Me.ForcePercent <= 40)
+					Spell.Buff("Recklessness", ret => Me.BuffCount("Static Charge") < 1 && Me.InCombat)
 					);
 			}
 		}
@@ -46,8 +44,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Force Speed",
-						ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
+					Spell.Buff("Force Speed",	ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
 
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
@@ -58,6 +55,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Low Slash", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
 
 					//Rotation
+					Spell.Cast("Reaping Strike", ret => Me.HasBuff("Stealth")),
 					Spell.Cast("Discharge", ret => Me.BuffCount("Static Charge") == 3),
 					Spell.Cast("Ball Lightning", ret => Me.BuffCount("Induction") == 2 && Me.Level >= 57),
 					Spell.Cast("Shock", ret => Me.BuffCount("Induction") == 2 && Me.Level < 57),
