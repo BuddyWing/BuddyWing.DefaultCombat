@@ -53,7 +53,6 @@ namespace DefaultCombat.Routines
 						new PrioritySelector(
 							Spell.Cast("Heat Blast", ret => Me.BuffCount("Heat Screen") == 3),
 							Spell.Cast("Firestorm", ret => Me.HasBuff("Flame Engine") && Me.CurrentTarget.Distance <= 1f && Me.Level >= 57),
-							Spell.Cast("Searing Wave", ret => Me.HasBuff("Flame Engine") && Me.CurrentTarget.Distance <= 1f && Me.Level < 57),
 							Spell.Cast("Flame Burst", ret => Me.HasBuff("Flame Surge")),
 							Spell.Cast("Rapid Shots")
 							)),
@@ -66,7 +65,6 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Rocket Punch"),
 					Spell.Cast("Rail Shot"),
 					Spell.Cast("Firestorm", ret => Me.HasBuff("Flame Engine") && Me.CurrentTarget.Distance <= 1f && Me.Level >= 57),
-					Spell.Cast("Searing Wave", ret => Me.HasBuff("Flame Engine") && Me.CurrentTarget.Distance <= 1f && Me.Level < 57),
 					Spell.Cast("Flame Burst")
 					);
 			}
@@ -85,7 +83,6 @@ namespace DefaultCombat.Routines
 						new PrioritySelector(
 							Spell.Cast("Shatter Slug"),
 							Spell.Cast("Firestorm", ret => Me.Level >= 57),
-							Spell.Cast("Searing Wave", ret => Me.Level < 57),
 							Spell.Cast("Flame Sweep")
 							)));
 			}
