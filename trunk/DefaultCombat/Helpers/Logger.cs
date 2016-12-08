@@ -3,11 +3,14 @@
 
 using System.Windows.Media;
 using Buddy.Common;
+using log4net;
 
 namespace DefaultCombat
 {
 	public static class Logger
 	{
+	    private static readonly ILog _log = Log.Get();
+
 		public static void Write(string message)
 		{
 			Write(Colors.Green, message);
@@ -20,7 +23,7 @@ namespace DefaultCombat
 
 		public static void Write(Color clr, string message, params object[] args)
 		{
-			Logging.Write(clr, "[DefaultCombat] " + message, args);
+            _log.Info($"[DefaultCombat] {string.Format(message, args)}");
 		}
 	}
 }
