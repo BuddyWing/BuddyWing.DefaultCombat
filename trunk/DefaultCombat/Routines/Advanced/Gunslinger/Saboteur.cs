@@ -61,7 +61,7 @@ namespace DefaultCombat.Routines
 
 					//Rotation
 					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
-					Spell.Cast("Sabotage Charge"),
+					Spell.Cast("Explosive Charge"),
 					Spell.DoTGround("Incendiary Grenade", 9000),
 					Spell.Cast("Speed Shot"),
 					Spell.DoT("Shock Charge", "Shock Charge"),
@@ -69,7 +69,8 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Thermal Grenade", ret => Me.HasBuff("Seize the Moment")),
 					Spell.CastOnGround("XS Freighter Flyby", ret => Me.EnergyPercent > 75),
 					Spell.DoT("Vital Shot", "Vital Shot"),
-					Spell.Cast("Quickdraw", ret => Me.CurrentTarget.HealthPercent <= 30)
+					Spell.Cast("Quickdraw", ret => Me.CurrentTarget.HealthPercent <= 30),
+					Spell.Cast("Maim")
 					);
 			}
 		}

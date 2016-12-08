@@ -122,22 +122,11 @@ namespace DefaultCombat.Routines
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new PrioritySelector(
-						Spell.Cast("Corrosive Grenade",
-							ret =>
-								!Me.CurrentTarget.HasDebuff("Corrosive Grenade") &&
-								!Me.IsStealthed)
-						,
-						Spell.Cast("Fragmentation Grenade",
-							ret =>
-								Me.CurrentTarget.HasDebuff("Corrosive Grenade") &&
-								!Me.IsStealthed)
-						,
-						Spell.Cast("Carbine Burst",
-							ret =>
-								Me.CurrentTarget.HasDebuff("Corrosive Grenade") &&
-								!Me.IsStealthed)
-						)
-					);
+						Spell.Cast("Corrosive Grenade",	ret => !Me.CurrentTarget.HasDebuff("Corrosive Grenade") && !Me.IsStealthed),
+						Spell.Cast("Fragmentation Grenade",	ret =>	Me.CurrentTarget.HasDebuff("Corrosive Grenade") && !Me.IsStealthed),
+						Spell.Cast("Noxious Knives"),
+						Spell.Cast("Toxic Haze", ret => Me.HasBuff("Tactical Advantage"))
+						));
 			}
 		}
 	}

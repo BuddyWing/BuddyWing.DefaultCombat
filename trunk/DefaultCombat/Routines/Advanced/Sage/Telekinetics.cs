@@ -55,7 +55,8 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Telekinetic Wave", ret => Me.HasBuff("Tidal Force")),
 					Spell.Cast("Telekinetic Burst", ret => Me.Level >= 57),
 					Spell.Cast("Disturbance", ret => Me.Level < 57),
-					Spell.Cast("Project")
+					Spell.Cast("Project"),
+					Spell.Cast("Telekinetic Throw")
 					);
 			}
 		}

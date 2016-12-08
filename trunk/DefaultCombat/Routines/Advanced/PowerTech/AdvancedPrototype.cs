@@ -87,7 +87,8 @@ namespace DefaultCombat.Routines
 					new Decorator(ret => Targeting.ShouldPbaoe,
 						new PrioritySelector(
 							Spell.Cast("Searing Wave"),
-							Spell.Cast("Flame Sweep"))
+							Spell.Cast("Flame Sweep"),
+							Spell.Cast("Shatter Slug"))
 						));
 			}
 		}

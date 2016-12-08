@@ -80,7 +80,9 @@ namespace DefaultCombat.Routines
 					Spell.CastOnGround("Orbital Strike"),
 					Spell.DoT("Corrosive Dart", "Corrosive Dart"),
 					Spell.Cast("Fragmentation Grenade"),
-					Spell.Cast("Rifle Shot")
+					Spell.Cast("Rifle Shot"),
+					Spell.Cast("Snipe"),
+					Spell.Cast("Maim")
 					);
 			}
 		}

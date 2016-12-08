@@ -72,8 +72,9 @@ namespace DefaultCombat.Routines
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new PrioritySelector(
 						Spell.Cast("Thermal Grenade"),
-						Spell.Cast("Blaster Volley", ret => Me.HasBuff("Upper Hand") && Me.CurrentTarget.Distance <= 10f))
-					);
+						Spell.Cast("Bushwhack", ret => !Me.HasBuff("Upper Hand")),
+					  Spell.Cast("Lacerating Blast")
+					));
 			}
 		}
 	}

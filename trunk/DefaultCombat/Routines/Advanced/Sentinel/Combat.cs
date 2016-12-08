@@ -19,7 +19,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Ataru Form"),
 					Spell.Buff("Force Might")
 					);
 			}
