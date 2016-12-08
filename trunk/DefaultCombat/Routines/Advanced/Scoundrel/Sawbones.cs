@@ -55,18 +55,6 @@ namespace DefaultCombat.Routines
 			}
 		}
 		
-		public override Composite AreaOfEffect
-		{
-			get
-			{
-				return new Decorator(ret => Targeting.ShouldAoe,
-					new PrioritySelector(
-					Spell.Cast("Bushwhack", ret => !Me.HasBuff("Upper Hand")),
-					Spell.Cast("Lacerating Blast")
-						));
-			}
-		}
-
 		//Healing 
 		public override Composite AreaOfEffect
 		{
