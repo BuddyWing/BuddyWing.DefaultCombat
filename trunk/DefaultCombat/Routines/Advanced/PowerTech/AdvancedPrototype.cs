@@ -21,7 +21,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("High Energy Gas Cylinder"),
 					Spell.Buff("Hunter's Boon")
 					);
 			}
@@ -83,12 +82,11 @@ namespace DefaultCombat.Routines
 				return new PrioritySelector(
 					new Decorator(ret => Targeting.ShouldAoe,
 						new PrioritySelector(
-							Spell.CastOnGround("Death from Above"),
-							Spell.Cast("Explosive Dart", ret => Me.CurrentTarget.HasDebuff("Bleeding (Retractable Blade)"))
+							Spell.CastOnGround("Deadly Onslaught")
 							)),
 					new Decorator(ret => Targeting.ShouldPbaoe,
 						new PrioritySelector(
-							Spell.Cast("Flame Thrower"),
+							Spell.Cast("Searing Wave"),
 							Spell.Cast("Flame Sweep"))
 						));
 			}
