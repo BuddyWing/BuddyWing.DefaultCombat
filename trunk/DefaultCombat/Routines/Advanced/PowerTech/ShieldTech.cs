@@ -52,18 +52,19 @@ namespace DefaultCombat.Routines
 						new PrioritySelector(
 							Spell.Cast("Heat Blast", ret => Me.BuffCount("Heat Screen") == 3),
 							Spell.Cast("Firestorm", ret => Me.HasBuff("Flame Engine") && Me.CurrentTarget.Distance <= 1f && Me.Level >= 57),
-							Spell.Cast("Searing Wave", ret => Me.HasBuff("Flame Engine") && Me.CurrentTarget.Distance <= 1f && Me.Level < 57),
 							Spell.Cast("Flame Burst", ret => Me.HasBuff("Flame Surge")),
-							Spell.Cast("Rapid Shots"))),
-					    Spell.Cast("Quell",	ret => Me.CurrentTarget.IsCasting && Me.CurrentTarget.Distance <= Distance.Melee && !DefaultCombat.MovementDisabled),
-					    Spell.CastOnGround("Oil Slick", ret => Me.CurrentTarget.BossOrGreater() && Me.CurrentTarget.Distance <= 0.8f),
-					    Spell.Cast("Shoulder Cannon", ret => Me.HasBuff("Shoulder Cannon") && Me.CurrentTarget.BossOrGreater()),
-					    Spell.Cast("Heat Blast", ret => Me.BuffCount("Heat Screen") == 3),
-					    Spell.Cast("Rocket Punch"),
-					    Spell.Cast("Rail Shot"),
-					    Spell.Cast("Firestorm", ret => Me.HasBuff("Flame Engine") && Me.CurrentTarget.Distance <= 1f && Me.Level >= 57),
-					    Spell.Cast("Searing Wave", ret => Me.HasBuff("Flame Engine") && Me.CurrentTarget.Distance <= 1f && Me.Level < 57),
-					    Spell.Cast("Flame Burst")
+							Spell.Cast("Rapid Shots")
+							)),
+					Spell.Cast("Quell",
+						ret =>
+							Me.CurrentTarget.IsCasting && Me.CurrentTarget.Distance <= Distance.Melee && !DefaultCombat.MovementDisabled),
+							Spell.CastOnGround("Oil Slick", ret => Me.CurrentTarget.BossOrGreater() && Me.CurrentTarget.Distance <= 0.8f),
+							Spell.Cast("Shoulder Cannon", ret => Me.HasBuff("Shoulder Cannon") && Me.CurrentTarget.BossOrGreater()),
+							Spell.Cast("Heat Blast", ret => Me.BuffCount("Heat Screen") == 3),
+							Spell.Cast("Rocket Punch"),
+							Spell.Cast("Rail Shot"),
+							Spell.Cast("Firestorm", ret => Me.HasBuff("Flame Engine") && Me.CurrentTarget.Distance <= 1f && Me.Level >= 57),
+							Spell.Cast("Flame Burst")
 					);
 			}
 		}
@@ -79,10 +80,15 @@ namespace DefaultCombat.Routines
 							)),
 					new Decorator(ret => Targeting.ShouldPbaoe,
 						new PrioritySelector(
+							Spell.Cast("Shatter Slug"),
 							Spell.Cast("Firestorm", ret => Me.Level >= 57),
+<<<<<<< HEAD
 							Spell.Cast("Searing Wave", ret => Me.Level < 57),
 							Spell.Cast("Flame Sweep"),
 							Spell.Cast("Shatter Slug")
+=======
+							Spell.Cast("Flame Sweep")
+>>>>>>> ba988afdb179c05dc00f3cc69ff45e38b98a2a22
 							)));
 			}
 		}

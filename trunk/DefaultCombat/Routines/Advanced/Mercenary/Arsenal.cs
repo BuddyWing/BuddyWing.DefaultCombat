@@ -34,8 +34,7 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Supercharged Gas", ret => Me.BuffCount("Supercharge") == 10),
 					Spell.Buff("Energy Shield", ret => Me.HealthPercent <= 70),
 					Spell.Buff("Kolto Overload", ret => Me.HealthPercent <= 30),
-					Spell.Cast("Responsive Safeguards", ret => Me.HealthPercent <= 20)
-					);
+					Spell.Buff("Responsive Safeguards", ret => Me.HealthPercent <= 50));
 			}
 		}
 

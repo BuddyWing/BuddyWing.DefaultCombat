@@ -89,8 +89,7 @@ namespace DefaultCombat.Routines
 						new PrioritySelector(
 							Spell.DoT("Scorch", "Scorch"),
 							Spell.Cast("Searing Wave"),
-							Spell.Cast("Flame Sweep"),
-							Spell.Cast("Shatter Slug")
+							Spell.Cast("Flame Sweep")
 							)));
 			}
 		}
