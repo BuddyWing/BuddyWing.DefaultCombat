@@ -51,8 +51,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Mind Crush", ret => Me.BuffCount("Presence of Mind") == 4 && Me.Level < 57),
 					Spell.DoT("Weaken Mind", "Weaken Mind"),
 					Spell.DoT("Sever Force", "Sever Force"),
-					Spell.CastOnGround("Force in Balance",
-						ret => Me.CurrentTarget.HasDebuff("Weaken Mind") && Me.CurrentTarget.HasDebuff("Sever Force")),
+					Spell.CastOnGround("Force in Balance", ret => Me.CurrentTarget.HasDebuff("Weaken Mind") && Me.CurrentTarget.HasDebuff("Sever Force")),
 					Spell.Cast("Force Serenity", ret => Me.CurrentTarget.HasDebuff("Weaken Mind")),
 					Spell.Cast("Disturbance", ret => Me.BuffCount("Presence of Mind") == 4),
 					Spell.Cast("Telekinetic Throw", ret => Me.BuffCount("Presence of Mind") < 4)
@@ -68,8 +67,7 @@ namespace DefaultCombat.Routines
 					new PrioritySelector(
 						Spell.DoT("Weaken Mind", "Weaken Mind"),
 						Spell.DoT("Sever Force", "Sever Force"),
-						Spell.CastOnGround("Force in Balance",
-							ret => Me.CurrentTarget.HasDebuff("Weaken Mind") && Me.CurrentTarget.HasDebuff("Sever Force")),
+						Spell.CastOnGround("Force in Balance", ret => Me.CurrentTarget.HasDebuff("Weaken Mind") && Me.CurrentTarget.HasDebuff("Sever Force")),
 						Spell.CastOnGround("Forcequake", ret => Me.CurrentTarget.HasDebuff("Overwhelmed (Mental)"))
 						));
 			}

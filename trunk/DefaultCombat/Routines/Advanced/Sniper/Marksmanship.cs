@@ -64,6 +64,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Ambush", ret => Me.BuffCount("Zeroing Shots") == 2),
 					Spell.Cast("Takedown", ret => Me.CurrentTarget.HealthPercent <= 30),
 					Spell.Cast("Snipe")
+					Spell.Cast("Maim"),
 					);
 			}
 		}

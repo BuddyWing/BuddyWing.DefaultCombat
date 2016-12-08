@@ -112,8 +112,9 @@ namespace DefaultCombat.Routines
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new PrioritySelector(
 						Spell.Cast("Fragmentation Grenade"),
-						Spell.Cast("Carbine Burst"))
-					);
+						Spell.Cast("Noxious Knives"),
+						Spell.Cast("Toxic Haze", ret => Me.HasBuff("Tactical Advantage"))
+					));
 			}
 		}
 	}

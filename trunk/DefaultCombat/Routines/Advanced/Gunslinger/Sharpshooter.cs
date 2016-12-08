@@ -65,7 +65,8 @@ namespace DefaultCombat.Routines
 					Spell.DoT("Vital Shot", "Vital Shot"),
 					Spell.Cast("Aimed Shot", ret => Me.BuffCount("Charged Aim") == 2),
 					Spell.Cast("Quickdraw", ret => Me.CurrentTarget.HealthPercent <= 30),
-					Spell.Cast("Charged Burst")
+					Spell.Cast("Charged Burst"),
+					Spell.Cast("Maim")
 					);
 			}
 		}

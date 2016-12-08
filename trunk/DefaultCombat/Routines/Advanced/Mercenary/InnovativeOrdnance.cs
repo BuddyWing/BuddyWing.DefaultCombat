@@ -19,7 +19,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Combustible Gas Cylinder"),
 					Spell.Buff("Hunter's Boon")
 					);
 			}
@@ -33,7 +32,8 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Determination", ret => Me.IsStunned),
 					Spell.Buff("Vent Heat", ret => Me.ResourcePercent() >= 50),
 					Spell.Buff("Energy Shield", ret => Me.HealthPercent <= 50),
-					Spell.Buff("Kolto Overload", ret => Me.HealthPercent <= 30)
+					Spell.Buff("Kolto Overload", ret => Me.HealthPercent <= 30),
+					Spell.Cast("Responsive Safeguards", ret => Me.HealthPercent <= 20)
 					);
 			}
 		}

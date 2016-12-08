@@ -75,10 +75,8 @@ namespace DefaultCombat.Routines
 					Spell.HoT("Force Armor", 90, ret => HealTarget != null && !HealTarget.HasDebuff("Force-imbalance")),
 
 					//Buff Tank 
-					Spell.HoT("Force Armor", onUnit => Tank, 100,
-						ret => Tank != null && Tank.InCombat && !Tank.HasDebuff("Force-imbalance")),
-					Spell.Heal("Wandering Mend", onUnit => Tank, 100,
-						ret => Tank != null && Tank.InCombat && Me.BuffCount("Wandering Mend Charges") <= 1),
+					Spell.HoT("Force Armor", onUnit => Tank, 100,	ret => Tank != null && Tank.InCombat && !Tank.HasDebuff("Force-imbalance")),
+					Spell.Heal("Wandering Mend", onUnit => Tank, 100,	ret => Tank != null && Tank.InCombat && Me.BuffCount("Wandering Mend Charges") <= 1),
 
 					//Use Force Bending 
 					new Decorator(ret => Me.HasBuff("Conveyance"),

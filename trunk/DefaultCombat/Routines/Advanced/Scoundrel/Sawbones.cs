@@ -49,10 +49,21 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Back Blast", ret => Me.IsBehind(Me.CurrentTarget)),
 					Spell.Cast("Blaster Whip"),
 					Spell.Cast("Vital Shot", ret => !Me.CurrentTarget.HasDebuff("Vital Shot")),
-					Spell.Cast("Charged Burst", ret => Me.EnergyPercent >= 70),
 					Spell.Cast("Quick Shot", ret => Me.EnergyPercent >= 70),
 					Spell.Cast("Flurry of Bolts")
 					);
+			}
+		}
+		
+		public override Composite AreaOfEffect
+		{
+			get
+			{
+				return new Decorator(ret => Targeting.ShouldAoe,
+					new PrioritySelector(
+					Spell.Cast("Bushwhack", ret => !Me.HasBuff("Upper Hand")),
+					Spell.Cast("Lacerating Blast")
+						));
 			}
 		}
 
@@ -66,8 +77,7 @@ namespace DefaultCombat.Routines
 					Spell.Heal("Kolto Cloud", on => Tank, 80, ret => Tank != null && Targeting.ShouldAoeHeal),
 					Spell.Heal("Emergency Medpac", 90, ret => emergencyMedpac()),
 					Spell.Heal("Slow-release Medpac", on => Tank, 100, ret => Tank != null && tankSlowMedpac()),
-					Spell.Heal("Kolto Pack", 80,
-						ret => Me.BuffCount("Upper Hand") >= 2 && Me.EnergyPercent >= 60 && !HealTarget.HasMyBuff("Kolto Pack")),
+					Spell.Heal("Kolto Pack", 80, ret => Me.BuffCount("Upper Hand") >= 2 && Me.EnergyPercent >= 60 && !HealTarget.HasMyBuff("Kolto Pack")),
 					Spell.Heal("Underworld Medicine", 80),
 					Spell.Cleanse("Triage"),
 					Spell.Heal("Slow-release Medpac", 90, ret => targetSlowMedpac()),

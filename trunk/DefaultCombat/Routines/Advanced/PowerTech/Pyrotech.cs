@@ -21,7 +21,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Combustible Gas Cylinder"),
 					Spell.Buff("Hunter's Boon")
 					);
 			}
@@ -63,7 +62,7 @@ namespace DefaultCombat.Routines
 					//Rotation
 					Spell.Cast("Shoulder Cannon", ret => Me.HasBuff("Shoulder Cannon") && Me.CurrentTarget.BossOrGreater()),
 					Spell.Cast("Quell", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
-					Spell.Cast("Flame Thrower", ret => Me.BuffCount("Superheated Flame Thrower") == 2),
+					Spell.Cast("Searing Wave", ret => Me.BuffCount("Superheated Flame Thrower") == 2),
 					Spell.DoT("Scorch", "Scorch"),
 					Spell.DoT("Incendiary Missile", "Burning (Incendiary Missile)"),
 					Spell.Cast("Rail Shot", ret => Me.HasBuff("Charged Gauntlets")),
@@ -84,14 +83,14 @@ namespace DefaultCombat.Routines
 					new Decorator(ret => Targeting.ShouldAoe,
 						new PrioritySelector(
 							Spell.DoT("Scorch", "Scorch"),
-							Spell.CastOnGround("Death from Above"),
-							Spell.Cast("Explosive Dart")
+							Spell.CastOnGround("Deadly Onslaught")
 							)),
 					new Decorator(ret => Targeting.ShouldPbaoe,
 						new PrioritySelector(
 							Spell.DoT("Scorch", "Scorch"),
-							Spell.Cast("Flame Thrower"),
-							Spell.Cast("Flame Sweep")
+							Spell.Cast("Searing Wave"),
+							Spell.Cast("Flame Sweep"),
+							Spell.Cast("Shatter Slug")
 							)));
 			}
 		}

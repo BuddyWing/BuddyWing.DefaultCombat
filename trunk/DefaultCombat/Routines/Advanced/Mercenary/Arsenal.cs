@@ -19,7 +19,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("High Velocity Gas Cylinder"),
 					Spell.Buff("Hunter's Boon")
 					);
 			}
@@ -34,7 +33,8 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Vent Heat", ret => Me.ResourcePercent() >= 50),
 					Spell.Buff("Supercharged Gas", ret => Me.BuffCount("Supercharge") == 10),
 					Spell.Buff("Energy Shield", ret => Me.HealthPercent <= 70),
-					Spell.Buff("Kolto Overload", ret => Me.HealthPercent <= 30)
+					Spell.Buff("Kolto Overload", ret => Me.HealthPercent <= 30),
+					Spell.Cast("Responsive Safeguards", ret => Me.HealthPercent <= 20)
 					);
 			}
 		}
@@ -68,10 +68,10 @@ namespace DefaultCombat.Routines
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new PrioritySelector(
 						Spell.Buff("Thermal Sensor Override"),
+						Spell.Cast("Explosive Dart"),
 						Spell.Buff("Power Surge"),
 						Spell.CastOnGround("Death from Above"),
 						Spell.Cast("Fusion Missile", ret => Me.ResourcePercent() <= 10 && Me.HasBuff("Power Surge")),
-						Spell.Cast("Flame Thrower", ret => Me.CurrentTarget.Distance <= 1f),
 						Spell.CastOnGround("Sweeping Blasters", ret => Me.ResourcePercent() <= 10))
 					);
 			}
