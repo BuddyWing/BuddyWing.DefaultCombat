@@ -82,13 +82,7 @@ namespace DefaultCombat.Routines
 						new PrioritySelector(
 							Spell.Cast("Shatter Slug"),
 							Spell.Cast("Firestorm", ret => Me.Level >= 57),
-<<<<<<< HEAD
-							Spell.Cast("Searing Wave", ret => Me.Level < 57),
-							Spell.Cast("Flame Sweep"),
-							Spell.Cast("Shatter Slug")
-=======
 							Spell.Cast("Flame Sweep")
->>>>>>> ba988afdb179c05dc00f3cc69ff45e38b98a2a22
 							)));
 			}
 		}
