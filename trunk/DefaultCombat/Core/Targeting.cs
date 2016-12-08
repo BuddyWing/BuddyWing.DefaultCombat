@@ -43,8 +43,9 @@ namespace DefaultCombat.Core
 		//Counts
 		public static int AoeHealCount;
 		public static int AoeDpsCount;
-		public static int AoePeanutButterCount; // ?????
-	    public static bool ShouldAoeHeal;
+		public static int AoePeanutButterCount;
+		private static int _aoepbCountNeeded = 3;
+		public static bool ShouldAoeHeal;
 		public static bool ShouldAoe;
 		public static bool ShouldPbaoe;
 		public static Vector3 AoeHealPoint = Vector3.Zero;
