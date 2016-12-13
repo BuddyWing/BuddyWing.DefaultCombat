@@ -34,4 +34,5 @@ Notable contributors up until this point include:
 * Ama (jfitzpat) for the initial write up and tons of work
 * Alltrueist for keeping the rotations updated
 * Wired203 for massive functionality updates
-* Logandros for tons of updates for 5.0
+* Logandros for his help updating the routine to 5.0
+* Cryogenesis for his help updating the routine for 5.0
