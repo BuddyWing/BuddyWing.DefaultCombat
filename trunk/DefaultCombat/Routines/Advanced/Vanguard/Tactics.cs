@@ -29,6 +29,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
+					Spell.Buff("Heroic Moment", ret => Me.CurrentTarget.BossOrGreater()),
 					Spell.Buff("Tenacity"),
 					Spell.Buff("Recharge Cells", ret => Me.ResourcePercent() <= 50),
 					Spell.Buff("Reactive Shield", ret => Me.HealthPercent <= 60),
@@ -44,9 +45,22 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					//Movement
 					Spell.Cast("Storm", ret => Me.CurrentTarget.Distance >= 1f && !DefaultCombat.MovementDisabled),
+					
+					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
+					
+					//Legacy Heroic Moment Abilities
+					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					
+					//Rotation
 					new Decorator(ret => Me.ResourcePercent() > 40,
 						new PrioritySelector(
 							Spell.Cast("High Impact Bolt", ret => Me.HasBuff("Tactical Accelerator")),
@@ -54,8 +68,7 @@ namespace DefaultCombat.Routines
 							)),
 					Spell.Cast("Riot Strike", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
 					Spell.Cast("Cell Burst", ret => Me.BuffCount("Energy Lode") == 4),
-					Spell.Cast("High Impact Bolt",
-						ret => Me.CurrentTarget.HasDebuff("Bleeding (Gut)") && Me.HasBuff("Tactical Accelerator")),
+					Spell.Cast("High Impact Bolt",	ret => Me.CurrentTarget.HasDebuff("Bleeding (Gut)") && Me.HasBuff("Tactical Accelerator")),
 					Spell.DoT("Gut", "Bleeding (Gut)"),
 					Spell.Cast("Assault Plastique"),
 					Spell.Cast("Stock Strike"),

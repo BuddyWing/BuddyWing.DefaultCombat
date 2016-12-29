@@ -29,6 +29,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
+					Spell.Buff("Heroic Moment", ret => Me.CurrentTarget.BossOrGreater()),
 					Spell.Buff("Determination", ret => Me.IsStunned),
 					Spell.Buff("Vent Heat", ret => Me.ResourcePercent() >= 50),
 					Spell.Buff("Energy Shield", ret => Me.HealthPercent <= 50),
@@ -47,14 +48,20 @@ namespace DefaultCombat.Routines
 					//Movement
 					CombatMovement.CloseDistance(Distance.Ranged),
 					new Decorator(ret => Me.ResourcePercent() > 40,
-						new PrioritySelector(
-							Spell.Cast("Rapid Shots")
-							)),
+					new PrioritySelector(Spell.Cast("Rapid Shots"))),
+							
+					//Legacy Heroic Moment Abilities
+					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
 
 					//Rotation
-					Spell.Cast("Disabling Shot",
-						ret =>
-							Me.CurrentTarget.IsCasting && Me.CurrentTarget.Distance <= Distance.Melee && !DefaultCombat.MovementDisabled),
+					Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting && Me.CurrentTarget.Distance <= Distance.Melee && !DefaultCombat.MovementDisabled),
 					Spell.DoT("Incendiary Missile", "", 12000),
 					Spell.Cast("Thermal Detonator"),
 					Spell.Cast("Electro Net"),
