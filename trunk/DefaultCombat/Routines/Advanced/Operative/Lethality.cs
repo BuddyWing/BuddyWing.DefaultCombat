@@ -21,6 +21,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
+					
 					Spell.Buff("Coordination"),
 					Spell.Cast("Stealth", ret => !Me.InCombat && !Me.HasBuff("Coordination"))
 					);
@@ -32,6 +33,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
+					Spell.Buff("Heroic Moment", ret => Me.CurrentTarget.BossOrGreater()),
 					Spell.Buff("Adrenaline Probe", ret => Me.EnergyPercent <= 45),
 					Spell.Buff("Stim Boost", ret => Me.BuffCount("Tactical Advantage") < 1)
 					//	Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 75)
@@ -49,69 +51,27 @@ namespace DefaultCombat.Routines
 
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
-					Spell.Cast("Lethal Strike",
-						ret =>
-							Me.IsStealthed)
-					,
-					Spell.Cast("Corrosive Dart",
-						ret =>
-							(!Me.CurrentTarget.HasDebuff("Corrosive Dart") || Me.CurrentTarget.DebuffTimeLeft("Corrosive Dart") <= 2) &&
-							!Me.IsStealthed)
-					,
-					Spell.Cast("Corrosive Grenade",
-						ret =>
-							//	Me.HasBuff("Cut Down") && 
-							(!Me.CurrentTarget.HasDebuff("Corrosive Grenade") || Me.CurrentTarget.DebuffTimeLeft("Corrosive Grenade") <= 2) &&
-							!Me.IsStealthed)
-					,
-					Spell.Cast("Corrosive Assault",
-						ret =>
-							Me.HasBuff("Tactical Advantage") &&
-							Me.CurrentTarget.HasDebuff("Corrosive Dart") &&
-							Me.CurrentTarget.HasDebuff("Corrosive Grenade") &&
-							!Me.IsStealthed)
-					,
-					Spell.Cast("Toxic Blast",
-						ret =>
-							Me.BuffCount("Tactical Advantage") < 2 &&
-							Me.CurrentTarget.HasDebuff("Corrosive Dart") &&
-							Me.CurrentTarget.HasDebuff("Corrosive Grenade") &&
-							!Me.IsStealthed)
-					,
-					Spell.Cast("Shiv",
-						ret =>
-							Me.BuffCount("Tactical Advantage") < 2 &&
-							Me.CurrentTarget.HasDebuff("Corrosive Dart") &&
-							Me.CurrentTarget.HasDebuff("Corrosive Grenade") &&
-							!AbilityManager.CanCast("Toxic Blast", Me.CurrentTarget) &&
-							!Me.IsStealthed)
-					,
-					Spell.Cast("Lethal Strike",
-						ret =>
-							Me.CurrentTarget.HasDebuff("Corrosive Dart") &&
-							Me.CurrentTarget.HasDebuff("Corrosive Grenade"))
-					,
-					Spell.Cast("Overload Shot",
-						ret =>
-							Me.EnergyPercent > 85 &&
-							!Me.HasBuff("Tactical Advantage") &&
-							!AbilityManager.CanCast("Shiv", Me.CurrentTarget) &&
-							!AbilityManager.CanCast("Toxic Blast", Me.CurrentTarget) &&
-							!AbilityManager.CanCast("Lethal Strike", Me.CurrentTarget) &&
-							Me.CurrentTarget.HasDebuff("Corrosive Dart") &&
-							Me.CurrentTarget.HasDebuff("Corrosive Grenade") &&
-							!Me.IsStealthed)
-					,
-					Spell.Cast("Rifle Shot",
-						ret =>
-							Me.EnergyPercent < 85 &&
-							!Me.HasBuff("Tactical Advantage") &&
-							!AbilityManager.CanCast("Shiv", Me.CurrentTarget) &&
-							!AbilityManager.CanCast("Toxic Blast", Me.CurrentTarget) &&
-							!AbilityManager.CanCast("Lethal Strike", Me.CurrentTarget) &&
-							Me.CurrentTarget.HasDebuff("Corrosive Dart") &&
-							Me.CurrentTarget.HasDebuff("Corrosive Grenade") &&
-							!Me.IsStealthed)
+					
+					//Legacy Heroic Moment Abilities
+					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					
+					//Rotation
+					Spell.Cast("Lethal Strike",	ret => Me.IsStealthed),
+					Spell.Cast("Corrosive Dart", ret =>	(!Me.CurrentTarget.HasDebuff("Corrosive Dart") || Me.CurrentTarget.DebuffTimeLeft("Corrosive Dart") <= 2) && !Me.IsStealthed),
+					Spell.Cast("Corrosive Grenade",	ret => (!Me.CurrentTarget.HasDebuff("Corrosive Grenade") || Me.CurrentTarget.DebuffTimeLeft("Corrosive Grenade") <= 2) &&	!Me.IsStealthed),
+					Spell.Cast("Corrosive Assault",	ret =>	Me.HasBuff("Tactical Advantage") &&	Me.CurrentTarget.HasDebuff("Corrosive Dart") &&	Me.CurrentTarget.HasDebuff("Corrosive Grenade") && !Me.IsStealthed),
+					Spell.Cast("Toxic Blast",	ret => Me.BuffCount("Tactical Advantage") < 2 && Me.CurrentTarget.HasDebuff("Corrosive Dart") &&	Me.CurrentTarget.HasDebuff("Corrosive Grenade") && !Me.IsStealthed),
+					Spell.Cast("Shiv", ret => 	Me.BuffCount("Tactical Advantage") < 2 && 	Me.CurrentTarget.HasDebuff("Corrosive Dart") &&	Me.CurrentTarget.HasDebuff("Corrosive Grenade") && !AbilityManager.CanCast("Toxic Blast", Me.CurrentTarget) && !Me.IsStealthed),
+					Spell.Cast("Lethal Strike",	ret =>	Me.CurrentTarget.HasDebuff("Corrosive Dart") &&	Me.CurrentTarget.HasDebuff("Corrosive Grenade")),
+					Spell.Cast("Overload Shot",	ret =>	Me.EnergyPercent > 85 && !Me.HasBuff("Tactical Advantage") &&	!AbilityManager.CanCast("Shiv", Me.CurrentTarget) && !AbilityManager.CanCast("Toxic Blast", Me.CurrentTarget) && !AbilityManager.CanCast("Lethal Strike", Me.CurrentTarget) &&	Me.CurrentTarget.HasDebuff("Corrosive Dart") && 	Me.CurrentTarget.HasDebuff("Corrosive Grenade") &&	!Me.IsStealthed),
+					Spell.Cast("Rifle Shot", ret =>	Me.EnergyPercent < 85 && !Me.HasBuff("Tactical Advantage") && !AbilityManager.CanCast("Shiv", Me.CurrentTarget) && !AbilityManager.CanCast("Toxic Blast", Me.CurrentTarget) &&	!AbilityManager.CanCast("Lethal Strike", Me.CurrentTarget) &&	Me.CurrentTarget.HasDebuff("Corrosive Dart") &&	Me.CurrentTarget.HasDebuff("Corrosive Grenade") && !Me.IsStealthed)
 					);
 			}
 		}

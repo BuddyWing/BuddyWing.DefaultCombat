@@ -30,6 +30,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
+					Spell.Buff("Heroic Moment", ret => Me.CurrentTarget.BossOrGreater()),
 					Spell.Buff("Adrenaline Probe", ret => Me.EnergyPercent <= 20),
 					Spell.Buff("Stim Boost", ret => Me.EnergyPercent <= 70 && !Me.HasBuff("Tactical Advantage")),
 					Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 75),
@@ -46,6 +47,18 @@ namespace DefaultCombat.Routines
 				return new PrioritySelector(
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
+					
+					//Legacy Heroic Moment Abilities
+					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					
+					//Rotation
 					Spell.Cast("Shiv", ret => Me.CurrentTarget.Distance <= Distance.Melee),
 					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && Me.CurrentTarget.Distance <= 1f),
 					//Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving),		//do we still have this ability even though take cover was removed

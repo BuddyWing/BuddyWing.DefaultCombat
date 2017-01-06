@@ -29,6 +29,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
+					Spell.Buff("Heroic Moment", ret => Me.CurrentTarget.BossOrGreater()),
 					Spell.Buff("Determination", ret => Me.IsStunned),
 					Spell.Buff("Supercharged Gas", ret => Me.BuffCount("Supercharge") == 30 && Me.ResourcePercent() <= 60 && HealTarget != null && HealTarget.HealthPercent <= 80),
 					Spell.Buff("Vent Heat", ret => Me.ResourcePercent() >= 70),
@@ -46,6 +47,18 @@ namespace DefaultCombat.Routines
 				return new PrioritySelector(
 					//Movement
 					CombatMovement.CloseDistance(Distance.Ranged),
+					
+					//Legacy Heroic Moment Abilities
+					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					
+					//Rotation
 					Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting),
 					Spell.Cast("Unload"),
 					Spell.Cast("Power Shot", ret => Me.ResourceStat >= 70),
@@ -60,6 +73,7 @@ namespace DefaultCombat.Routines
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new PrioritySelector(
+					
 						//BuffLog.Instance.LogTargetBuffs,
 						Spell.Cleanse("Cure"),
 

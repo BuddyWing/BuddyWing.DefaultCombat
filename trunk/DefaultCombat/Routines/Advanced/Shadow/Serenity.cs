@@ -31,6 +31,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
+					Spell.Buff("Heroic Moment", ret => Me.CurrentTarget.BossOrGreater()),
 					Spell.Buff("Force of Will"),
 					Spell.Buff("Battle Readiness", ret => Me.HealthPercent <= 85),
 					Spell.Buff("Deflection", ret => Me.HealthPercent <= 60),
@@ -49,9 +50,19 @@ namespace DefaultCombat.Routines
 
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
+					
+					//Legacy Heroic Moment Abilities
+					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
 
 					//Low Energy
-					Spell.Cast("Mind Crush", ret => Me.ForcePercent < 25 && Me.HasBuff("Force Strike")),
+					Spell.Cast("Squelch", ret => Me.ForcePercent < 25 && Me.HasBuff("Force Strike")),
 					Spell.Cast("Saber Strike", ret => Me.ForcePercent < 25),
 
 					//Rotation
@@ -60,7 +71,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Sever Force", ret => !Me.CurrentTarget.HasDebuff("Sever Force")),
 					Spell.DoT("Force Breach", "Crushed (Force Breach)"),
 					Spell.Cast("Squelch", ret => Me.HasBuff("Force Strike") && Me.Level >= 57),
-					Spell.Cast("Mind Crush", ret => Me.HasBuff("Force Strike") && Me.Level < 57),
+					Spell.Cast("Project", ret => Me.Level < 26),
 					Spell.Cast("Spinning Strike", ret => Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("Crush Spirit")),
 					Spell.Cast("Serenity Strike", ret => Me.HealthPercent <= 70),
 					Spell.Cast("Double Strike"),
