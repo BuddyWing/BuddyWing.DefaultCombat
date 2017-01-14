@@ -32,6 +32,7 @@ namespace DefaultCombat.Routines
 			{
 				return new PrioritySelector(
 					Spell.Buff("Heroic Moment", ret => Me.CurrentTarget.BossOrGreater()),
+					Spell.Buff("Unbreakable Will", ret => Me.IsStunned),
 					Spell.Buff("Force Barrier", ret => Me.HealthPercent <= 20),
 					Spell.Buff("Static Barrier", ret => !Me.HasBuff("Static Barrier") && !Me.HasDebuff("Deionized")),
 					Spell.Buff("Unnatural Preservation", ret => Me.HealthPercent <= 50),
