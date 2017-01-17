@@ -19,8 +19,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Unnatural Might"),
-					Spell.Buff("Shii-Cho Form")
+					Spell.Buff("Unnatural Might")
 					);
 			}
 		}
@@ -35,8 +34,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Cast("Force Charge",
-						ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance > 1f && Me.CurrentTarget.Distance <= 3f),
+					Spell.Cast("Force Charge", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance > 1f && Me.CurrentTarget.Distance <= 3f),
 					CombatMovement.CloseDistance(Distance.Melee),
 					Spell.Cast("Saber Ward", ret => Me.HealthPercent <= 70),
 					Spell.Cast("Ravage"),

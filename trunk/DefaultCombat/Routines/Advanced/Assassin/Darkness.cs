@@ -33,7 +33,7 @@ namespace DefaultCombat.Routines
 				return new PrioritySelector(
 					Spell.Buff("Heroic Moment", ret => Me.CurrentTarget.BossOrGreater()),
 					Spell.Buff("Dark Ward", ret => !Me.HasBuff("Dark Ward")),
-					Spell.Buff("Unbreakable Will"),
+					Spell.Buff("Unbreakable Will", ret => Me.IsStunned),
 					Spell.Buff("Overcharge Saber", ret => Me.HealthPercent <= 85),
 					Spell.Buff("Deflection", ret => Me.HealthPercent <= 60),
 					Spell.Buff("Force Shroud", ret => Me.HealthPercent <= 50),
