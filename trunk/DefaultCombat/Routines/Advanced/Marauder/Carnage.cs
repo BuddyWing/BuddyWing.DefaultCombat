@@ -68,7 +68,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Massacre", ret => !Me.HasBuff("Massacre")),
 					Spell.Cast("Ferocity"),
 					Spell.Cast("Gore"),
-					Spell.Cast("Ravage", ret => Me.HasBuff("Gore")),
+					Spell.Cast("Ravage", ret => Me.HasBuff("Ferocity")),
 					Spell.Cast("Vicious Throw"),
 					Spell.Cast("Force Scream", ret => Me.HasBuff("Execute") && Me.Level < 58),
 					Spell.Cast("Devastating Blast", ret => Me.HasBuff("Execute") && Me.Level > 57),
