@@ -66,7 +66,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Saber Strike", ret => Me.ForcePercent < 25),
 					Spell.Cast("Mind Snap", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
 					Spell.Cast("Force Stun", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
-					Spell.Cast("Telekinetic Throw", ret => Me.BuffCount("Harnessed Shadows") == 3),
+					Spell.Cast("Cascading Debris", ret => Me.BuffCount("Harnessed Shadows") == 3),
 					Spell.Cast("Slow Time"),
 					Spell.Cast("Project", ret => Me.HasBuff("Particle Acceleration")),
 					Spell.Cast("Shadow Strike", ret => Me.HasBuff("Shadow Wrap")),
