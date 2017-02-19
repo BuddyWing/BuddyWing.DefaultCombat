@@ -29,7 +29,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Heroic Moment", ret => Me.CurrentTarget.BossOrGreater()),
+					// Spell.Buff("Heroic Moment", ret => Me.CurrentTarget.BossOrGreater()), == commented out due to BossorGreater detection broken in last few releases of bot
 					Spell.Buff("Rebuke", ret => Me.HealthPercent <= 50),
 					Spell.Buff("Guarded by the Force", ret => Me.HealthPercent <= 10),
 					Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 30)

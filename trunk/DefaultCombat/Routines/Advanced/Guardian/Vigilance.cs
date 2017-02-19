@@ -29,7 +29,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Heroic Moment", ret => Me.CurrentTarget.BossOrGreater()),
+					// Spell.Buff("Heroic Moment", ret => Me.CurrentTarget.BossOrGreater()), == commented out due to BossorGreater detection broken in last few releases of bot
 					Spell.Buff("Resolute", ret => Me.IsStunned),
 					Spell.Buff("Saber Reflect", ret => Me.HealthPercent <= 90),
 					Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 50),
@@ -68,7 +68,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Plasma Brand"),
 					Spell.Cast("Overhead Slash"),
 					Spell.Cast("Blade Storm", ret => Me.BuffCount("Force Rush") == 2),
-					Spell.Cast("Blade Dance"),
+					Spell.Cast("Blade Barrage"),
 					Spell.Cast("Whirling Blade", ret => Me.HasBuff("Keening") || Me.HasBuff("Ardent Advocate") || Me.CurrentTarget.HealthPercent <= 30),
 					Spell.Cast("Sundering Strike", ret => Me.ActionPoints <= 7),
 					Spell.Cast("Slash", ret => Me.ActionPoints >= 9),
