@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2016 Bossland GmbH
+// Copyright (C) 2011-2016 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
@@ -47,7 +47,7 @@ namespace DefaultCombat.Routines
 					CombatMovement.CloseDistance(Distance.Ranged),
 					
 					//Legacy Heroic Moment Abilities
-					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					// Spell.Buff("Heroic Moment", ret => Me.CurrentTarget.BossOrGreater()), == commented out due to BossorGreater detection broken in last few releases of bot
 					Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
 					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),

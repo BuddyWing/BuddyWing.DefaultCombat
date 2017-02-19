@@ -29,7 +29,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Heroic Moment", ret => Me.CurrentTarget.BossOrGreater()),
+					// Spell.Buff("Heroic Moment", ret => Me.CurrentTarget.BossOrGreater()), == commented out due to BossorGreater detection broken in last few releases of bot
 					Spell.Buff("Unleash"),
 					Spell.Buff("Cloak of Pain", ret => Me.HealthPercent <= 90),
 					Spell.Buff("Force Camouflage", ret => Me.HealthPercent <= 70),
@@ -68,7 +68,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Massacre", ret => !Me.HasBuff("Massacre")),
 					Spell.Cast("Ferocity"),
 					Spell.Cast("Gore"),
-					Spell.Cast("Ravage", ret => Me.HasBuff("Gore")),
+					Spell.Cast("Ravage", ret => Me.HasBuff("Ferocity")),
 					Spell.Cast("Vicious Throw"),
 					Spell.Cast("Force Scream", ret => Me.HasBuff("Execute") && Me.Level < 58),
 					Spell.Cast("Devastating Blast", ret => Me.HasBuff("Execute") && Me.Level > 57),

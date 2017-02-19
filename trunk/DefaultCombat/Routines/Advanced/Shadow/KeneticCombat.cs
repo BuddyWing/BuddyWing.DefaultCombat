@@ -19,7 +19,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Heroic Moment", ret => Me.CurrentTarget.BossOrGreater()),
+					// Spell.Buff("Heroic Moment", ret => Me.CurrentTarget.BossOrGreater()), == commented out due to BossorGreater detection broken in last few releases of bot
 					Spell.Buff("Force Valor"),
 					Spell.Cast("Guard", on => Me.Companion,	ret => Me.Companion != null && !Me.Companion.IsDead && !Me.Companion.HasBuff("Guard")),
 					Spell.Buff("Stealth", ret => !Rest.KeepResting() && !DefaultCombat.MovementDisabled)
@@ -66,7 +66,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Saber Strike", ret => Me.ForcePercent < 25),
 					Spell.Cast("Mind Snap", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
 					Spell.Cast("Force Stun", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
-					Spell.Cast("Telekinetic Throw", ret => Me.BuffCount("Harnessed Shadows") == 3),
+					Spell.Cast("Cascading Debris", ret => Me.BuffCount("Harnessed Shadows") == 3),
 					Spell.Cast("Slow Time"),
 					Spell.Cast("Project", ret => Me.HasBuff("Particle Acceleration")),
 					Spell.Cast("Shadow Strike", ret => Me.HasBuff("Shadow Wrap")),

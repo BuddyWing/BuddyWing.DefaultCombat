@@ -31,9 +31,9 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Heroic Moment", ret => Me.CurrentTarget.BossOrGreater()),
-          Spell.Buff("Unbreakable Will", ret => Me.IsStunned),
-          Spell.Buff("Force Barrier", ret => Me.HealthPercent <= 20),
+          // Spell.Buff("Heroic Moment", ret => Me.CurrentTarget.BossOrGreater()), == commented out due to BossorGreater detection broken in last few releases of bot
+					Spell.Buff("Unbreakable Will", ret => Me.IsStunned),
+					Spell.Buff("Force Barrier", ret => Me.HealthPercent <= 20),
 					Spell.Buff("Static Barrier", ret => !Me.HasBuff("Static Barrier") && !Me.HasDebuff("Deionized")),
 					Spell.Buff("Unnatural Preservation", ret => Me.HealthPercent <= 50),
 					Spell.Buff("Polarity Shift", ret => Me.CurrentTarget.BossOrGreater()),

@@ -33,7 +33,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Heroic Moment", ret => Me.CurrentTarget.BossOrGreater()),
+					// Spell.Buff("Heroic Moment", ret => Me.CurrentTarget.BossOrGreater()), == commented out due to BossorGreater detection broken in last few releases of bot
 					Spell.Buff("Adrenaline Probe", ret => Me.EnergyPercent <= 45),
 					Spell.Buff("Stim Boost", ret => Me.BuffCount("Tactical Advantage") < 1)
 					//	Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 75)
