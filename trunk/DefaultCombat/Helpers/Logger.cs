@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2016 Bossland GmbH
+﻿// Copyright (C) 2011-2017 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using System.Windows.Media;

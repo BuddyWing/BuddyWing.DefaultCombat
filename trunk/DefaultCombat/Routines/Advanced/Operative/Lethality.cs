@@ -1,4 +1,4 @@
-// Copyright (C) 2011-2016 Bossland GmbH
+// Copyright (C) 2011-2017 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
@@ -35,9 +35,9 @@ namespace DefaultCombat.Routines
 				return new PrioritySelector(
 					// Spell.Buff("Heroic Moment", ret => Me.CurrentTarget.BossOrGreater()), == commented out due to BossorGreater detection broken in last few releases of bot
 					Spell.Buff("Adrenaline Probe", ret => Me.EnergyPercent <= 45),
-					Spell.Buff("Stim Boost", ret => Me.BuffCount("Tactical Advantage") < 1)
-					//	Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 75)
-					//	Spell.Buff("Evasion", ret => Me.HealthPercent <= 50)
+					Spell.Buff("Stim Boost", ret => Me.BuffCount("Tactical Advantage") < 1),
+					Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 75),
+					Spell.Buff("Evasion", ret => Me.HealthPercent <= 50)
 					);
 			}
 		}
