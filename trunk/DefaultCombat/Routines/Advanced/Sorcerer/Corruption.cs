@@ -29,10 +29,11 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Unbreakable Will", ret => Me.IsStunned),
-					Spell.Buff("Recklessness", ret => Targeting.ShouldAoeHeal),
-					Spell.Buff("Consuming Darkness", ret => NeedForce()),
-					Spell.Buff("Unnatural Preservation", ret => Me.HealthPercent < 50)
+        
+        Spell.Buff("Unbreakable Will", ret => Me.IsStunned),
+        Spell.Buff("Recklessness", ret => Targeting.ShouldAoeHeal),
+        Spell.Buff("Consuming Darkness", ret => NeedForce()),
+        Spell.Buff("Unnatural Preservation", ret => Me.HealthPercent < 50)
 					);
 			}
 		}
