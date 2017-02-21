@@ -29,7 +29,6 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					// Spell.Buff("Heroic Moment", ret => Me.CurrentTarget.BossOrGreater()), == commented out due to BossorGreater detection broken in last few releases of bot
 					Spell.Buff("Force Potency", ret => Targeting.ShouldAoeHeal),
 					Spell.Buff("Mental Alacrity", ret => Targeting.ShouldAoeHeal),
 					Spell.Buff("Vindicate", ret => NeedForce()),
@@ -46,15 +45,14 @@ namespace DefaultCombat.Routines
 					//Movement 
 					CombatMovement.CloseDistance(Distance.Ranged),
 					
-					//Legacy Heroic Moment Abilities
-					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
-					Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
-					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
-					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
-					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
-					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
-					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
-					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
+					//Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
+					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
+					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 3f),
+					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
+					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
+					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment")),
+					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
+					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 					
 					//Rotation
 					Spell.Cast("Mind Snap", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
@@ -74,6 +72,10 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
+				
+					//Legacy Heroic Moment Ability
+					Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 4f), //--will only be active when user initiates Heroic Moment--
+					
 					//Cleanse if needed 
 					Spell.Cleanse("Restoration"),
 
