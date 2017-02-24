@@ -46,7 +46,7 @@ namespace DefaultCombat.Routines
 				return new PrioritySelector(
 					//Movement
 					CombatMovement.CloseDistance(Distance.Ranged),
-					Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving),
+					
 					
 					//Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
 					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
@@ -68,7 +68,6 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Wounding Shots", ret => Me.CurrentTarget.DebuffTimeLeft("Vital Shot") > 3 && Me.CurrentTarget.DebuffTimeLeft("Shrap Bomb") > 3),
 					Spell.Cast("Quickdraw", ret => Me.CurrentTarget.HealthPercent <= 30),
 					Spell.Cast("Speed Shot"),
-					Spell.Cast("Maim"),
 					Spell.Cast("Dirty Blast", ret => Me.Level >= 57),
 					Spell.Cast("Charged Burst", ret => Me.Level < 57)
 					);
@@ -81,11 +80,12 @@ namespace DefaultCombat.Routines
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new PrioritySelector(
+						Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving),
 						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 4f), //--will only be active when user initiates Heroic Moment--
-						Spell.CastOnGround("XS Freighter Flyby"),
+						Spell.CastOnGround("XS Freighter Flyby", ret => Me.IsInCover() && Me.EnergyPercent > 30),
 						Spell.Cast("Thermal Grenade"),
 						Spell.Cast("Shrap Bomb", ret => Me.CurrentTarget.HasDebuff("Vital Shot") && !Me.CurrentTarget.HasDebuff("Shrap Bomb")),
-						Spell.CastOnGround("Sweeping Gunfire", ret => Me.IsInCover() && Me.EnergyPercent > 30)
+						Spell.CastOnGround("Sweeping Gunfire", ret => Me.IsInCover() && Me.EnergyPercent > 10)
 						));
 			}
 		}

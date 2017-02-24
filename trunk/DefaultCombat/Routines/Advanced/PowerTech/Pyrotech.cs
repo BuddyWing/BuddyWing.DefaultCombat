@@ -71,7 +71,7 @@ namespace DefaultCombat.Routines
 					//Rotation
 					Spell.Cast("Shoulder Cannon", ret => Me.HasBuff("Shoulder Cannon") && Me.CurrentTarget.BossOrGreater()),
 					Spell.Cast("Quell", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
-					Spell.Cast("Searing Wave", ret => Me.BuffCount("Superheated Flame Thrower") == 2),
+					Spell.Cast("Searing Wave", ret => Me.BuffCount("Superheated Flamethrower") == 2),
 					Spell.DoT("Scorch", "Scorch"),
 					Spell.DoT("Incendiary Missile", "Burning (Incendiary Missile)"),
 					Spell.Cast("Rail Shot", ret => Me.HasBuff("Charged Gauntlets")),

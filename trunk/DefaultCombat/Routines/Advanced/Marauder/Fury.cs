@@ -31,7 +31,9 @@ namespace DefaultCombat.Routines
 				return new PrioritySelector(
 					Spell.Buff("Cloak of Pain", ret => Me.HealthPercent <= 50),
 					Spell.Buff("Undying Rage", ret => Me.HealthPercent <= 10),
-					Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 30)
+					Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 30),
+					Spell.Buff("Frenzy", ret => Me.BuffCount("Fury") < 5),
+					Spell.Buff("Berserk", ret => Me.BuffCount("Fury") > 29)
 					);
 			}
 		}

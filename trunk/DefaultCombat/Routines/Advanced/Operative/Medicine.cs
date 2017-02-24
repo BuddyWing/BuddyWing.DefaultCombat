@@ -59,9 +59,9 @@ namespace DefaultCombat.Routines
 					//Rotation
 					Spell.Cast("Shiv", ret => Me.CurrentTarget.Distance <= Distance.Melee),
 					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && Me.CurrentTarget.Distance <= 1f),
-					//Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving),		//do we still have this ability even though take cover was removed
+					Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving),
 					Spell.CastOnGround("Orbital Strike", ret => Targeting.ShouldAoe),
-					//Spell.Cast("Explosive Probe", ret => Me.IsInCover()),	//do we still have this ability even though take cover was removed
+					Spell.Cast("Explosive Probe", ret => Me.IsInCover()),
 					Spell.Cast("Hidden Strike", ret => Me.HasBuff("Stealth")),
 					Spell.Cast("Backstab"),
 					Spell.DoT("Corrosive Dart", "", 16000),

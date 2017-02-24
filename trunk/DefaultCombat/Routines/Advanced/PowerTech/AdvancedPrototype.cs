@@ -97,8 +97,8 @@ namespace DefaultCombat.Routines
 							Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 4f), //--will only be active when user initiates Heroic Moment--
 							Spell.Cast("Searing Wave"),
 							Spell.Cast("Flame Sweep"),
-							Spell.Cast("Shatter Slug"))
-						));
+							Spell.Cast("Shatter Slug")
+							)));
 			}
 		}
 	}

@@ -36,7 +36,7 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Unity", ret => Me.HealthPercent <= 30),
 					Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 50),
 					Spell.Buff("Valorous Call", ret => Me.BuffCount("Centering") < 5),
-					Spell.Buff("Zen", ret => Me.CurrentTarget.Distance <= 0.4f)
+					Spell.Buff("Zen", ret => Me.BuffCount("Centering") > 29)
 					);
 			}
 		}
@@ -46,9 +46,8 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Cast("Saber Throw", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 0.5f && Me.CurrentTarget.Distance <= 3f),
 					Spell.Cast("Force Leap", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
-					Spell.Cast("Dual Saber Throw", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
+					Spell.Cast("Twin Saber Throw", ret => Me.CurrentTarget.Distance <= 3f),
 
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
@@ -68,9 +67,9 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Precision", ret => Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Blade Barrage", ret => Me.HasBuff("Precision")),
 					Spell.Cast("Clashing Blast", ret => Me.HasBuff("Opportune Attack") && Me.Level >= 57),
+					Spell.Cast("Lance"),
 					Spell.Cast("Blade Storm", ret => Me.HasBuff("Opportune Attack") && Me.Level < 57),
 					Spell.Cast("Blade Rush"),
-					Spell.Cast("Lance"),
 					Spell.Cast("Slash", ret => Me.ActionPoints >= 7 && Me.Level < 26),
 					Spell.Cast("Zealous Strike", ret => Me.ActionPoints <= 7),
 					Spell.Cast("Strike", ret => Me.ActionPoints <= 10)
@@ -86,6 +85,7 @@ namespace DefaultCombat.Routines
 					new PrioritySelector(
 						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 4f), //--will only be active when user initiates Heroic Moment--
 						Spell.Cast("Force Sweep"),
+						Spell.Cast("Twin Saber Throw", ret => Me.CurrentTarget.Distance <= 3f),
 						Spell.Cast("Cyclone Slash")
 						));
 			}

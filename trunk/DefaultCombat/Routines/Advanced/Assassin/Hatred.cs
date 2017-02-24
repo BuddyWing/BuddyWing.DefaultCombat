@@ -65,7 +65,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Jolt", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
 					Spell.CastOnGround("Death Field"),
 					Spell.Cast("Assassinate", ret => Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("Bloodletting")),
-					Spell.Cast("Eradicate", ret => Me.HasBuff("Raze") && Me.Level >= 57),
+					Spell.Cast("Eradicate", ret => Me.HasBuff("Raze") && Me.Level >= 26),
 					Spell.DoT("Discharge", "Shocked (Discharge)"),
 					Spell.DoT("Creeping Terror", "Creeping Terror"),
 					Spell.Cast("Leeching Strike"),

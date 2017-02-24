@@ -68,7 +68,7 @@ namespace DefaultCombat.Routines
 					Spell.CastOnGround("Force in Balance"),
 					Spell.Cast("Sever Force", ret => !Me.CurrentTarget.HasDebuff("Sever Force")),
 					Spell.DoT("Force Breach", "Crushed (Force Breach)"),
-					Spell.Cast("Squelch", ret => Me.HasBuff("Force Strike") && Me.Level >= 57),
+					Spell.Cast("Squelch", ret => Me.HasBuff("Force Strike") && Me.Level >= 26),
 					Spell.Cast("Project", ret => Me.Level < 26),
 					Spell.Cast("Spinning Strike", ret => Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("Crush Spirit")),
 					Spell.Cast("Serenity Strike", ret => Me.HealthPercent <= 70),
