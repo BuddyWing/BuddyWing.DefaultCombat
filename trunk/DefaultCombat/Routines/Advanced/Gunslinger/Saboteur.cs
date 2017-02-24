@@ -57,8 +57,8 @@ namespace DefaultCombat.Routines
 
 					//Movement
 					CombatMovement.CloseDistance(Distance.Ranged),
-					Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving),
-					
+										
+										
 					//Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
 					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 3f),
@@ -78,8 +78,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Thermal Grenade", ret => Me.HasBuff("Seize the Moment")),
 					Spell.CastOnGround("XS Freighter Flyby", ret => Me.EnergyPercent > 75),
 					Spell.DoT("Vital Shot", "Vital Shot"),
-					Spell.Cast("Quickdraw", ret => Me.CurrentTarget.HealthPercent <= 30),
-					Spell.Cast("Maim")
+					Spell.Cast("Quickdraw", ret => Me.CurrentTarget.HealthPercent <= 30)
 					);
 			}
 		}
@@ -91,9 +90,10 @@ namespace DefaultCombat.Routines
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new PrioritySelector(
+						Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving),
 						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 4f), //--will only be active when user initiates Heroic Moment--
 						Spell.CastOnGround("XS Freighter Flyby", ret => Me.IsInCover() && Me.EnergyPercent > 30),
-						Spell.CastOnGround("Sweeping Gunfire", ret => Me.IsInCover() && Me.EnergyPercent > 30),
+						Spell.CastOnGround("Sweeping Gunfire", ret => Me.IsInCover() && Me.EnergyPercent > 10),
 						Spell.Cast("Incendiary Grenade"),
 						Spell.Cast("Thermal Grenade")
 						));

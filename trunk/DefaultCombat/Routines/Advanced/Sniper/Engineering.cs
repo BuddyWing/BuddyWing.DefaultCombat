@@ -46,7 +46,7 @@ namespace DefaultCombat.Routines
 				return new PrioritySelector(
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
-					Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving),
+					
 					
 					//Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
 					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
@@ -91,8 +91,7 @@ namespace DefaultCombat.Routines
 					Spell.DoT("Corrosive Dart", "Corrosive Dart"),
 					Spell.Cast("Fragmentation Grenade"),
 					Spell.Cast("Rifle Shot"),
-					Spell.Cast("Snipe"),
-					Spell.Cast("Maim")
+					Spell.Cast("Snipe")
 					);
 			}
 		}
@@ -103,10 +102,11 @@ namespace DefaultCombat.Routines
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new PrioritySelector(
+						Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving),
 						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 4f), //--will only be active when user initiates Heroic Moment--
-						Spell.CastOnGround("Orbital Strike"),
+						Spell.CastOnGround("Orbital Strike", ret => Me.IsInCover() && Me.EnergyPercent > 30),
 						Spell.DoTGround("Plasma Probe", 9000),
-						Spell.Cast("Suppressive Fire")
+						Spell.Cast("Suppressive Fire", ret => Me.IsInCover() && Me.EnergyPercent > 10)
 						));
 			}
 		}

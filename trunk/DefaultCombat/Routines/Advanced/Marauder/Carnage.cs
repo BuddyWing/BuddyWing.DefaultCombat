@@ -35,7 +35,7 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 50),
 					Spell.Buff("Undying Rage", ret => Me.HealthPercent <= 10),
 					Spell.Buff("Frenzy", ret => Me.BuffCount("Fury") < 5),
-					Spell.Buff("Berserk")
+					Spell.Buff("Berserk", ret => Me.BuffCount("Fury") > 29)
 					);
 			}
 		}

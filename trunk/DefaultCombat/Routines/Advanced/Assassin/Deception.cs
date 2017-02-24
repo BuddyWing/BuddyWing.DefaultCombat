@@ -64,12 +64,12 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 
 					//Rotation
-					Spell.Cast("Reaping Strike", ret => Me.HasBuff("Stealth")),
 					Spell.Cast("Discharge", ret => Me.BuffCount("Static Charge") == 3),
 					Spell.Cast("Ball Lightning", ret => Me.BuffCount("Induction") == 2 && Me.Level >= 57),
 					Spell.Cast("Shock", ret => Me.BuffCount("Induction") == 2 && Me.Level < 57),
 					Spell.Cast("Maul", ret => Me.HasBuff("Duplicity") && Me.IsBehind(Me.CurrentTarget)),
 					Spell.Cast("Assassinate", ret => Me.CurrentTarget.HealthPercent <= 30),
+					Spell.Cast("Reaping Strike", ret => Me.BuffCount("Discharge") < 3),
 					Spell.Cast("Voltaic Slash", ret => Me.Level >= 26),
 					Spell.Cast("Thrash", ret => Me.Level < 26),
 					Spell.Cast("Saber Strike", ret => Me.ForcePercent <= 25),

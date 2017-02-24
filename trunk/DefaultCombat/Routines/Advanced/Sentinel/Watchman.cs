@@ -31,6 +31,7 @@ namespace DefaultCombat.Routines
 				return new PrioritySelector(
 					Spell.Buff("Rebuke", ret => Me.HealthPercent <= 50),
 					Spell.Buff("Guarded by the Force", ret => Me.HealthPercent <= 10),
+					Spell.Buff("Zen", ret => Me.BuffCount("Centering") > 29),
 					Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 30)
 					);
 			}
@@ -41,6 +42,9 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
+					Spell.Cast("Force Leap", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
+					Spell.Cast("Twin Saber Throw", ret => Me.CurrentTarget.Distance <= 3f),
+					
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
 					
@@ -55,7 +59,6 @@ namespace DefaultCombat.Routines
 
 					//Rotation
 					Spell.Cast("Force Kick", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
-					Spell.Buff("Zen", ret => Me.BuffCount("Centering") > 29),
 					Spell.Buff("Valorous Call", ret => Me.BuffCount("Centering") < 5),
 					Spell.Buff("Overload Saber", ret => !Me.HasBuff("Overload Saber")),
 					Spell.DoT("Cauterize", "Burning (Cauterize)"),
@@ -78,7 +81,7 @@ namespace DefaultCombat.Routines
 					new PrioritySelector(
 						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 4f), //--will only be active when user initiates Heroic Moment--
 						Spell.Cast("Force Sweep"),
-						Spell.Cast("Twin Saber Throw"),
+						Spell.Cast("Twin Saber Throw", ret => Me.CurrentTarget.Distance <= 3f),
 						Spell.Cast("Cyclone Slash")
 						));
 			}

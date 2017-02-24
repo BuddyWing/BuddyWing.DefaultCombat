@@ -32,7 +32,7 @@ namespace DefaultCombat.Routines
 			{
 				return new PrioritySelector(
 				  Spell.Buff("Escape"),
-					Spell.Buff("Burst Volley"),
+					Spell.Buff("Burst Volley", ret => !Buddy.CommonBot.AbilityManager.CanCast("Penetrating Rounds", Me.CurrentTarget)),
 					Spell.Buff("Defense Screen", ret => Me.HealthPercent <= 70),
 					Spell.Buff("Dodge", ret => Me.HealthPercent <= 30),
 					Spell.Buff("Cool Head", ret => Me.EnergyPercent <= 50),
@@ -50,10 +50,10 @@ namespace DefaultCombat.Routines
 				return new PrioritySelector(
 					//Movement
 					CombatMovement.CloseDistance(Distance.Ranged),
-					Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving),
-
+					
+					
 					//Low Energy
-					new Decorator(ret => Me.EnergyPercent < 60,
+					new Decorator(ret => Me.EnergyPercent < 60 && !Buddy.CommonBot.AbilityManager.CanCast("Cool Head", Me),
 						new PrioritySelector(
 							Spell.Cast("Flurry of Bolts")
 							)),
@@ -71,13 +71,15 @@ namespace DefaultCombat.Routines
 
 					//Rotation
 					Spell.Cast("Trickshot"),
+					Spell.Cast("Quickdraw", ret => Me.CurrentTarget.HealthPercent <= 30),
 					Spell.Cast("Penetrating Rounds", ret => Me.Level >= 26),
 					Spell.Cast("Speed Shot", ret => Me.Level < 26),
-					Spell.DoT("Vital Shot", "Vital Shot"),
-					Spell.Cast("Aimed Shot", ret => Me.BuffCount("Charged Aim") == 2),
-					Spell.Cast("Quickdraw", ret => Me.CurrentTarget.HealthPercent <= 30),
-					Spell.Cast("Charged Burst"),
-					Spell.Cast("Maim")
+					new Decorator(ret => Me.BuffCount("Charged Aim") == 2,
+						new PrioritySelector(						
+							Spell.Cast("Aimed Shot")
+							)),
+					Spell.Cast("Vital Shot", ret => !Me.CurrentTarget.HasMyDebuff("Vital Shot") || Me.CurrentTarget.DebuffTimeLeft("Vital Shot") <= 2),
+					Spell.Cast("Charged Burst")
 					);
 			}
 		}
@@ -89,10 +91,11 @@ namespace DefaultCombat.Routines
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new PrioritySelector(
+						Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving),
 						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 4f), //--will only be active when user initiates Heroic Moment--
-						Spell.CastOnGround("XS Freighter Flyby"),
+						Spell.CastOnGround("XS Freighter Flyby", ret => Me.IsInCover() && Me.EnergyPercent > 30),
 						Spell.Cast("Thermal Grenade"),
-						Spell.CastOnGround("Sweeping Gunfire", ret => Me.IsInCover() && Me.EnergyPercent > 30)
+						Spell.CastOnGround("Sweeping Gunfire", ret => Me.IsInCover() && Me.EnergyPercent > 10)
 						));
 			}
 		}
