@@ -59,9 +59,6 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 					
 					//Rotation
-					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
-					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
-					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.BossOrGreater()),
 					Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting),
 					Spell.Cast("High Impact Bolt"),
 					Spell.Cast("Full Auto"),
@@ -79,11 +76,10 @@ namespace DefaultCombat.Routines
 					new Decorator(ret => Me.HasBuff("Supercharged Cell"),
 						new PrioritySelector(
 							Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 4f), //--will only be active when user initiates Heroic Moment--
-							Spell.HealGround("Kolto Bomb", ret => !Tank.HasBuff("Kolto Residue")),
 							Spell.CastOnGround("Mortar Volley"),
+							Spell.Cast("Plasma Grenade"),
 							Spell.Cast("Sticky Grenade"),
-							Spell.Heal("Bacta Infusion", 60),
-							Spell.Heal("Advanced Medical Probe", 85)
+							Spell.CastOnGround("Hail of Bolts", ret => Me.ResourcePercent() >= 90)
 							)),
 
 					//Dispel 

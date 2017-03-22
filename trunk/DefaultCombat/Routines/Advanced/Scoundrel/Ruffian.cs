@@ -63,10 +63,10 @@ namespace DefaultCombat.Routines
 
 					//Rotation
 					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && Me.CurrentTarget.Distance <= 1f),
-					Spell.Cast("Brutal Shots", ret =>	Me.CurrentTarget.HasDebuff("Vital Shot") && Me.CurrentTarget.HasDebuff("Bleeding (Tech)") && Me.HasBuff("Upper Hand")),
-					Spell.Cast("Sanguinary Shot",	ret => Me.CurrentTarget.HasDebuff("Vital Shot") && Me.CurrentTarget.HasDebuff("Bleeding (Tech)")),
+					Spell.Cast("Brutal Shots", ret =>	Me.CurrentTarget.HasDebuff("Vital Shot") && Me.CurrentTarget.HasDebuff("Shrap Bomb") && Me.HasBuff("Upper Hand")),
+					Spell.Cast("Sanguinary Shot",	ret => Me.CurrentTarget.HasDebuff("Vital Shot") && Me.CurrentTarget.HasDebuff("Shrap Bomb")),
 					Spell.DoT("Vital Shot", "Vital Shot"),
-					Spell.DoT("Shrap Bomb", "Bleeding (Tech)"),
+					Spell.DoT("Shrap Bomb", "Shrap Bomb"),
 					Spell.Cast("Blaster Whip", ret => Me.BuffCount("Upper Hand") < 2 || Me.BuffTimeLeft("Upper Hand") < 6),
 					Spell.Cast("Point Blank Shot", ret => Me.Level >= 57),
 					Spell.Cast("Back Blast", ret => Me.IsBehind(Me.CurrentTarget) && Me.Level < 57),
@@ -82,7 +82,7 @@ namespace DefaultCombat.Routines
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new PrioritySelector(
 						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 4f), //--will only be active when user initiates Heroic Moment--
-						Spell.DoT("Shrap Bomb", "Bleeding (Tech)"),
+						Spell.DoT("Shrap Bomb", "Shrap Bomb"),
 						Spell.Cast("Thermal Grenade"),
 						Spell.Cast("Bushwhack", ret => !Me.HasBuff("Upper Hand")),
 					  Spell.Cast("Lacerating Blast")
