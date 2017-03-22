@@ -29,8 +29,8 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Cloak of Pain", ret => Me.HealthPercent <= 50),
-					Spell.Buff("Undying Rage", ret => Me.HealthPercent <= 10),
+          Spell.Buff("Cloak of Pain", ret => Me.HealthPercent <= 90),
+					Spell.Buff("Undying Rage", ret => Me.HealthPercent <= 20),
 					Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 30),
 					Spell.Buff("Frenzy", ret => Me.BuffCount("Fury") < 5),
 					Spell.Buff("Berserk", ret => Me.BuffCount("Fury") > 29)
@@ -59,16 +59,16 @@ namespace DefaultCombat.Routines
 
 					//Rotation
 					Spell.Cast("Vicious Throw", ret => Me.CurrentTarget.HealthPercent <= 30),
-					Spell.Cast("Smash", ret => Me.BuffCount("Shockwave") == 3 && Me.HasBuff("Dominate")),
+					Spell.Cast("Furious Strike"),
 					Spell.Cast("Force Crush"),
-					Spell.Cast("Obliterate", ret => Me.HasBuff("Shockwave")),
+					Spell.Cast("Obliterate"),
+					Spell.Cast("Raging Burst", ret => Me.HasBuff("Destruction") && Me.HasBuff("Dominate")),
 					Spell.Cast("Force Scream", ret => Me.HasBuff("Battle Cry") || Me.ActionPoints >= 5),
-					Spell.Cast("Dual Saber Throw"),
 					Spell.Cast("Ravage"),
-					Spell.Cast("Force Choke"),
+					Spell.Cast("Dual Saber Throw"),
 					Spell.Cast("Vicious Slash", ret => Me.HasBuff("Berserk")),
-					Spell.Cast("Battering Assault"),
-					Spell.Cast("Assault")
+					Spell.Cast("Battering Assault", ret => Me.ActionPoints <= 6),
+					Spell.Cast("Assault", ret => Me.ActionPoints < 6)
 					);
 			}
 		}
@@ -80,7 +80,7 @@ namespace DefaultCombat.Routines
 				return new Decorator(ret => Targeting.ShouldPbaoe,
 					new PrioritySelector(
 						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 4f), //--will only be active when user initiates Heroic Moment--
-						Spell.Cast("Smash"),
+						Spell.Cast("Smash", ret => Me.HasBuff("Destruction") && Me.HasBuff("Dominate")),
 						Spell.Cast("Sweeping Slash")
 						));
 			}
