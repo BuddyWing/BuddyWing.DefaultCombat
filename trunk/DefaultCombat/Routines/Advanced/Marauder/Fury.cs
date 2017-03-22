@@ -29,7 +29,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Cloak of Pain", ret => Me.HealthPercent <= 90),
+          Spell.Buff("Cloak of Pain", ret => Me.HealthPercent <= 90),
 					Spell.Buff("Undying Rage", ret => Me.HealthPercent <= 20),
 					Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 30),
 					Spell.Buff("Frenzy", ret => Me.BuffCount("Fury") < 5),
