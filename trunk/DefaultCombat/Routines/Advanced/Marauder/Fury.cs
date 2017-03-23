@@ -31,7 +31,7 @@ namespace DefaultCombat.Routines
 				return new PrioritySelector(
 					Spell.Buff("Cloak of Pain", ret => Me.HealthPercent <= 90),
 					Spell.Buff("Undying Rage", ret => Me.HealthPercent <= 20),
-					Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 30),
+					Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 50),
 					Spell.Buff("Frenzy", ret => Me.BuffCount("Fury") < 5),
 					Spell.Buff("Berserk", ret => Me.BuffCount("Fury") > 29)
 					);
@@ -47,7 +47,7 @@ namespace DefaultCombat.Routines
 
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
-					
+
 					//Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
 					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 3f),
