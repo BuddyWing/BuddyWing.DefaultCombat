@@ -15,7 +15,7 @@ After forking the repository and making your changes, feel free to submit a pull
 
 * Ensure your pull request is accompanied by an issue on the [issue tracker](https://github.com/BosslandGmbH/BuddyWing.DefaultCombat/issues) and describe how your PR addresses this issue.
 * Make sure your pull request builds. To help with this, we provide _AppVeyor_ build integration which automatically builds all pull requests. PRs that don't build can unfortunately not be merged.
-* We stick to the [dotnet foundation coding guidelines](https://github.com/dotnet/corefx/blob/master/Documentation/coding-guidelines/coding-style.md) as much as possible, please try to have the code in your PR follow these as much as possible.
+* We stick to the [dotnet foundation coding guidelines](https://github.com/dotnet/corefx/blob/master/Documentation/coding-guidelines/coding-style.md) as much as possible, please try to have the code in your PR follow these as well.
 
 Every pull request is reviewed by someone with write access to the repository, and if accepted, will be shipped as a part of BuddyWing.
 
