@@ -24,6 +24,7 @@ namespace DefaultCombat.Helpers
 		public const float MeleeAoE = 0.8f;
 		public const float Ranged = 2.8f;
 		public const float HealAoe = 1.2f;
+		public const float RangedExt = 3.4f;
 	}
 
 

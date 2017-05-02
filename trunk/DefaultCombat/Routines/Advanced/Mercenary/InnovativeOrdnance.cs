@@ -51,7 +51,7 @@ namespace DefaultCombat.Routines
 							
 					//Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
 					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 3f),
+					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment")),
@@ -59,7 +59,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 
 					//Rotation
-					Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting && Me.CurrentTarget.Distance <= Distance.Melee && !DefaultCombat.MovementDisabled),
+					Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting),
 					Spell.DoT("Incendiary Missile", "", 12000),
 					Spell.Cast("Thermal Detonator"),
 					Spell.Cast("Electro Net"),
@@ -77,7 +77,7 @@ namespace DefaultCombat.Routines
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new PrioritySelector(
-						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 4f), //--will only be active when user initiates Heroic Moment--
+						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
 						Spell.CastOnGround("Death from Above"),
 						Spell.Cast("Fusion Missle", ret => Me.HasBuff("Thermal Sensor Override")),
 						Spell.Cast("Explosive Dart"))

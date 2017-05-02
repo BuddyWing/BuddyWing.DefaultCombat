@@ -33,7 +33,8 @@ namespace DefaultCombat.Routines
         Spell.Buff("Unbreakable Will", ret => Me.IsStunned),
         Spell.Buff("Recklessness", ret => Targeting.ShouldAoeHeal),
         Spell.Buff("Consuming Darkness", ret => NeedForce()),
-        Spell.Buff("Unnatural Preservation", ret => Me.HealthPercent < 50)
+        Spell.Buff("Unnatural Preservation", ret => Me.HealthPercent < 50),
+        Spell.HoT("Static Barrier", on => Me, 100, ret => Me.InCombat && !Me.HasDebuff("Deionized"))
 					);
 			}
 		}
@@ -48,7 +49,7 @@ namespace DefaultCombat.Routines
 					
 					//Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
 					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 3f),
+					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment")),
@@ -72,9 +73,9 @@ namespace DefaultCombat.Routines
 				return new PrioritySelector(
 				
 					//Legacy Heroic Moment Ability
-					Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 4f), //--will only be active when user initiates Heroic Moment--
+					Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
 					
-					//BuffLog.Instance.LogTargetBuffs,
+					//BuffLog.Instance.LogTargetBuffs
 
 					//Cleanse if needed
 					Spell.Cleanse("Purge"),
@@ -82,12 +83,13 @@ namespace DefaultCombat.Routines
 					//Emergency Heal (Insta-cast)
 					Spell.Heal("Dark Heal", 80, ret => Me.HasBuff("Dark Concentration")),
 
-					//Single Target Healing
-					Spell.Heal("Innervate", 80),
-					Spell.HoT("Static Barrier", 75, ret => HealTarget != null && !HealTarget.HasDebuff("Deionized")),
-
 					//Buff Tank
-					Spell.HoT("Static Barrier", on => Tank, 100, ret => Tank != null && Tank.InCombat && !Tank.HasDebuff("Deionized")),
+					Spell.HoT("Static Barrier", on => Tank, 100, ret => Tank !=null && Tank.InCombat),
+					Spell.Heal("Roaming Mend", onUnit => Tank, 100,	ret => Tank != null && Tank.InCombat && Me.BuffCount("Roaming Mend Charges") <= 1),
+
+					//Single Target Healing
+					Spell.HoT("Static Barrier", 99, ret => HealTarget != null && !HealTarget.HasDebuff("Deionized")),
+          Spell.Heal("Innervate", 80),
 
 					//Use Force Bending
 					new Decorator(ret => Me.HasBuff("Force Bending"),
@@ -100,8 +102,9 @@ namespace DefaultCombat.Routines
 					Spell.HoT("Resurgence", 80),
 					Spell.HoT("Resurgence", on => Tank, 100, ret => Tank != null && Tank.InCombat),
 
-					//Aoe Heal
-					Spell.HealGround("Revivification"),
+					//AoE Healing 
+					new Decorator(ctx => Tank != null,
+						Spell.CastOnGround("Revivification", on => Tank.Position)),
 
 					//Single Target Healing                  
 					Spell.Heal("Dark Heal", 35),
@@ -111,8 +114,6 @@ namespace DefaultCombat.Routines
 
 		private bool NeedForce()
 		{
-			if (Me.ForcePercent <= 20)
-				return true;
 			if (Me.HasBuff("Force Surge") && Me.ForcePercent < 80 && !Me.HasBuff("Reverse Corruptions"))
 				return true;
 			return false;

@@ -2,6 +2,8 @@
 // See the file LICENSE for the source code's detailed license
 
 using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Threading;
 using Buddy.BehaviorTree;
 using Buddy.CommonBot;
@@ -14,6 +16,9 @@ namespace DefaultCombat.Helpers
 {
 	public static class Rest
 	{
+		private static int _swtorpid; // For Mounting and Spell Cancel/Stop
+		private static IntPtr _swtorhWnd;
+
 		private static TorPlayer Me
 		{
 			get { return BuddyTor.Me; }
@@ -44,6 +49,7 @@ namespace DefaultCombat.Helpers
 					{
 						if (NeedRest())
 						{
+							SetProcessAttrs();
 							if (BuddyTor.Me.IsMoving) Input.MoveStopAll();
 							while (KeepResting())
 							{
@@ -52,7 +58,11 @@ namespace DefaultCombat.Helpers
 
 								Thread.Sleep(100);
 							}
-							Movement.Move(MovementDirection.Forward, TimeSpan.FromMilliseconds(1));
+							if (Me.IsCasting)
+							{
+								SendMessage(_swtorhWnd, 0x100, (IntPtr) (char) 0x1b, (IntPtr) 0);
+								Thread.Sleep(100);
+							}
 							return RunStatus.Success;
 						}
 
@@ -73,6 +83,13 @@ namespace DefaultCombat.Helpers
 			}
 		}
 
+		[DllImport("user32.dll")]
+		private static extern int SendMessage(IntPtr hWnd, int wMsg, IntPtr wParam, IntPtr lParam);
+
+		// Used for mounting/keysend
+
+		[DllImport("user32.dll")]
+		private static extern bool SetForegroundWindow(IntPtr hWnd);
 
 		public static int NormalizedResource()
 		{
@@ -114,8 +131,22 @@ namespace DefaultCombat.Helpers
 		public static bool NeedRest()
 		{
 			var resource = NormalizedResource();
-			return !DefaultCombat.MovementDisabled && !Me.InCombat && (resource < 50 || Me.HealthPercent < 50
-																	   || (Me.Companion != null && !Me.Companion.IsDead && Me.Companion.HealthPercent < 50));
+			return !DefaultCombat.MovementDisabled && !Me.InCombat && (resource < 50 || Me.HealthPercent < 90
+																	   || (Me.Companion != null && !Me.Companion.IsDead && Me.Companion.HealthPercent < 90));
+		}
+
+		public static void SetProcessAttrs()
+		{
+			var torMem = 0;
+			foreach (var proc in Process.GetProcesses())
+				if (proc.ProcessName.Contains("swtor") && proc.MainWindowTitle.Contains("Star Wars"))
+
+					if (proc.PrivateMemorySize64 > torMem)
+					{
+						_swtorpid = proc.Id;
+						torMem = (int) proc.NonpagedSystemMemorySize64;
+						_swtorhWnd = proc.MainWindowHandle;
+					}
 		}
 
 		public static bool KeepResting()
