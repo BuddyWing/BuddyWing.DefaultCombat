@@ -29,7 +29,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Tenacity"),
+					Spell.Buff("Tenacity", ret => Me.IsStunned),
 					Spell.Buff("Supercharged Cell",	ret => Me.ResourceStat >= 20 && HealTarget != null && HealTarget.HealthPercent <= 80 &&	Me.BuffCount("Supercharge") == 10),
 					Spell.Buff("Adrenaline Rush", ret => Me.HealthPercent <= 30),
 					Spell.Buff("Reactive Shield", ret => Me.HealthPercent <= 70),
@@ -51,7 +51,7 @@ namespace DefaultCombat.Routines
 					
 					//Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
 					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 3f),
+					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment")),
@@ -73,29 +73,25 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					new Decorator(ret => Me.HasBuff("Supercharged Cell"),
-						new PrioritySelector(
-							Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 4f), //--will only be active when user initiates Heroic Moment--
-							Spell.CastOnGround("Mortar Volley"),
-							Spell.Cast("Plasma Grenade"),
-							Spell.Cast("Sticky Grenade"),
-							Spell.CastOnGround("Hail of Bolts", ret => Me.ResourcePercent() >= 90)
-							)),
-
+				
+					//AoE Healing 
+					new Decorator(ctx => Tank != null,
+						Spell.CastOnGround("Kolto Bomb", on => Tank.Position, ret => !Tank.HasBuff("Invigorated"))),
+					
+					//Legacy Heroic Moment Ability
+					Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
+					
 					//Dispel 
 					Spell.Cleanse("Field Aid"),
-
-					//AoE Healing 
-					Spell.HealAoe("Successive Treatment", ret => Targeting.ShouldAoeHeal),
-					Spell.HealGround("Kolto Bomb", ret => !Tank.HasBuff("Kolto Residue")),
-
+					
 					//Single Target Healing 
 					Spell.Heal("Bacta Infusion", 80),
+					Spell.Heal("Successive Treatment", 90),
 					Spell.Heal("Advanced Medical Probe", 80),
 					Spell.Heal("Medical Probe", 75),
 
 					//Keep Trauma Probe on Tank 
-					Spell.HoT("Trauma Probe", 100),
+					Spell.Heal("Trauma Probe", on => HealTarget, 100, ret => HealTarget != null && HealTarget.BuffCount("Trauma Probe") <= 1),
 
 					//To keep Supercharge buff up; filler heal 
 					Spell.Heal("Med Shot", onUnit => Tank, 100, ret => Tank != null && Me.InCombat)

@@ -32,7 +32,8 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Force Potency", ret => Targeting.ShouldAoeHeal),
 					Spell.Buff("Mental Alacrity", ret => Targeting.ShouldAoeHeal),
 					Spell.Buff("Vindicate", ret => NeedForce()),
-					Spell.Buff("Force Mend", ret => Me.HealthPercent <= 75)
+					Spell.Buff("Force Mend", ret => Me.HealthPercent <= 75),
+					Spell.HoT("Force Armor", on => Me, 100, ret => Me.InCombat && !Me.HasDebuff("Force-imbalance"))
 					);
 			}
 		}
@@ -47,7 +48,7 @@ namespace DefaultCombat.Routines
 					
 					//Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
 					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 3f),
+					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment")),
@@ -58,8 +59,8 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Mind Snap", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
 					Spell.Cast("Force Stun", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
 					Spell.Cast("Forcequake", ret => Targeting.ShouldAoe),
-					Spell.Cast("Mind Crush"),
 					Spell.DoT("Weaken Mind", "Weaken Mind"),
+					Spell.Cast("Mind Crush"),
 					Spell.Cast("Project"),
 					Spell.Cast("Telekinetic Throw"),
 					Spell.Cast("Disturbance")
@@ -74,7 +75,7 @@ namespace DefaultCombat.Routines
 				return new PrioritySelector(
 				
 					//Legacy Heroic Moment Ability
-					Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 4f), //--will only be active when user initiates Heroic Moment--
+					Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
 					
 					//Cleanse if needed 
 					Spell.Cleanse("Restoration"),
@@ -82,15 +83,16 @@ namespace DefaultCombat.Routines
 					//Emergency Heal (Insta-cast) 
 					Spell.Heal("Benevolence", 80, ret => Me.HasBuff("Altruism")),
 
-					//Aoe Heal 
-					Spell.HealGround("Salvation", ret => Targeting.ShouldAoeHeal),
+					//AoE Healing 
+					new Decorator(ctx => Tank != null,
+						Spell.CastOnGround("Salvation", on => Tank.Position)),
 
 					//Single Target Healing 
-					Spell.Heal("Healing Trance", 80),
 					Spell.HoT("Force Armor", 90, ret => HealTarget != null && !HealTarget.HasDebuff("Force-imbalance")),
+					Spell.Heal("Healing Trance", 80),
 
 					//Buff Tank 
-					Spell.HoT("Force Armor", onUnit => Tank, 100,	ret => Tank != null && Tank.InCombat && !Tank.HasDebuff("Force-imbalance")),
+					Spell.HoT("Force Armor", on => Tank, 100,	ret => Tank != null && Tank.InCombat && !Tank.HasDebuff("Force-imbalance")),
 					Spell.Heal("Wandering Mend", onUnit => Tank, 100,	ret => Tank != null && Tank.InCombat && Me.BuffCount("Wandering Mend Charges") <= 1),
 
 					//Use Force Bending 
@@ -113,8 +115,6 @@ namespace DefaultCombat.Routines
 
 		private bool NeedForce()
 		{
-			if (Me.ForcePercent <= 20)
-				return true;
 			if (Me.HasBuff("Resplendence") && Me.ForcePercent < 80 && !Me.HasBuff("Amnesty"))
 				return true;
 			return false;

@@ -29,7 +29,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Tenacity"),
+					Spell.Buff("Tenacity", ret => Me.IsStunned),
 					Spell.Buff("Reactive Shield", ret => Me.HealthPercent <= 70),
 					Spell.Cast("Echoing Deterrence", ret => Me.HealthPercent <= 30),
 					Spell.Buff("Adrenaline Rush", ret => Me.HealthPercent <= 30),
@@ -52,7 +52,7 @@ namespace DefaultCombat.Routines
 					
 					//Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
 					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 3f),
+					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment")),
@@ -60,7 +60,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 
 					//Rotation
-					Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
+					Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting),
 					Spell.Cast("Boltstorm", ret => Me.HasBuff("Curtain of Fire") && Me.Level >= 57),
 					Spell.Cast("Full Auto", ret => Me.HasBuff("Curtain of Fire") && Me.Level < 57),
 					Spell.Cast("Demolition Round", ret => Me.CurrentTarget.HasDebuff("Gravity Vortex")),
@@ -78,7 +78,7 @@ namespace DefaultCombat.Routines
 			{
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new PrioritySelector(
-						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 4f), //--will only be active when user initiates Heroic Moment--
+						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
 						Spell.Cast("Sticky Grenade"),
 						Spell.Cast("Tech Override"),
 						Spell.CastOnGround("Mortar Volley"),
