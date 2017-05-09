@@ -36,7 +36,9 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Sniper Volley", ret => Me.EnergyPercent <= 60),
 					Spell.Buff("Entrench", ret => Me.CurrentTarget.StrongOrGreater() && Me.IsInCover()),
 					Spell.Buff("Laze Target"),
-					Spell.Buff("Target Acquired")
+					Spell.Buff("Target Acquired"),
+					Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
+					Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
 					);
 			}
 		}
@@ -55,7 +57,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment")),
+					Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 
@@ -66,7 +68,7 @@ namespace DefaultCombat.Routines
 							)),
 
 					//Rotation
-					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting),
+					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
 					Spell.Cast("Followthrough"),
 					Spell.Cast("Penetrating Blasts", ret => Me.Level >= 26),
 					Spell.Cast("Series of Shots", ret => Me.Level < 26),

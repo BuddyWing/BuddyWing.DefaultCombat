@@ -29,14 +29,16 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Resolute"),
+					Spell.Buff("Resolute", ret => Me.IsStunned),
 					Spell.Buff("Rebuke", ret => Me.HealthPercent <= 90),
 					Spell.Buff("Saber Reflect", ret => Me.HealthPercent <= 70),
 					Spell.Buff("Guarded by the Force", ret => Me.HealthPercent <= 50),
 					Spell.Buff("Unity", ret => Me.HealthPercent <= 30),
 					Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 50),
 					Spell.Buff("Valorous Call", ret => Me.BuffCount("Centering") < 5),
-					Spell.Buff("Zen", ret => Me.BuffCount("Centering") > 29)
+					Spell.Buff("Zen", ret => Me.BuffCount("Centering") > 29),
+					Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
+					Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
 					);
 			}
 		}
@@ -46,9 +48,9 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Cast("Force Leap", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
-					Spell.Cast("Twin Saber Throw", ret => Me.CurrentTarget.Distance <= 3f),
-
+					Spell.Cast("Twin Saber Throw", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
+					Spell.Cast("Force Leap", ret => CombatHotkeys.EnableCharge && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
+					
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
 					
@@ -57,12 +59,12 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment")),
+					Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 
 					//Rotation
-					Spell.Cast("Force Kick", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
+					Spell.Cast("Force Kick", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
 					Spell.Cast("Dispatch", ret => Me.HasBuff("Hand of Justice") || Me.CurrentTarget.HealthPercent <= 30),
 					Spell.Cast("Precision", ret => Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Blade Barrage", ret => Me.HasBuff("Precision")),

@@ -31,13 +31,15 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-				  Spell.Buff("Escape"),
+				  Spell.Buff("Escape", ret => Me.IsStunned),
 					Spell.Buff("Burst Volley", ret => !Buddy.CommonBot.AbilityManager.CanCast("Penetrating Rounds", Me.CurrentTarget)),
 					Spell.Buff("Defense Screen", ret => Me.HealthPercent <= 70),
 					Spell.Buff("Dodge", ret => Me.HealthPercent <= 30),
 					Spell.Buff("Cool Head", ret => Me.EnergyPercent <= 50),
 					Spell.Buff("Smuggler's Luck"),
-					Spell.Buff("Illegal Mods")
+					Spell.Buff("Illegal Mods"),
+					Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
+					Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
 					);
 			}
 		}
@@ -64,12 +66,13 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment")),
+					Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 
 
 					//Rotation
+					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
 					Spell.Cast("Trickshot"),
 					Spell.Cast("Quickdraw", ret => Me.CurrentTarget.HealthPercent <= 30),
 					Spell.Cast("Penetrating Rounds", ret => Me.Level >= 26),

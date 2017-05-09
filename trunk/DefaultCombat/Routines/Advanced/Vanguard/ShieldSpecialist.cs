@@ -34,7 +34,9 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Recharge Cells", ret => Me.ResourcePercent() >= 50),
 					Spell.Buff("Reactive Shield", ret => Me.HealthPercent <= 40),
 					Spell.Buff("Adrenaline Rush", ret => Me.HealthPercent <= 30),
-					Spell.Buff("Shoulder Cannon", ret => !Me.HasBuff("Shoulder Cannon") && Me.CurrentTarget.BossOrGreater())
+					Spell.Buff("Shoulder Cannon"),
+					Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
+					Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
 					);
 			}
 		}
@@ -54,7 +56,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment")),
+					Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 					
@@ -67,9 +69,9 @@ namespace DefaultCombat.Routines
 							Spell.Cast("Explosive Surge", ret => Me.HasBuff("Static Surge") && Me.CurrentTarget.Distance <= 0.5f),
 							Spell.Cast("Hammer Shot")
 							)),
-					Spell.CastOnGround("Smoke Grenade", ret => Me.CurrentTarget.BossOrGreater() && Me.CurrentTarget.Distance <= 0.8f),
-					Spell.Cast("Shoulder Cannon", ret => Me.HasBuff("Shoulder Cannon") && Me.CurrentTarget.BossOrGreater()),
-					Spell.Cast("Riot Strike", ret => Me.CurrentTarget.IsCasting && Me.CurrentTarget.Distance <= Distance.Melee && !DefaultCombat.MovementDisabled),
+					Spell.Cast("Riot Strike", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
+					Spell.CastOnGround("Smoke Grenade", ret => Me.CurrentTarget.Distance <= 0.8f),
+					Spell.Cast("Shoulder Cannon"),
 					Spell.Cast("Energy Blast", ret => Me.BuffCount("Power Screen") == 3),
 					Spell.Cast("Stockstrike"),
 					Spell.Cast("High Impact Bolt"),

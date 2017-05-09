@@ -30,11 +30,13 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
+					Spell.Buff("Escape", ret => Me.IsStunned),
 					Spell.Buff("Adrenaline Probe", ret => Me.EnergyPercent <= 20),
 					Spell.Buff("Stim Boost", ret => Me.EnergyPercent <= 70 && !Me.HasBuff("Tactical Advantage")),
 					Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 75),
 					Spell.Buff("Evasion", ret => Me.HealthPercent <= 50),
-					Spell.Buff("Escape")
+					Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
+					Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
 					);
 			}
 		}
@@ -52,13 +54,13 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment")),
+					Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 					
 					//Rotation
+					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
 					Spell.Cast("Shiv", ret => Me.CurrentTarget.Distance <= Distance.Melee),
-					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && Me.CurrentTarget.Distance <= 1f),
 					Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving),
 					Spell.CastOnGround("Orbital Strike", ret => Targeting.ShouldAoe),
 					Spell.Cast("Explosive Probe", ret => Me.IsInCover()),

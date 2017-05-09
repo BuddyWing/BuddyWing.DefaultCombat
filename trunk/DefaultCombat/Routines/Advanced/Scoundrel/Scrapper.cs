@@ -30,10 +30,13 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
+					Spell.Buff("Escape", ret => Me.IsStunned),
 					Spell.Buff("Cool Head", ret => Me.EnergyPercent <= 45),
 					Spell.Buff("Pugnacity", ret => Me.HasBuff("Upper Hand")),
 					Spell.Buff("Defense Screen", ret => Me.HealthPercent <= 75),
-					Spell.Buff("Dodge", ret => Me.HealthPercent <= 50)
+					Spell.Buff("Dodge", ret => Me.HealthPercent <= 50),
+					Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
+					Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
 					);
 			}
 		}
@@ -51,7 +54,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment")),
+					Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 
@@ -62,7 +65,7 @@ namespace DefaultCombat.Routines
 							)),
 
 					//Rotation
-					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting),
+					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
 					Spell.Cast("Back Blast", ret => Me.IsBehind(Me.CurrentTarget)),
 					Spell.Cast("Sucker Punch", ret => Me.HasBuff("Upper Hand") && Me.CurrentTarget.HasDebuff("Vital Shot")),
 					Spell.DoT("Vital Shot", "Vital Shot"),

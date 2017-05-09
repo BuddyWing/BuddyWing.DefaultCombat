@@ -34,7 +34,9 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Vent Heat", ret => Me.ResourcePercent() >= 50),
 					Spell.Buff("Energy Shield", ret => Me.HealthPercent <= 40),
 					Spell.Buff("Kolto Overload", ret => Me.HealthPercent <= 30),
-					Spell.Buff("Shoulder Cannon", ret => !Me.HasBuff("Shoulder Cannon"))
+					Spell.Buff("Shoulder Cannon", ret => !Me.HasBuff("Shoulder Cannon")),
+					Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
+					Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
 					);
 			}
 		}
@@ -54,7 +56,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment")),
+					Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 					
@@ -66,7 +68,7 @@ namespace DefaultCombat.Routines
 							Spell.Cast("Searing Wave", ret => Me.HasBuff("Flame Engine") && Me.CurrentTarget.Distance <= 1f && Me.Level < 57),
 							Spell.Cast("Flame Burst", ret => Me.HasBuff("Flame Surge")),
 							Spell.Cast("Rapid Shots"))),
-					    Spell.Cast("Quell",	ret => Me.CurrentTarget.IsCasting && Me.CurrentTarget.Distance <= Distance.Melee && !DefaultCombat.MovementDisabled),
+					    	Spell.Cast("Quell", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
 							Spell.CastOnGround("Oil Slick", ret => Me.CurrentTarget.BossOrGreater() && Me.CurrentTarget.Distance <= 0.8f),
 							Spell.Cast("Shoulder Cannon", ret => Me.HasBuff("Shoulder Cannon") && Me.CurrentTarget.BossOrGreater()),
 							Spell.Cast("Heat Blast", ret => Me.BuffCount("Heat Screen") == 3),

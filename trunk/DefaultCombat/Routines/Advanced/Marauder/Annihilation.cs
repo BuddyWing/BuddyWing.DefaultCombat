@@ -29,12 +29,15 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
+					Spell.Buff("Unleash", ret => Me.IsStunned),
 					Spell.Buff("Cloak of Pain", ret => Me.HealthPercent <= 90),
 					Spell.Buff("Undying Rage", ret => Me.HealthPercent <= 20),
 					Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 50),
 					Spell.Buff("Deadly Saber", ret => !Me.HasBuff("Deadly Saber")),
 					Spell.Buff("Frenzy", ret => Me.BuffCount("Fury") < 5),
-					Spell.Buff("Berserk", ret => Me.BuffCount("Fury") > 29)
+					Spell.Buff("Berserk", ret => Me.BuffCount("Fury") > 29),
+					Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
+					Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
 					);
 			}
 		}
@@ -45,7 +48,7 @@ namespace DefaultCombat.Routines
 			{
 				return new PrioritySelector(
 					Spell.Cast("Dual Saber Throw", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
-					Spell.Cast("Force Charge", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= Distance.Melee && Me.CurrentTarget.Distance <= 3f),
+					Spell.Cast("Force Charge", ret => CombatHotkeys.EnableCharge && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
 
 					//Movement
 					CombatMovement.CloseDistance(Distance.Melee),
@@ -55,12 +58,12 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment")),
+					Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 
 					//Rotation
-					Spell.Cast("Disruption", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
+					Spell.Cast("Disruption", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
 					Spell.DoT("Force Rend", "Force Rend"),
 					Spell.DoT("Rupture", "Bleeding (Rupture)"),
 					Spell.Cast("Dual Saber Throw", ret => Me.HasBuff("Pulverize")),

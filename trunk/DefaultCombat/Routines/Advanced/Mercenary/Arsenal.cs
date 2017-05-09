@@ -34,7 +34,9 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Supercharged Gas", ret => Me.BuffCount("Supercharge") == 10),
 					Spell.Buff("Energy Shield", ret => Me.HealthPercent <= 70),
 					Spell.Buff("Kolto Overload", ret => Me.HealthPercent <= 30),
-					Spell.Cast("Responsive Safeguards", ret => Me.HealthPercent <= 20)
+					Spell.Cast("Responsive Safeguards", ret => Me.HealthPercent <= 20),
+					Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
+					Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
 					);
 			}
 		}
@@ -52,12 +54,17 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment")),
+					Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
+					
+					//Solo Mode
+					Spell.Cast("Kolto Shot", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 70),
+					Spell.Cast("Emergency Scan", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 60),
+					Spell.Cast("Rapid Scan", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 50),
 
 					//Rotation
-					Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting),
+					Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
 					Spell.Cast("Rapid Shots", ret => Me.ResourcePercent() > 40),
 					Spell.Cast("Blazing Bolts", ret => Me.HasBuff("Barrage") && Me.Level >= 57),
 					Spell.Cast("Unload", ret => Me.Level < 57),

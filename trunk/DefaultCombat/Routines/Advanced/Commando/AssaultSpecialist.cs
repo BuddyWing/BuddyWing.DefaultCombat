@@ -35,7 +35,9 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Adrenaline Rush", ret => Me.HealthPercent <= 30),
 					Spell.Buff("Supercharged Cell", ret => Me.BuffCount("Supercharge") == 10),
 					Spell.Buff("Reserve Powercell", ret => Me.ResourceStat <= 60),
-					Spell.Cast("Echoing Deterrence", ret => Me.HealthPercent <= 30)
+					Spell.Cast("Echoing Deterrence", ret => Me.HealthPercent <= 30),
+					Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
+					Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
 					);
 			}
 		}
@@ -60,12 +62,17 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment")),
+					Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
-
+					
+					//Solo Mode
+					Spell.Cast("Med Shot", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 70),
+					Spell.Cast("Bacta Infusion", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 60),
+					Spell.Cast("Medical Probe", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 50),
+					
 					//Rotation
-					Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting),
+					Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
 					Spell.Cast("Mag Bolt", ret => Me.HasBuff("Ionic Accelerator") && Me.Level >= 57),
 					Spell.Cast("High Impact Bolt", ret => Me.HasBuff("Ionic Accelerator") && Me.Level < 57),
 					Spell.Cast("Explosive Round", ret => Me.HasBuff("Hyper Assault Rounds")),
