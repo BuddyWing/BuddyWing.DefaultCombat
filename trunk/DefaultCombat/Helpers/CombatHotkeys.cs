@@ -13,6 +13,7 @@ namespace DefaultCombat.Helpers
 		public static bool PauseRotation;
 		public static bool EnableInterrupts;
 		public static bool EnableCharge;
+		public static bool EnableSolo;
 
 		public static void Initialize()
 		{
@@ -20,6 +21,9 @@ namespace DefaultCombat.Helpers
 			PauseRotation = false;
 			EnableInterrupts = true; 
 			EnableCharge = true;
+			EnableSolo = false;
+			
+			//F9 and F10 are reservered for internal commands
 
 			Hotkeys.RegisterHotkey("Toggle Interrupts (F5)", ChangeInterrupts, Keys.F5);
 			Logger.Write("[Hot Key][F5] Toggle Interrupts");
@@ -32,9 +36,13 @@ namespace DefaultCombat.Helpers
 
 			Hotkeys.RegisterHotkey("Pause Rotation (F8)", ChangePause, Keys.F8);
 			Logger.Write("[Hot Key][F8] Pause Rotation");
+			
+			Hotkeys.RegisterHotkey("Toggle Solo (F11)", ChangeSolo, Keys.F11);
+			Logger.Write("[Hot Key][F11] Toggle Solo Mode");
 
 			Hotkeys.RegisterHotkey("Set Tank (F12)", Targeting.SetTank, Keys.F12);
 			Logger.Write("[Hot Key][F12] Set Tank");
+			
 		}
 
 		private static void ChangeAoe()
@@ -90,6 +98,20 @@ namespace DefaultCombat.Helpers
 			{
 				Logger.Write("Interrupts Enabled");
 				EnableInterrupts = true;
+			}
+		}
+		
+		private static void ChangeSolo()
+		{
+			if (EnableSolo)
+			{
+				Logger.Write("Solo Mode Disabled");
+				EnableSolo = false;
+			}
+			else
+			{
+				Logger.Write("Solo Mode Enabled");
+				EnableSolo = true;
 			}
 		}
 	}

@@ -36,7 +36,9 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Reserve Powercell", ret => Me.ResourceStat <= 60),
 					Spell.Buff("Recharge Cells", ret => Me.ResourceStat <= 50),
 					Spell.Cast("Tech Override", ret => Tank != null && Tank.HealthPercent <= 50),
-					Spell.Cast("Echoing Deterrence", ret => Me.HealthPercent <= 30)
+					Spell.Cast("Echoing Deterrence", ret => Me.HealthPercent <= 30),
+					Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
+					Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
 					);
 			}
 		}
@@ -54,12 +56,12 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment")),
+					Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 					
 					//Rotation
-					Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting),
+					Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
 					Spell.Cast("High Impact Bolt"),
 					Spell.Cast("Full Auto"),
 					Spell.Cast("Charged Bolts", ret => Me.ResourceStat >= 70),
@@ -76,7 +78,7 @@ namespace DefaultCombat.Routines
 				
 					//AoE Healing 
 					new Decorator(ctx => Tank != null,
-						Spell.CastOnGround("Kolto Bomb", on => Tank.Position, ret => !Tank.HasBuff("Invigorated"))),
+						Spell.CastOnGround("Kolto Bomb", on => Tank.Position, ret => !Tank.HasBuff("Invigorated") && Me.InCombat)),
 					
 					//Legacy Heroic Moment Ability
 					Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--

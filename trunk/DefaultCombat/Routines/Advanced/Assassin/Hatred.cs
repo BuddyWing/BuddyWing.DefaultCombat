@@ -34,7 +34,9 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Overcharge Saber", ret => Me.HealthPercent <= 85),
 					Spell.Buff("Deflection", ret => Me.HealthPercent <= 60),
 					Spell.Buff("Force Shroud", ret => Me.HealthPercent <= 50),
-					Spell.Buff("Recklessness")
+					Spell.Buff("Recklessness"),
+					Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
+					Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
 					);
 			}
 		}
@@ -44,6 +46,7 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
+					Spell.Cast("Phantom Stride", ret => CombatHotkeys.EnableCharge && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
 					Spell.Buff("Force Speed", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
 					
 					//Movement
@@ -54,7 +57,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment")),
+					Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 
@@ -62,7 +65,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Saber Strike", ret => Me.ForcePercent <= 40),
 
 					//Rotation
-					Spell.Cast("Jolt", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
+					Spell.Cast("Jolt", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
 					Spell.CastOnGround("Death Field"),
 					Spell.Cast("Assassinate", ret => Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("Bloodletting")),
 					Spell.Cast("Eradicate", ret => Me.HasBuff("Raze") && Me.Level >= 26),

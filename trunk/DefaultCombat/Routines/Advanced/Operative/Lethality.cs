@@ -33,10 +33,13 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
+					Spell.Buff("Escape", ret => Me.IsStunned),
 					Spell.Buff("Adrenaline Probe", ret => Me.EnergyPercent <= 45),
 					Spell.Buff("Stim Boost", ret => Me.BuffCount("Tactical Advantage") < 1),
 					Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 75),
-					Spell.Buff("Evasion", ret => Me.HealthPercent <= 50)
+					Spell.Buff("Evasion", ret => Me.HealthPercent <= 50),
+					Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
+					Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
 					);
 			}
 		}
@@ -56,11 +59,12 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment")),
+					Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 					
 					//Rotation
+					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
 					Spell.Cast("Lethal Strike",	ret => Me.IsStealthed),
 					Spell.Cast("Corrosive Dart", ret =>	(!Me.CurrentTarget.HasDebuff("Corrosive Dart") || Me.CurrentTarget.DebuffTimeLeft("Corrosive Dart") <= 2) && !Me.IsStealthed),
 					Spell.Cast("Corrosive Grenade",	ret => (!Me.CurrentTarget.HasDebuff("Corrosive Grenade") || Me.CurrentTarget.DebuffTimeLeft("Corrosive Grenade") <= 2) &&	!Me.IsStealthed),

@@ -36,6 +36,7 @@ namespace DefaultCombat.Routines
 				return new PrioritySelector(
 					CombatMovement.CloseDistance(Distance.Ranged),
 					Spell.Cast("High Impact Bolt"),
+					Spell.Cast("Recharge Cells", ret => Me.ResourcePercent() <= 50),
 					Spell.Cast("Ion Pulse", ret => Me.ResourcePercent() >= 50),
 					Spell.Cast("Hammer Shot")
 					);

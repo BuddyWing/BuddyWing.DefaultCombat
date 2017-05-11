@@ -29,12 +29,14 @@ namespace DefaultCombat.Routines
 			get
 			{
 				return new PrioritySelector(
-					Spell.Buff("Tenacity"),
+					Spell.Buff("Tenacity", ret => Me.IsStunned),
 					Spell.Buff("Recharge Cells", ret => Me.ResourcePercent() <= 50),
 					Spell.Buff("Reactive Shield", ret => Me.HealthPercent <= 60),
 					Spell.Buff("Adrenaline Rush", ret => Me.HealthPercent <= 30),
 					Spell.Buff("Reserve Powercell", ret => Me.ResourceStat <= 80),
-					Spell.Buff("Battle Focus")
+					Spell.Buff("Battle Focus"),
+					Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
+					Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
 					);
 			}
 		}
@@ -54,7 +56,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Flamethrower", ret => Me.HasBuff("Heroic Moment")),
+					Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 					
@@ -64,7 +66,7 @@ namespace DefaultCombat.Routines
 							Spell.Cast("High Impact Bolt", ret => Me.HasBuff("Tactical Accelerator")),
 							Spell.Cast("Hammer Shot")
 							)),
-					Spell.Cast("Riot Strike", ret => Me.CurrentTarget.IsCasting && !DefaultCombat.MovementDisabled),
+					Spell.Cast("Riot Strike", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
 					Spell.Cast("Cell Burst", ret => Me.BuffCount("Energy Lode") == 4),
 					Spell.Cast("High Impact Bolt",	ret => Me.CurrentTarget.HasDebuff("Bleeding (Gut)") && Me.HasBuff("Tactical Accelerator")),
 					Spell.DoT("Gut", "Bleeding (Gut)"),
