@@ -20,7 +20,6 @@ namespace DefaultCombat.Routines
 			{
 				return new PrioritySelector(
 					Spell.Buff("Force Valor"),
-					Spell.Cast("Guard", on => Me.Companion, ret => Me.Companion != null && !Me.Companion.IsDead && !Me.Companion.HasBuff("Guard")),
 					Spell.Buff("Stealth", ret => !Rest.KeepResting() && !DefaultCombat.MovementDisabled)
 					);
 			}
@@ -35,7 +34,6 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Battle Readiness", ret => Me.HealthPercent <= 85),
 					Spell.Buff("Deflection", ret => Me.HealthPercent <= 60),
 					Spell.Buff("Resilience", ret => Me.HealthPercent <= 50),
-					Spell.Buff("Force Potency"),
 					Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
 					Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
 					);
@@ -69,13 +67,14 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Low Slash", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
 
 					//Rotation
+					Spell.Cast("Force Speed", ret => Me.CurrentTarget.Distance >= 1.1f && Me.IsMoving && Me.InCombat),
+					Spell.Cast("Force Potency"),
 					Spell.Cast("Force Breach", ret => Me.BuffCount("Breaching Shadows") == 3),
 					Spell.Cast("Shadow Strike", ret => Me.HasBuff("Stealth") || Me.HasBuff("Infiltration Tactics")),
 					Spell.Cast("Vaulting Slash", ret => Me.HasBuff("Stealth")),
 					Spell.Cast("Project", ret => Me.BuffCount("Circling Shadows") == 2),
 					Spell.Cast("Spinning Strike", ret => Me.CurrentTarget.HealthPercent <= 30),
-					Spell.Cast("Clairvoyant Strike"),
-					Spell.Cast("Force Speed", ret => Me.CurrentTarget.Distance >= 1.1f && Me.IsMoving && Me.InCombat)
+					Spell.Cast("Clairvoyant Strike")
 					);
 			}
 		}

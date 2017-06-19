@@ -68,13 +68,13 @@ namespace DefaultCombat.Routines
 
 					//Rotation
 					Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-					Spell.Cast("Boltstorm", ret => Me.HasBuff("Curtain of Fire") && Me.Level >= 57),
-					Spell.Cast("Full Auto", ret => Me.HasBuff("Curtain of Fire") && Me.Level < 57),
 					Spell.Cast("Demolition Round", ret => Me.CurrentTarget.HasDebuff("Gravity Vortex")),
 					Spell.Cast("Electro Net"),
-					Spell.Cast("Vortex Bolt"),
 					Spell.Cast("High Impact Bolt", ret => Me.BuffCount("Charged Barrel") == 5),
-					Spell.Cast("Grav Round")
+					Spell.Cast("Vortex Bolt"),
+					Spell.Cast("Boltstorm", ret => Me.HasBuff("Curtain of Fire")),
+					Spell.Cast("Grav Round"),
+					Spell.Cast("Hammer Shots")
 					);
 			}
 		}
@@ -86,11 +86,9 @@ namespace DefaultCombat.Routines
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new PrioritySelector(
 						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
-						Spell.Cast("Sticky Grenade"),
-						Spell.Cast("Tech Override"),
-						Spell.CastOnGround("Mortar Volley"),
+						Spell.CastOnGround("Mortar Volley", ret => Me.HasBuff("Reserve Powercell")),
 						Spell.Cast("Plasma Grenade", ret => Me.ResourceStat >= 90 && Me.HasBuff("Tech Override")),
-						Spell.Cast("Pulse Cannon", ret => Me.CurrentTarget.Distance <= 1f),
+						Spell.Cast("Sticky Grenade"),
 						Spell.CastOnGround("Hail of Bolts", ret => Me.ResourceStat >= 90)
 						));
 			}

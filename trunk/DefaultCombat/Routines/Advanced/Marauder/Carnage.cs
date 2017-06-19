@@ -33,8 +33,9 @@ namespace DefaultCombat.Routines
 					Spell.Buff("Cloak of Pain", ret => Me.HealthPercent <= 90),
 					Spell.Buff("Force Camouflage", ret => Me.HealthPercent <= 70),
 					Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 50),
-					Spell.Buff("Undying Rage", ret => Me.HealthPercent <= 10),
+					Spell.Buff("Undying Rage", ret => Me.HealthPercent <= 20),
 					Spell.Buff("Frenzy", ret => Me.BuffCount("Fury") < 5),
+					Spell.Buff("Bloodthirst", ret => Me.BuffCount("Fury") > 29 && Me.InCombat),
 					Spell.Buff("Berserk", ret => Me.BuffCount("Fury") > 29),
 					Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
 					Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
@@ -64,17 +65,17 @@ namespace DefaultCombat.Routines
 
 					//Rotation
 					Spell.Cast("Disruption", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-					Spell.Cast("Massacre", ret => !Me.HasBuff("Massacre")),
+					Spell.Cast("Battering Assault", ret => Me.ActionPoints <= 6 && !Me.HasBuff("Ferocity")),
 					Spell.Cast("Ferocity"),
-					Spell.Cast("Gore"),
+					Spell.Cast("Devastating Blast", ret => Me.HasBuff("Ferocity")),
+					Spell.Cast("Gore", ret => Me.HasBuff("Ferocity")),
+					Spell.Cast("Vicious Throw", ret => Me.HasBuff("Ferocity")),
 					Spell.Cast("Ravage", ret => Me.HasBuff("Ferocity")),
-					Spell.Cast("Vicious Throw"),
-					Spell.Cast("Force Scream", ret => Me.HasBuff("Execute") && Me.Level < 58),
-					Spell.Cast("Devastating Blast", ret => Me.HasBuff("Execute") && Me.Level > 57),
-					Spell.Cast("Massacre"),
-					Spell.Cast("Dual Saber Throw"),
-					Spell.Cast("Battering Assault"),
-					Spell.Cast("Assault")
+					Spell.Cast("Massacre", ret => !Me.HasBuff("Massacre")),
+					Spell.Cast("Dual Saber Throw", ret => !Me.HasBuff("Ferocity")),
+					Spell.Cast("Battering Assault", ret => Me.ActionPoints <= 6 && !Me.HasBuff("Ferocity")),
+					//Temp removal as a test for significant DPS loss Spell.Cast("Force Scream", ret => Me.HasBuff("Execute")),
+					Spell.Cast("Assault", ret => Me.ActionPoints <= 5 && !Me.HasBuff("Ferocity"))
 					);
 			}
 		}
@@ -86,7 +87,7 @@ namespace DefaultCombat.Routines
 				return new Decorator(ret => Targeting.ShouldPbaoe,
 					new PrioritySelector(
 						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
-						Spell.Cast("Smash"),
+						//Temp removal as a test for significant DPS loss Spell.Cast("Smash"),
 						Spell.Cast("Sweeping Slash")
 						));
 			}

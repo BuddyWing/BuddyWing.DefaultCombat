@@ -30,10 +30,10 @@ namespace DefaultCombat.Routines
 			{
 				return new PrioritySelector(
 					Spell.Buff("Unleash", ret => Me.IsStunned),
+					Spell.Buff("Deadly Saber", ret => !Me.HasBuff("Deadly Saber")),
 					Spell.Buff("Cloak of Pain", ret => Me.HealthPercent <= 90),
 					Spell.Buff("Undying Rage", ret => Me.HealthPercent <= 20),
 					Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 50),
-					Spell.Buff("Deadly Saber", ret => !Me.HasBuff("Deadly Saber")),
 					Spell.Buff("Frenzy", ret => Me.BuffCount("Fury") < 5),
 					Spell.Buff("Berserk", ret => Me.BuffCount("Fury") > 29),
 					Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
@@ -64,16 +64,30 @@ namespace DefaultCombat.Routines
 
 					//Rotation
 					Spell.Cast("Disruption", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
+					Spell.Cast("Annihilate"),
 					Spell.DoT("Force Rend", "Force Rend"),
 					Spell.DoT("Rupture", "Bleeding (Rupture)"),
-					Spell.Cast("Dual Saber Throw", ret => Me.HasBuff("Pulverize")),
 					Spell.Cast("Annihilate"),
+					Spell.Cast("Force Rend"),
+					Spell.Cast("Annihilate"),
+					Spell.Cast("Dual Saber Throw", ret => Me.HasBuff("Pulverize")),
 					Spell.Cast("Vicious Throw", ret => Me.CurrentTarget.HealthPercent <= 30),
+					Spell.Cast("Annihilate"),
 					Spell.Cast("Ravage"),
-					Spell.Cast("Vicious Slash", ret => Me.ActionPoints >= 9),
+					Spell.Cast("Annihilate"),
+					Spell.Cast("Force Rend"),
+					Spell.Cast("Vicious Slash", ret => Me.ActionPoints >= 9 && Me.CurrentTarget.HasDebuff("Bleeding (Rupture)")),
+					Spell.Cast("Annihilate"),	
+					Spell.Cast("Force Rend"),
 					Spell.Cast("Battering Assault", ret => Me.ActionPoints <= 6),
+					Spell.Cast("Annihilate"),
+					Spell.Cast("Force Rend"),
 					Spell.Cast("Force Charge", ret => Me.ActionPoints <= 8),
-					Spell.Cast("Assault", ret => Me.ActionPoints < 9)
+					Spell.Cast("Annihilate"),
+					Spell.Cast("Force Rend"),
+					Spell.Cast("Assault", ret => Me.ActionPoints < 9 && Me.CurrentTarget.HasDebuff("Bleeding (Rupture)")),
+					Spell.Cast("Annihilate"),
+					Spell.Cast("Force Rend")
 					);
 			}
 		}

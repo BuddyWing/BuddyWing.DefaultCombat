@@ -73,6 +73,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Discharge"),
 					Spell.Cast("Thrash"),
 					Spell.Cast("Saber Strike"),
+					Spell.Cast("Depredating Volts", ret => Me.BuffCount("Harnessed Darkness") > 2),
 					Spell.Cast("Force Speed", ret => Me.CurrentTarget.Distance >= 1.1f && Me.IsMoving && Me.InCombat)
 					);
 			}
