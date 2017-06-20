@@ -85,9 +85,9 @@ namespace DefaultCombat.Routines
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new PrioritySelector(
 						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
+						Spell.CastOnGround("Death Field"),
 						Spell.DoT("Discharge", "Shocked (Discharge)"),
 						Spell.DoT("Creeping Terror", "Creeping Terror"),
-						Spell.CastOnGround("Death Field"),
 						Spell.Cast("Lacerate", ret =>	Me.CurrentTarget.HasDebuff("Shocked (Discharge)") && Me.CurrentTarget.HasDebuff("Creeping Terror") &&	Me.ForcePercent >= 60 && Targeting.ShouldPbaoe)
 						));
 			}

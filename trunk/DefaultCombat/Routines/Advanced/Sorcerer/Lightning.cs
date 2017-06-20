@@ -57,18 +57,23 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
+					
+					//Solo Mode
+					Spell.Cast("Resurgence", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 70),
+					Spell.Cast("Dark Heal", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 60),
+					Spell.Cast("Unnatural Preservation", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 50),
 
 					//Rotation
 					Spell.Cast("Jolt", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
+					Spell.Cast("Thundering Blast"),
 					Spell.Cast("Affliction", ret => !Me.CurrentTarget.HasDebuff("Affliction")),
-					Spell.Cast("Thundering Blast", ret => Me.CurrentTarget.HasDebuff("Affliction")),
-					Spell.Cast("Lightning Flash"),
 					Spell.Cast("Crushing Darkness", ret => Me.HasBuff("Force Flash")),
+					Spell.Cast("Lightning Flash"),
+					Spell.Cast("Shock", ret => Me.CurrentTarget.HasDebuff("Crushed (Crushing Darkness)")),
+					Spell.Cast("Chain Lightning", ret => Me.HasBuff("Focal Lightning")),
+					Spell.Cast("Lightning Bolt"),
 					Spell.Cast("Force Lightning", ret => Me.HasBuff("Lightning Barrage")),
-					Spell.Cast("Chain Lightning", ret => Me.HasBuff("Lightning Storm")),
-					Spell.Cast("Lightning Bolt", ret => Me.Level >= 57),
-					Spell.Cast("Lightning Strike", ret => Me.Level < 57),
-					Spell.Cast("Shock")
+					Spell.Cast("Lightning Strike")
 					);
 			}
 		}
