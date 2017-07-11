@@ -52,7 +52,6 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
@@ -75,6 +74,7 @@ namespace DefaultCombat.Routines
 			{
 				return new PrioritySelector(
 					Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
+						Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
 					Spell.HealGround("Kolto Waves", ret => Targeting.ShouldAoeHeal),
 					Spell.Heal("Kolto Cloud", on => Tank, 80, ret => Tank != null && Targeting.ShouldAoeHeal),
 					Spell.Heal("Emergency Medpac", 90, ret => emergencyMedpac()),

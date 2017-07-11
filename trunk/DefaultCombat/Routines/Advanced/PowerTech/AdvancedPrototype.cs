@@ -58,7 +58,6 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
@@ -97,6 +96,7 @@ namespace DefaultCombat.Routines
 					new Decorator(ret => Targeting.ShouldPbaoe,
 						new PrioritySelector(
 							Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
+						Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
 							Spell.Cast("Searing Wave"),
 							Spell.Cast("Flame Sweep"),
 							Spell.Cast("Shatter Slug")

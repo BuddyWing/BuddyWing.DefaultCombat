@@ -53,7 +53,6 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
@@ -61,8 +60,6 @@ namespace DefaultCombat.Routines
 					//Rotation
 					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
 					Spell.Cast("Shiv", ret => Me.CurrentTarget.Distance <= Distance.Melee),
-					Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving),
-					Spell.CastOnGround("Orbital Strike", ret => Targeting.ShouldAoe),
 					Spell.Cast("Explosive Probe", ret => Me.IsInCover()),
 					Spell.Cast("Hidden Strike", ret => Me.HasBuff("Stealth")),
 					Spell.Cast("Backstab"),
@@ -79,6 +76,7 @@ namespace DefaultCombat.Routines
 			{
 				return new PrioritySelector(
 					Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
+						Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
 					Spell.Heal("Surgical Probe", 30),
 					Spell.Heal("Recuperative Nanotech", on => Tank, 80, ret => Targeting.ShouldAoeHeal),
 					Spell.Heal("Kolto Probe", on => Tank, 100, ret => Tank != null && Tank.BuffCount("Kolto Probe") < 2 || Tank.BuffTimeLeft("Kolto Probe") < 6),
