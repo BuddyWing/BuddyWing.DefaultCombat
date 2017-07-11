@@ -87,7 +87,7 @@ namespace DefaultCombat.Routines
 				return new PrioritySelector(
 					new Decorator(ret => Targeting.ShouldAoe,
 						new PrioritySelector(
-						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
+						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f))), //--will only be active when user initiates Heroic Moment--
 						Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
 						new Decorator(ret => Targeting.ShouldPbaoe,
 						Spell.Cast("Lacerate", ret => Me.ForcePercent >= 60))
