@@ -59,7 +59,6 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
@@ -80,7 +79,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Lethal Strike",	ret => Me.IsStealthed),
 					Spell.Cast("Corrosive Dart", ret =>	!Me.CurrentTarget.HasDebuff("Corrosive Dart") || Me.CurrentTarget.DebuffTimeLeft("Corrosive Dart") <= 2),
 					Spell.Cast("Corrosive Grenade",	ret => !Me.CurrentTarget.HasDebuff("Corrosive Grenade") || Me.CurrentTarget.DebuffTimeLeft("Corrosive Grenade") <= 2),
-					Spell.Cast("Shiv", ret => Me.BuffCount("Tactical Advantage") < 2 || Me.BuffTimeLeft("Tactical Advantage") < 6),
+					Spell.Cast("Shiv", ret => Me.CurrentTarget.Distance <= Distance.Melee && Me.BuffCount("Tactical Advantage") < 2 || Me.BuffTimeLeft("Tactical Advantage") < 6),
 					Spell.Cast("Corrosive Assault",	ret =>	Me.HasBuff("Tactical Advantage") &&	Me.CurrentTarget.HasDebuff("Corrosive Dart") &&	Me.CurrentTarget.HasDebuff("Corrosive Grenade")),
 					Spell.Cast("Lethal Strike",	ret =>	Me.CurrentTarget.HasDebuff("Corrosive Dart") &&	Me.CurrentTarget.HasDebuff("Corrosive Grenade")),
 					Spell.Cast("Overload Shot",	ret =>	Me.EnergyPercent > 85),
@@ -96,6 +95,7 @@ namespace DefaultCombat.Routines
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new PrioritySelector(
 						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
+						Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
 						Spell.DoT("Corrosive Grenade", "Corrosive Grenade"),
 						Spell.Cast("Fragmentation Grenade"),
 						Spell.Cast("Noxious Knives"),

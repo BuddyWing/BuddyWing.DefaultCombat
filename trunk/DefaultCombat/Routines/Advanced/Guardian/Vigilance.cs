@@ -56,7 +56,6 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
 					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
@@ -86,6 +85,7 @@ namespace DefaultCombat.Routines
 				return new Decorator(ret => Targeting.ShouldPbaoe,
 					new PrioritySelector(
 						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
+						Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
 						Spell.Cast("Vigilant Thrust",	ret =>	Me.Level >= 57 && Me.CurrentTarget.HasDebuff("Burning (Plasma Brand)") &&	Me.CurrentTarget.HasDebuff("Burning (Burning Purpose)") && Me.CurrentTarget.HasDebuff("Burning (Burning Blade)")),
 						Spell.Cast("Force Sweep",	ret =>	Me.Level < 57 && Me.CurrentTarget.HasDebuff("Burning (Plasma Brand)") &&	Me.CurrentTarget.HasDebuff("Burning (Burning Purpose)") && Me.CurrentTarget.HasDebuff("Burning (Burning Blade)")),
 						Spell.Cast("Cyclone Slash",	ret => Me.CurrentTarget.HasDebuff("Burning (Plasma Brand)") || Me.CurrentTarget.HasDebuff("Burning (Burning Purpose)") ||	Me.CurrentTarget.HasDebuff("Burning (Burning Blade)"))
