@@ -65,7 +65,15 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Backstab"),
 					Spell.DoT("Corrosive Dart", "", 16000),
 					Spell.Cast("Overload Shot", ret => Me.EnergyPercent >= 70),
-					Spell.Cast("Rifle Shot")
+					Spell.Cast("Rifle Shot"),
+
+					//HK-55 Mode Rotation
+					Spell.Cast("Charging In", ret => Me.CurrentTarget.Distance >= .4f && Me.InCombat && CombatHotkeys.EnableHK55),
+					Spell.Cast("Blindside", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Assassinate", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Rail Blast", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Rifle Blast", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Execute", ret => Me.CurrentTarget.HealthPercent <= 45 && CombatHotkeys.EnableHK55)
 					);
 			}
 		}
@@ -76,7 +84,8 @@ namespace DefaultCombat.Routines
 			{
 				return new PrioritySelector(
 					Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
-						Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
+					Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
+					Spell.CastOnGround("Terminate", ret => CombatHotkeys.EnableHK55), //--will only be active when user initiates HK-55 Mode
 					Spell.Heal("Surgical Probe", 30),
 					Spell.Heal("Recuperative Nanotech", on => Tank, 80, ret => Targeting.ShouldAoeHeal),
 					Spell.Heal("Kolto Probe", on => Tank, 100, ret => Tank != null && Tank.BuffCount("Kolto Probe") < 2 || Tank.BuffTimeLeft("Kolto Probe") < 6),

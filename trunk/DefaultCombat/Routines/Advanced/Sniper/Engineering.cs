@@ -93,7 +93,15 @@ namespace DefaultCombat.Routines
 					Spell.DoT("Corrosive Dart", "Corrosive Dart"),
 					Spell.Cast("Fragmentation Grenade"),
 					Spell.Cast("Rifle Shot"),
-					Spell.Cast("Snipe")
+					Spell.Cast("Snipe"),
+
+					//HK-55 Mode Rotation
+					Spell.Cast("Charging In", ret => Me.CurrentTarget.Distance >= .4f && Me.InCombat && CombatHotkeys.EnableHK55),
+					Spell.Cast("Blindside", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Assassinate", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Rail Blast", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Rifle Blast", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Execute", ret => Me.CurrentTarget.HealthPercent <= 45 && CombatHotkeys.EnableHK55)
 					);
 			}
 		}
@@ -107,6 +115,7 @@ namespace DefaultCombat.Routines
 						Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving),
 						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
 						Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
+						Spell.CastOnGround("Terminate", ret => CombatHotkeys.EnableHK55), //--will only be active when user initiates HK-55 Mode
 						Spell.CastOnGround("Orbital Strike", ret => Me.IsInCover() && Me.EnergyPercent > 30),
 						Spell.DoTGround("Plasma Probe", 9000),
 						Spell.Cast("Suppressive Fire", ret => Me.IsInCover() && Me.EnergyPercent > 10)

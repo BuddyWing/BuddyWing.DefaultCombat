@@ -14,6 +14,7 @@ namespace DefaultCombat.Helpers
 		public static bool EnableInterrupts;
 		public static bool EnableCharge;
 		public static bool EnableSolo;
+		public static bool EnableHK55;
 
 		public static void Initialize()
 		{
@@ -22,9 +23,13 @@ namespace DefaultCombat.Helpers
 			EnableInterrupts = true; 
 			EnableCharge = true;
 			EnableSolo = false;
+			EnableHK55 = false;
 			
 			//F9 and F10 are reservered for internal commands
 
+			Hotkeys.RegisterHotkey("Toggle HK55 (F4)", ChangeHK55, Keys.F4);
+			Logger.Write("[Hot Key][F4] Toggle HK55");
+			
 			Hotkeys.RegisterHotkey("Toggle Interrupts (F5)", ChangeInterrupts, Keys.F5);
 			Logger.Write("[Hot Key][F5] Toggle Interrupts");
 
@@ -112,6 +117,20 @@ namespace DefaultCombat.Helpers
 			{
 				Logger.Write("Solo Mode Enabled");
 				EnableSolo = true;
+			}
+		}
+
+		private static void ChangeHK55()
+		{
+			if (EnableHK55)
+			{
+				Logger.Write("HK-55 Mode Disabled");
+				EnableHK55 = false;
+			}
+			else
+			{
+				Logger.Write("HK-55 Mode Enabled");
+				EnableHK55 = true;
 			}
 		}
 	}
