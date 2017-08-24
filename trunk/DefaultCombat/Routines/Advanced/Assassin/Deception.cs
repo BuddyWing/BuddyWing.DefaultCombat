@@ -92,9 +92,16 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
+<<<<<<< HEAD
 				return new Decorator(ret => Targeting.ShouldAoe,
 					new PrioritySelector(
 						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
+=======
+				return new PrioritySelector(
+					new Decorator(ret => Targeting.ShouldAoe,
+						new PrioritySelector(
+						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f))), //--will only be active when user initiates Heroic Moment--
+>>>>>>> e96968c854a9557d261d72c25bcc6b979301afe3
 						Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
 						Spell.CastOnGround("Terminate", ret => CombatHotkeys.EnableHK55), //--will only be active when user initiates HK-55 Mode
 						Spell.Cast("Lacerate", ret => Me.ForcePercent >= 60)
