@@ -78,7 +78,15 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Thermal Detonator"),
 					Spell.Cast("Rocket Punch"),
 					Spell.Cast("Magnetic Blast", ret => Me.Level >= 26),
-					Spell.Cast("Flame Burst", ret => Me.Level < 26)
+					Spell.Cast("Flame Burst", ret => Me.Level < 26),
+
+					//HK-55 Mode Rotation
+					Spell.Cast("Charging In", ret => Me.CurrentTarget.Distance >= .4f && Me.InCombat && CombatHotkeys.EnableHK55),
+					Spell.Cast("Blindside", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Assassinate", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Rail Blast", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Rifle Blast", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Execute", ret => Me.CurrentTarget.HealthPercent <= 45 && CombatHotkeys.EnableHK55)
 					);
 			}
 		}
@@ -96,7 +104,8 @@ namespace DefaultCombat.Routines
 					new Decorator(ret => Targeting.ShouldPbaoe,
 						new PrioritySelector(
 							Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
-						Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
+							Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
+							Spell.CastOnGround("Terminate", ret => CombatHotkeys.EnableHK55), //--will only be active when user initiates HK-55 Mode
 							Spell.Cast("Searing Wave"),
 							Spell.Cast("Flame Sweep"),
 							Spell.Cast("Shatter Slug")

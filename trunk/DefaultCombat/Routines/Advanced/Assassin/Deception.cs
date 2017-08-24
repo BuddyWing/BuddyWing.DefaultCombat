@@ -75,7 +75,15 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Voltaic Slash", ret => Me.Level >= 26),
 					Spell.Cast("Thrash", ret => Me.Level < 26),
 					Spell.Cast("Saber Strike", ret => Me.ForcePercent <= 25),
-					Spell.Cast("Force Speed", ret => Me.CurrentTarget.Distance >= 1.1f && Me.IsMoving && Me.InCombat)
+					Spell.Cast("Force Speed", ret => Me.CurrentTarget.Distance >= 1.1f && Me.IsMoving && Me.InCombat),
+
+					//HK-55 Mode Rotation
+					Spell.Cast("Charging In", ret => Me.CurrentTarget.Distance >= .4f && Me.InCombat && CombatHotkeys.EnableHK55),
+					Spell.Cast("Blindside", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Assassinate", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Rail Blast", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Rifle Blast", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Execute", ret => Me.CurrentTarget.HealthPercent <= 45 && CombatHotkeys.EnableHK55)
 					);
 			}
 		}
@@ -84,14 +92,13 @@ namespace DefaultCombat.Routines
 		{
 			get
 			{
-				return new PrioritySelector(
-					new Decorator(ret => Targeting.ShouldAoe,
-						new PrioritySelector(
-						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f))), //--will only be active when user initiates Heroic Moment--
+				return new Decorator(ret => Targeting.ShouldAoe,
+					new PrioritySelector(
+						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
 						Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
-						new Decorator(ret => Targeting.ShouldPbaoe,
-						Spell.Cast("Lacerate", ret => Me.ForcePercent >= 60))
-					);
+						Spell.CastOnGround("Terminate", ret => CombatHotkeys.EnableHK55), //--will only be active when user initiates HK-55 Mode
+						Spell.Cast("Lacerate", ret => Me.ForcePercent >= 60)
+					));
 			}
 		}
 	}

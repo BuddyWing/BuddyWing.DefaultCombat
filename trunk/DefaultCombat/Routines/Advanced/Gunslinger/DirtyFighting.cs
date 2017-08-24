@@ -70,7 +70,15 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Quickdraw", ret => Me.CurrentTarget.HealthPercent <= 30),
 					Spell.Cast("Speed Shot"),
 					Spell.Cast("Dirty Blast", ret => Me.Level >= 57),
-					Spell.Cast("Charged Burst", ret => Me.Level < 57)
+					Spell.Cast("Charged Burst", ret => Me.Level < 57),
+
+					//HK-55 Mode Rotation
+					Spell.Cast("Charging In", ret => Me.CurrentTarget.Distance >= .4f && Me.InCombat && CombatHotkeys.EnableHK55),
+					Spell.Cast("Blindside", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Assassinate", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Rail Blast", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Rifle Blast", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Execute", ret => Me.CurrentTarget.HealthPercent <= 45 && CombatHotkeys.EnableHK55)
 					);
 			}
 		}
@@ -84,6 +92,7 @@ namespace DefaultCombat.Routines
 						Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving),
 						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
 						Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
+						Spell.CastOnGround("Terminate", ret => CombatHotkeys.EnableHK55), //--will only be active when user initiates HK-55 Mode
 						Spell.CastOnGround("XS Freighter Flyby", ret => Me.IsInCover() && Me.EnergyPercent > 30),
 						Spell.Cast("Thermal Grenade"),
 						Spell.Cast("Shrap Bomb", ret => Me.CurrentTarget.HasDebuff("Vital Shot") && !Me.CurrentTarget.HasDebuff("Shrap Bomb")),

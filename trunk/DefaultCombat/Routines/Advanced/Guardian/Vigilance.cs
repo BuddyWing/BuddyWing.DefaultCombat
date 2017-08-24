@@ -64,16 +64,28 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Force Kick", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
 
 					//Rotation
-					Spell.Cast("Plasma Brand"),
 					Spell.Cast("Overhead Slash"),
-					Spell.Cast("Blade Storm", ret => Me.BuffCount("Force Rush") == 2),
+					Spell.Cast("Whirling Blade", ret => Me.HasBuff("Ardent Advocate")),
+					Spell.Cast("Plasma Brand"),
+					Spell.Cast("Blade Storm"),
+					Spell.Cast("Vigilant Thrust", ret => Me.CurrentTarget.Distance <= 0.5f),
 					Spell.Cast("Blade Barrage"),
-					Spell.Cast("Whirling Blade", ret => Me.HasBuff("Keening") || Me.HasBuff("Ardent Advocate") || Me.CurrentTarget.HealthPercent <= 30),
+					Spell.Cast("Whirling Blade", ret => Me.HasBuff("Keening") || Me.CurrentTarget.HealthPercent <= 30),
+					Spell.Cast("Combat Focus", ret => Me.ActionPoints <= 6),
+					Spell.Cast("Freezing Force", ret => Me.Level >= 62 && Me.CurrentTarget.Distance <= 0.5f && !Me.CurrentTarget.HasMyDebuff("Freezing Force")),
 					Spell.Cast("Sundering Strike", ret => Me.ActionPoints <= 7),
-					Spell.Cast("Slash", ret => Me.ActionPoints >= 9),
-					Spell.Cast("Strike"),
-					Spell.Cast("Riposte"),
-					Spell.Cast("Saber Throw", ret => Me.CurrentTarget.Distance >= 0.5f && Me.InCombat)
+					Spell.Cast("Saber Throw", ret => Me.CurrentTarget.Distance >= 0.5f && Me.InCombat),
+					Spell.Cast("Saber Throw", ret => Me.ActionPoints <= 3),
+					Spell.Cast("Riposte", ret => Me.ActionPoints > 9),
+					Spell.Cast("Slash", ret => Me.ActionPoints > 9),
+
+					//HK-55 Mode Rotation
+					Spell.Cast("Charging In", ret => Me.CurrentTarget.Distance >= .4f && Me.InCombat && CombatHotkeys.EnableHK55),
+					Spell.Cast("Blindside", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Assassinate", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Rail Blast", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Rifle Blast", ret => CombatHotkeys.EnableHK55),
+					Spell.Cast("Execute", ret => Me.CurrentTarget.HealthPercent <= 45 && CombatHotkeys.EnableHK55)
 					);
 			}
 		}
@@ -86,8 +98,9 @@ namespace DefaultCombat.Routines
 					new PrioritySelector(
 						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
 						Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
-						Spell.Cast("Vigilant Thrust",	ret =>	Me.Level >= 57 && Me.CurrentTarget.HasDebuff("Burning (Plasma Brand)") &&	Me.CurrentTarget.HasDebuff("Burning (Burning Purpose)") && Me.CurrentTarget.HasDebuff("Burning (Burning Blade)")),
-						Spell.Cast("Force Sweep",	ret =>	Me.Level < 57 && Me.CurrentTarget.HasDebuff("Burning (Plasma Brand)") &&	Me.CurrentTarget.HasDebuff("Burning (Burning Purpose)") && Me.CurrentTarget.HasDebuff("Burning (Burning Blade)")),
+						Spell.CastOnGround("Terminate", ret => CombatHotkeys.EnableHK55), //--will only be active when user initiates HK-55 Mode
+						Spell.Cast("Vigilant Thrust",	ret =>	Me.Level >= 58 && Me.CurrentTarget.HasDebuff("Burning (Plasma Brand)") && Me.CurrentTarget.HasDebuff("Burning (Burning Purpose)") && Me.CurrentTarget.HasDebuff("Burning (Burning Blade)")),
+						Spell.Cast("Force Sweep",	ret =>	Me.Level < 57 && Me.CurrentTarget.HasDebuff("Burning (Plasma Brand)") && Me.CurrentTarget.HasDebuff("Burning (Burning Purpose)") && Me.CurrentTarget.HasDebuff("Burning (Burning Blade)")),
 						Spell.Cast("Cyclone Slash",	ret => Me.CurrentTarget.HasDebuff("Burning (Plasma Brand)") || Me.CurrentTarget.HasDebuff("Burning (Burning Purpose)") ||	Me.CurrentTarget.HasDebuff("Burning (Burning Blade)"))
 						));
 			}
