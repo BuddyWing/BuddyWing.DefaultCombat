@@ -70,8 +70,8 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Demolition Round", ret => Me.CurrentTarget.HasDebuff("Gravity Vortex")),
 					Spell.Cast("Electro Net"),
 					Spell.Cast("High Impact Bolt", ret => Me.BuffCount("Charged Barrel") == 5),
+					Spell.Cast("Boltstorm"),
 					Spell.Cast("Vortex Bolt"),
-					Spell.Cast("Boltstorm", ret => Me.HasBuff("Curtain of Fire")),
 					Spell.Cast("Grav Round"),
 					Spell.Cast("Hammer Shots"),
 
