@@ -65,7 +65,7 @@ namespace DefaultCombat.Routines
 					//Rotation
 					Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
 					Spell.Cast("Rapid Shots", ret => Me.ResourcePercent() > 40),
-					Spell.Cast("Blazing Bolts", ret => Me.HasBuff("Barrage") && Me.Level >= 57),
+					Spell.Cast("Blazing Bolts", ret => Me.Level >= 57),
 					Spell.Cast("Unload", ret => Me.Level < 57),
 					Spell.Cast("Heatseeker Missiles", ret => Me.CurrentTarget.HasDebuff("Heat Signature")),
 					Spell.Cast("Rail Shot", ret => Me.BuffCount("Tracer Lock") == 5),
