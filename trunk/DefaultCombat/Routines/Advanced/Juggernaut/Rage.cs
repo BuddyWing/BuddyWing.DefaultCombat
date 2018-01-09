@@ -60,17 +60,17 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 
                     //Rotation
-                    Spell.Cast("Raging Burst"),
-                    Spell.Cast("Furious Strike"),
-                    Spell.Cast("Obliterate"),
-                    Spell.Cast("Vicious Throw"),
-                    Spell.Cast("Retaliation"),
+                    Spell.Cast("Force Crush", ret => !Me.HasBuff("Enveloping Rage")),
+                    Spell.Cast("Force Scream", ret => !Me.HasBuff("Enveloping Rage")),
+                    Spell.Cast("Sundering Assault", ret => !Me.HasBuff("Enveloping Rage")),
                     Spell.Cast("Ravage"),
-                    Spell.Cast("Sundering Assault", ret => Me.HasBuff("Battle Cry")),
-                    Spell.Cast("Force Crush", ret => Me.HasBuff("Battle Cry")),
-                    Spell.Cast("Force Scream", ret => Me.HasBuff("Battle Cry")),
-                    Spell.Cast("Vicious Slash", ret => Me.ActionPoints >= 8),
+                    Spell.Cast("Raging Burst"),
+                    Spell.Cast("Furious Strike", ret => Me.HasBuff("Cascading Power")),
+                    Spell.Cast("Obliterate"),
                     Spell.Cast("Disruption", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
+                    Spell.Cast("Retaliation"),
+                    Spell.Cast("Vicious Throw"),
+                    Spell.Cast("Assault", ret => (Me.ActionPoints <= 2 || Me.Level <= 22 && Me.ActionPoints <= 5)),
 
                     //HK-55 Mode Rotation
                     Spell.Cast("Charging In", ret => Me.CurrentTarget.Distance >= .4f && Me.InCombat && CombatHotkeys.EnableHK55),
