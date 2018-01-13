@@ -61,17 +61,18 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 
 					//Rotation
-					Spell.Cast("Disruption", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-					Spell.Cast("Vicious Throw", ret => Me.CurrentTarget.HealthPercent <= 30),
-					Spell.Cast("Furious Strike"),
-					Spell.Cast("Force Crush"),
-					Spell.Cast("Obliterate"),
 					Spell.Cast("Raging Burst", ret => Me.HasBuff("Destruction") && Me.HasBuff("Dominate")),
-					Spell.Cast("Force Scream", ret => Me.HasBuff("Battle Cry") || Me.ActionPoints >= 5),
+					//Adrenal(add here)
+					Spell.Cast("Force Crush"),
+					Spell.Cast("Furious Strike"),
 					Spell.Cast("Ravage"),
+					Spell.Cast("Obliterate"),
+					Spell.Cast("Battering Assault", ret => Me.ActionPoints <= 6),
+					Spell.Cast("Vicious Throw", ret => Me.CurrentTarget.HealthPercent <= 30),
+					Spell.Cast("Force Scream", ret => Me.HasBuff("Battle Cry") || Me.ActionPoints >= 5),
+					Spell.Cast("Disruption", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
 					Spell.Cast("Dual Saber Throw"),
 					Spell.Cast("Vicious Slash", ret => Me.HasBuff("Berserk")),
-					Spell.Cast("Battering Assault", ret => Me.ActionPoints <= 6),
 					Spell.Cast("Assault", ret => Me.ActionPoints < 6),
 
 					//HK-55 Mode Rotation

@@ -68,7 +68,7 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Whirling Blade", ret => Me.HasBuff("Ardent Advocate")),
 					Spell.Cast("Plasma Brand"),
 					Spell.Cast("Blade Storm"),
-					Spell.Cast("Vigilant Thrust", ret => Me.CurrentTarget.Distance <= 0.5f),
+					Spell.Cast("Vigilant Thrust", ret => Me.CurrentTarget.Distance <= 0.5f && Me.Level >= 58),
 					Spell.Cast("Blade Barrage"),
 					Spell.Cast("Whirling Blade", ret => Me.HasBuff("Keening") || Me.CurrentTarget.HealthPercent <= 30),
 					Spell.Cast("Combat Focus", ret => Me.ActionPoints <= 6),

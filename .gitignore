@@ -194,3 +194,11 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+trunk/DefaultCombat/DefaultCombat\.csproj
+
+trunk/DefaultCombat/Helpers/Rest\.cs
+*.gitignore
+
+*.exe
+
+*.dll
