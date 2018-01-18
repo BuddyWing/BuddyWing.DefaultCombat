@@ -1,4 +1,7 @@
-﻿// Copyright (C) 2011-2017 Bossland GmbH
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 // See the file LICENSE for the source code's detailed license
 
 using System.Collections.Generic;
@@ -11,287 +14,287 @@ using DefaultCombat.Helpers;
 
 namespace DefaultCombat.Core
 {
-	public static class Targeting
-	{
-		private const int AoedpsCountNeeded = 3;
-		private const int AoeHealCountNeeded = 2;
+    public static class Targeting
+    {
+        private const int AoedpsCountNeeded = 3;
+        private const int AoeHealCountNeeded = 2;
 
-		//Settings for making target queries
-		private const int MaxHealth = Health.Max;
-		private const float HealingDistance = Distance.Ranged;
-		private const float AoeHealDist = Distance.HealAoe;
-		private const int AoeHealHp = Health.High;
-		//Collections
-		public static List<TorCharacter> HealCandidates;
-		public static List<TorCharacter> Tanks;
-		public static List<Vector3> HealCandidatePoints;
-		public static List<TorCharacter> Enemies = new List<TorCharacter>();
-		public static List<Vector3> EnemyPoints = new List<Vector3>();
+        //Settings for making target queries
+        private const int MaxHealth = Health.Max;
+        private const float HealingDistance = Distance.Ranged;
+        private const float AoeHealDist = Distance.HealAoe;
+        private const int AoeHealHp = Health.High;
+        //Collections
+        public static List<TorCharacter> HealCandidates;
+        public static List<TorCharacter> Tanks;
+        public static List<Vector3> HealCandidatePoints;
+        public static List<TorCharacter> Enemies = new List<TorCharacter>();
+        public static List<Vector3> EnemyPoints = new List<Vector3>();
 
-		//Static Points and People
-		public static string TankName = "";
-		public static string TankNameStart;
-		public static string TankNameCheck;
-		public static TorCharacter Tank;
-		public static TorCharacter HealTarget;
-		public static TorCharacter AoeHealTarget;
-		public static TorCharacter AoeDpsTarget;
-		public static TorCharacter DispelTarget;
+        //Static Points and People
+        public static string TankName = "";
+        public static string TankNameStart;
+        public static string TankNameCheck;
+        public static TorCharacter Tank;
+        public static TorCharacter HealTarget;
+        public static TorCharacter AoeHealTarget;
+        public static TorCharacter AoeDpsTarget;
+        public static TorCharacter DispelTarget;
 
-		public static Vector3 AoeDpsPoint = Vector3.Zero;
+        public static Vector3 AoeDpsPoint = Vector3.Zero;
 
-		//Counts
-		public static int AoeHealCount;
-		public static int AoeDpsCount;
-		public static int AoePeanutButterCount;
-		private static int _aoepbCountNeeded = 3;
-		public static bool ShouldAoeHeal;
-		public static bool ShouldAoe;
-		public static bool ShouldPbaoe;
-		public static Vector3 AoeHealPoint = Vector3.Zero;
-
-
-		//Caching shit
-		public static int cacheCount = 75;
-		public static int maxCacheCount = 2;
-		public static List<TorCharacter> Objects;
-		public static List<TorCharacter> objects;
-
-		private static TorPlayer Me
-		{
-			get { return BuddyTor.Me; }
-		}
-
-		//Determine if we should use the tank's target.
-		private static bool UseTankTarget
-		{
-			get
-			{
-				return Me.CurrentTarget == null && Tank != null && Tank.Guid != Me.Guid && Tank.InCombat &&
-					   Tank.CurrentTarget != null;
-			}
-		}
-
-		public static Composite ScanTargets
-		{
-			get
-			{
-				return new Action(delegate
-				{
-					//increment shit!
-					cacheCount++;
-
-					//Reset counts
-					AoeHealCount = 0;
-					AoeDpsCount = 0;
-					AoePeanutButterCount = 0;
-					//Reset Targets
-					//     Tank = null;
-					HealTarget = null;
-					AoeHealTarget = null;
-					AoeHealPoint = Vector3.Zero;
-					DispelTarget = null;
+        //Counts
+        public static int AoeHealCount;
+        public static int AoeDpsCount;
+        public static int AoePeanutButterCount;
+        private static readonly int s_aoepbCountNeeded = 3;
+        public static bool ShouldAoeHeal;
+        public static bool ShouldAoe;
+        public static bool ShouldPbaoe;
+        public static Vector3 AoeHealPoint = Vector3.Zero;
 
 
-					//Reset Lists and shit
-					HealCandidates = new List<TorCharacter>();
-					HealCandidatePoints = new List<Vector3>();
-					EnemyPoints = new List<Vector3>();
-					Tanks = new List<TorCharacter>();
-					ShouldAoeHeal = false;
-					var objects = GetTorCharacters();
+        //Caching shit
+        public static int cacheCount = 75;
+        public static int maxCacheCount = 2;
+        public static List<TorCharacter> Objects;
+        public static List<TorCharacter> objects;
+
+        private static TorPlayer Me
+        {
+            get { return BuddyTor.Me; }
+        }
+
+        //Determine if we should use the tank's target.
+        private static bool UseTankTarget
+        {
+            get
+            {
+                return Me.CurrentTarget == null && Tank != null && Tank.Guid != Me.Guid && Tank.InCombat &&
+                       Tank.CurrentTarget != null;
+            }
+        }
+
+        public static Composite ScanTargets
+        {
+            get
+            {
+                return new Action(delegate
+                {
+                    //increment shit!
+                    cacheCount++;
+
+                    //Reset counts
+                    AoeHealCount = 0;
+                    AoeDpsCount = 0;
+                    AoePeanutButterCount = 0;
+                    //Reset Targets
+                    //     Tank = null;
+                    HealTarget = null;
+                    AoeHealTarget = null;
+                    AoeHealPoint = Vector3.Zero;
+                    DispelTarget = null;
 
 
-					//update the cache when we feel like it
-					if (cacheCount >= maxCacheCount)
-						updateObjects();
-
-					if (DefaultCombat.IsHealer)
-					{
-						foreach (var p in Objects)
-						{
-							//Doing this shit early
-
-							//    Logger.Write(p.Name);
-							if (Tank != null && Tank == p)
-								Tank = p;
-
-							if (Tank == null && p.Name == TankName && !p.IsDead)
-								Tank = p;
-
-							// Got a Focus Tank?
-							if (Tank == null && Me.FocusTargetIsActive && p.Guid == Me.FocusTargetID && !p.IsDead)
-								Tank = p;
-
-							if (p.IsPartyRoleTank())
-								Tanks.Add(p);
-
-							// Damn couldnt find a tank ima be the boss!
-
-							if (Tank == null && Me.Companion != null)
-								Tank = Me.Companion;
-
-							if (Tank == null && Me.Companion == null)
-								Tank = Me;
-
-							//Check for HealTarget
-							if (p.Health <= p.statHealth && !p.IsDead)
-							{
-								if (HealTarget == null || p.Health < HealTarget.statHealth)
-									HealTarget = p;
-
-								//Add to candidtates list
-								HealCandidates.Add(p);
-								HealCandidatePoints.Add(p.Position);
-
-								//increment our AOEHealCount
-								if (p.Health <= AoeHealHp)
-									AoeHealCount++;
-							}
-
-							if (p.NeedsCleanse())
-							{
-								if (DispelTarget != null && p.Health < DispelTarget.statHealth)
-									DispelTarget = p;
-
-								if (DispelTarget == null)
-									DispelTarget = p;
-							}
-						}
+                    //Reset Lists and shit
+                    HealCandidates = new List<TorCharacter>();
+                    HealCandidatePoints = new List<Vector3>();
+                    EnemyPoints = new List<Vector3>();
+                    Tanks = new List<TorCharacter>();
+                    ShouldAoeHeal = false;
+                    var objects = GetTorCharacters();
 
 
-						//We have checked everyone out, lets set AOE stuff
-						if (AoeHealCount >= AoeHealCountNeeded)
-						{
-							ShouldAoeHeal = true;
-							//AOEHealTarget
-							AoeHealTarget = AoeHealLocation(AoeHealDist);
+                    //update the cache when we feel like it
+                    if (cacheCount >= maxCacheCount)
+                        updateObjects();
 
-							//AOEHealPoint
-							if (AoeHealTarget != null)
-								AoeHealPoint = AoeHealLocation(AoeHealTarget);
-						}
-					}
+                    if (DefaultCombat.IsHealer)
+                    {
+                        foreach (var p in Objects)
+                        {
+                            //Doing this shit early
 
-					foreach (var c in objects)
-					{
-						//Dps
-						if (c.IsValidTarget())
-						{
-							//Enemies.Add(c);
-							EnemyPoints.Add(c.Position);
-						}
+                            //    Logger.Write(p.Name);
+                            if (Tank != null && Tank == p)
+                                Tank = p;
 
-						if (Me.CurrentTarget != null)
-							ShouldAoe = CheckDpsAoe(AoedpsCountNeeded, Distance.MeleeAoE, Me.CurrentTarget.Position);
+                            if (Tank == null && p.Name == TankName && !p.IsDead)
+                                Tank = p;
 
-						ShouldPbaoe = CheckDpsAoe(AoedpsCountNeeded, Distance.MeleeAoE, Me.Position);
-					}
+                            // Got a Focus Tank?
+                            if (Tank == null && Me.FocusTargetIsActive && p.Guid == Me.FocusTargetID && !p.IsDead)
+                                Tank = p;
+
+                            if (p.IsPartyRoleTank())
+                                Tanks.Add(p);
+
+                            // Damn couldnt find a tank ima be the boss!
+
+                            if (Tank == null && Me.Companion != null)
+                                Tank = Me.Companion;
+
+                            if (Tank == null && Me.Companion == null)
+                                Tank = Me;
+
+                            //Check for HealTarget
+                            if (p.Health <= p.statHealth && !p.IsDead)
+                            {
+                                if (HealTarget == null || p.Health < HealTarget.statHealth)
+                                    HealTarget = p;
+
+                                //Add to candidtates list
+                                HealCandidates.Add(p);
+                                HealCandidatePoints.Add(p.Position);
+
+                                //increment our AOEHealCount
+                                if (p.Health <= AoeHealHp)
+                                    AoeHealCount++;
+                            }
+
+                            if (p.NeedsCleanse())
+                            {
+                                if (DispelTarget != null && p.Health < DispelTarget.statHealth)
+                                    DispelTarget = p;
+
+                                if (DispelTarget == null)
+                                    DispelTarget = p;
+                            }
+                        }
 
 
-					return RunStatus.Failure;
-				});
-			}
-		}
+                        //We have checked everyone out, lets set AOE stuff
+                        if (AoeHealCount >= AoeHealCountNeeded)
+                        {
+                            ShouldAoeHeal = true;
+                            //AOEHealTarget
+                            AoeHealTarget = AoeHealLocation(AoeHealDist);
 
-		public static void SetTank()
-		{
-			TankNameStart = Me.CurrentTarget.ToString();
-			TankNameCheck = TankNameStart.Substring(0, TankNameStart.IndexOf(','));
+                            //AOEHealPoint
+                            if (AoeHealTarget != null)
+                                AoeHealPoint = AoeHealLocation(AoeHealTarget);
+                        }
+                    }
 
-			if (Me.CurrentTarget != null && Me.CurrentTarget.IsFriendly && !TankName.Equals(TankNameCheck))
-			{
-				TankName = TankNameStart.Substring(0, TankNameStart.IndexOf(','));
-				Logger.Write("Tank set to : " + TankName);
-				Tank = null;
-			}
-			else
-			{
-				TankName = "";
-				Tank = null;
-				Logger.Write("Cleared Tank");
-			}
-		}
+                    foreach (var c in objects)
+                    {
+                        //Dps
+                        if (c.IsValidTarget())
+                        {
+                            //Enemies.Add(c);
+                            EnemyPoints.Add(c.Position);
+                        }
 
-		private static void updateObjects()
-		{
-			if (DefaultCombat.IsHealer)
-			{
-				Objects = Me.PartyMembers(false).ToList().FindAll(p =>
-					!p.IsDead
-					&& p.DistanceSqr < HealingDistance*HealingDistance
-					&& p.InLineOfSight);
+                        if (Me.CurrentTarget != null)
+                            ShouldAoe = CheckDpsAoe(AoedpsCountNeeded, Distance.MeleeAoE, Me.CurrentTarget.Position);
 
-				if (!Objects.Contains(Me))
-					Objects.Add(Me);
+                        ShouldPbaoe = CheckDpsAoe(AoedpsCountNeeded, Distance.MeleeAoE, Me.Position);
+                    }
 
-				if (Me.Companion != null && !Objects.Contains(Me.Companion))
-					Objects.Add(Me.Companion);
-			}
 
-			//Reset dat count
-			cacheCount = 0;
-		}
+                    return RunStatus.Failure;
+                });
+            }
+        }
 
-		public static List<TorCharacter> GetTorCharacters()
-		{
-			using (BuddyTor.Memory.AcquireFrame())
-			{
-				//List<TorCharacter> objects = ObjectManager.GetObjects<TorCharacter>().ToList();
+        public static void SetTank()
+        {
+            TankNameStart = Me.CurrentTarget.ToString();
+            TankNameCheck = TankNameStart.Substring(0, TankNameStart.IndexOf(','));
 
-				/*
+            if (Me.CurrentTarget != null && Me.CurrentTarget.IsFriendly && !TankName.Equals(TankNameCheck))
+            {
+                TankName = TankNameStart.Substring(0, TankNameStart.IndexOf(','));
+                Logger.Write("Tank set to : " + TankName);
+                Tank = null;
+            }
+            else
+            {
+                TankName = "";
+                Tank = null;
+                Logger.Write("Cleared Tank");
+            }
+        }
+
+        private static void updateObjects()
+        {
+            if (DefaultCombat.IsHealer)
+            {
+                Objects = Me.PartyMembers(false).ToList().FindAll(p =>
+                    !p.IsDead
+                    && p.DistanceSqr < HealingDistance * HealingDistance
+                    && p.InLineOfSight);
+
+                if (!Objects.Contains(Me))
+                    Objects.Add(Me);
+
+                if (Me.Companion != null && !Objects.Contains(Me.Companion))
+                    Objects.Add(Me.Companion);
+            }
+
+            //Reset dat count
+            cacheCount = 0;
+        }
+
+        public static List<TorCharacter> GetTorCharacters()
+        {
+            using (BuddyTor.Memory.AcquireFrame())
+            {
+                //List<TorCharacter> objects = ObjectManager.GetObjects<TorCharacter>().ToList();
+
+                /*
                 if (Me.Companion != null)
                     objects.Add(Me.Companion);
                 */
-				var npcs = ObjectManager.GetObjects<TorNpc>();
-				var objects = npcs.Cast<TorCharacter>().ToList();
+                var npcs = ObjectManager.GetObjects<TorNpc>();
+                var objects = npcs.Cast<TorCharacter>().ToList();
 
-				return objects;
-			}
-		}
+                return objects;
+            }
+        }
 
-		private static Vector3 AoeHealLocation(TorCharacter p)
-		{
-			return p != null ? p.Position : Vector3.Zero;
-		}
+        private static Vector3 AoeHealLocation(TorCharacter p)
+        {
+            return p != null ? p.Position : Vector3.Zero;
+        }
 
-		private static TorCharacter AoeHealLocation(float dist)
-		{
-			using (BuddyTor.Memory.AcquireFrame())
-			{
-				TorCharacter pt = Me;
+        private static TorCharacter AoeHealLocation(float dist)
+        {
+            using (BuddyTor.Memory.AcquireFrame())
+            {
+                TorCharacter pt = Me;
 
-				if (Tank != null)
-					pt = Tank;
+                if (Tank != null)
+                    pt = Tank;
 
-				var currentPtCount = PointsAroundPoint(pt.Position, HealCandidatePoints, dist);
-				var tempCount = 0;
-				foreach (var p in HealCandidates)
-				{
-					tempCount = PointsAroundPoint(p.Position, HealCandidatePoints, dist);
-					if (p.Guid != Me.Guid && tempCount > currentPtCount)
-					{
-						pt = p;
-						currentPtCount = tempCount;
-					}
-				}
+                var currentPtCount = PointsAroundPoint(pt.Position, HealCandidatePoints, dist);
+                var tempCount = 0;
+                foreach (var p in HealCandidates)
+                {
+                    tempCount = PointsAroundPoint(p.Position, HealCandidatePoints, dist);
+                    if (p.Guid != Me.Guid && tempCount > currentPtCount)
+                    {
+                        pt = p;
+                        currentPtCount = tempCount;
+                    }
+                }
 
-				return tempCount >= AoeHealCountNeeded ? pt : null;
-			}
-		}
+                return tempCount >= AoeHealCountNeeded ? pt : null;
+            }
+        }
 
-		public static bool CheckDpsAoe(int minMobs, float distance, Vector3 center)
-		{
-			return PointsAroundPoint(center, EnemyPoints, distance) >= minMobs;
-		}
+        public static bool CheckDpsAoe(int minMobs, float distance, Vector3 center)
+        {
+            return PointsAroundPoint(center, EnemyPoints, distance) >= minMobs;
+        }
 
-		private static int PointsAroundPoint(Vector3 pt, List<Vector3> l, float dist)
-		{
-			using (BuddyTor.Memory.AcquireFrame())
-			{
-				var maxDistance = dist*dist;
-				return l.Count(p => p.DistanceSqr(pt) <= maxDistance);
-			}
-		}
-	}
+        private static int PointsAroundPoint(Vector3 pt, List<Vector3> l, float dist)
+        {
+            using (BuddyTor.Memory.AcquireFrame())
+            {
+                var maxDistance = dist * dist;
+                return l.Count(p => p.DistanceSqr(pt) <= maxDistance);
+            }
+        }
+    }
 }
