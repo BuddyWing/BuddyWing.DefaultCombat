@@ -1,4 +1,8 @@
-﻿using System.Reflection;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
@@ -10,7 +14,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Bossland GmbH")]
 [assembly: AssemblyProduct("DefaultCombat.Properties")]
-[assembly: AssemblyCopyright("Copyright © Bossland GmbH 2015")]
+[assembly: AssemblyCopyright("Copyright \u00A9 Bossland GmbH 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
