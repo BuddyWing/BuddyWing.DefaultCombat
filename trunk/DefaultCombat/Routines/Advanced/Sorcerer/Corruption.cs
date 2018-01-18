@@ -7,128 +7,128 @@ using DefaultCombat.Helpers;
 
 namespace DefaultCombat.Routines
 {
-	internal class Corruption : RotationBase
-	{
-		public override string Name
-		{
-			get { return "Sorcerer Corruption"; }
-		}
+    internal class Corruption : RotationBase
+    {
+        public override string Name
+        {
+            get { return "Sorcerer Corruption"; }
+        }
 
-		public override Composite Buffs
-		{
-			get
-			{
-				return new PrioritySelector(
-					Spell.Buff("Mark of Power")
-					);
-			}
-		}
+        public override Composite Buffs
+        {
+            get
+            {
+                return new PrioritySelector(
+                    Spell.Buff("Mark of Power")
+                    );
+            }
+        }
 
-		public override Composite Cooldowns
-		{
-			get
-			{
-				return new PrioritySelector(
-        
-        			Spell.Buff("Unbreakable Will", ret => Me.IsStunned),
-					Spell.Buff("Recklessness", ret => Targeting.ShouldAoeHeal),
-					Spell.Buff("Consuming Darkness", ret => NeedForce()),
-					Spell.Buff("Unnatural Preservation", ret => Me.HealthPercent < 50),
-					Spell.HoT("Static Barrier", on => Me, 100, ret => Me.InCombat && !Me.HasDebuff("Deionized")),
-					Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
-					Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
-				);
-			}
-		}
+        public override Composite Cooldowns
+        {
+            get
+            {
+                return new PrioritySelector(
 
-		public override Composite SingleTarget
-		{
-			get
-			{
-				return new PrioritySelector(
-					//Movement
-					CombatMovement.CloseDistance(Distance.Ranged),
-					
-					//Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
-					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
-					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
+                    Spell.Buff("Unbreakable Will", ret => Me.IsStunned),
+                    Spell.Buff("Recklessness", ret => Targeting.ShouldAoeHeal),
+                    Spell.Buff("Consuming Darkness", ret => NeedForce()),
+                    Spell.Buff("Unnatural Preservation", ret => Me.HealthPercent < 50),
+                    Spell.HoT("Static Barrier", on => Me, 100, ret => Me.InCombat && !Me.HasDebuff("Deionized")),
+                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
+                    Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
+                );
+            }
+        }
 
-					//Rotation
-					Spell.Cast("Jolt", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-					Spell.Cast("Force Lightning"),
-					Spell.Cast("Crushing Darkness"),
-					Spell.Cast("Affliction", ret => !Me.CurrentTarget.HasDebuff("Affliction")),
-					Spell.Cast("Lightning Strike"),
-					Spell.Cast("Shock"),
+        public override Composite SingleTarget
+        {
+            get
+            {
+                return new PrioritySelector(
+                    //Movement
+                    CombatMovement.CloseDistance(Distance.Ranged),
 
-					//HK-55 Mode Rotation
-					Spell.Cast("Charging In", ret => Me.CurrentTarget.Distance >= .4f && Me.InCombat && CombatHotkeys.EnableHK55),
-					Spell.Cast("Blindside", ret => CombatHotkeys.EnableHK55),
-					Spell.Cast("Assassinate", ret => CombatHotkeys.EnableHK55),
-					Spell.Cast("Rail Blast", ret => CombatHotkeys.EnableHK55),
-					Spell.Cast("Rifle Blast", ret => CombatHotkeys.EnableHK55),
-					Spell.Cast("Execute", ret => Me.CurrentTarget.HealthPercent <= 45 && CombatHotkeys.EnableHK55)
-					);
-			}
-		}
+                    //Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
+                    Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
+                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
+                    Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
+                    Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
+                    Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
+                    Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 
-		public override Composite AreaOfEffect
-		{
-			get
-			{
-				return new PrioritySelector(
-				
-					//Legacy Heroic Moment Ability
-					Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
-					Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
-					Spell.CastOnGround("Terminate", ret => CombatHotkeys.EnableHK55), //--will only be active when user initiates HK-55 Mode
-					
-					//BuffLog.Instance.LogTargetBuffs
+                    //Rotation
+                    Spell.Cast("Jolt", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
+                    Spell.Cast("Force Lightning"),
+                    Spell.Cast("Crushing Darkness"),
+                    Spell.Cast("Affliction", ret => !Me.CurrentTarget.HasDebuff("Affliction")),
+                    Spell.Cast("Lightning Strike"),
+                    Spell.Cast("Shock"),
 
-					//Cleanse if needed
-					Spell.Cleanse("Purge"),
+                    //HK-55 Mode Rotation
+                    Spell.Cast("Charging In", ret => Me.CurrentTarget.Distance >= .4f && Me.InCombat && CombatHotkeys.EnableHK55),
+                    Spell.Cast("Blindside", ret => CombatHotkeys.EnableHK55),
+                    Spell.Cast("Assassinate", ret => CombatHotkeys.EnableHK55),
+                    Spell.Cast("Rail Blast", ret => CombatHotkeys.EnableHK55),
+                    Spell.Cast("Rifle Blast", ret => CombatHotkeys.EnableHK55),
+                    Spell.Cast("Execute", ret => Me.CurrentTarget.HealthPercent <= 45 && CombatHotkeys.EnableHK55)
+                    );
+            }
+        }
 
-					//Emergency Heal (Insta-cast)
-					Spell.Heal("Dark Heal", 80, ret => Me.HasBuff("Dark Concentration")),
+        public override Composite AreaOfEffect
+        {
+            get
+            {
+                return new PrioritySelector(
 
-					//Buff Tank
-					Spell.HoT("Static Barrier", on => Tank, 100, ret => Tank !=null && Tank.InCombat),
-					Spell.Heal("Roaming Mend", onUnit => Tank, 100,	ret => Tank != null && Tank.InCombat && Me.BuffCount("Roaming Mend Charges") <= 1),
+                    //Legacy Heroic Moment Ability
+                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
+                    Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
+                    Spell.CastOnGround("Terminate", ret => CombatHotkeys.EnableHK55), //--will only be active when user initiates HK-55 Mode
 
-					//Single Target Healing
-					Spell.HoT("Static Barrier", 99, ret => HealTarget != null && !HealTarget.HasDebuff("Deionized")),
-          			Spell.Heal("Innervate", 80),
+                    //BuffLog.Instance.LogTargetBuffs
 
-					//Use Force Bending
-					new Decorator(ret => Me.HasBuff("Force Bending"),
-						new PrioritySelector(
-							Spell.Heal("Innervate", 90),
-							Spell.Heal("Dark Infusion", 50)
-							)),
+                    //Cleanse if needed
+                    Spell.Cleanse("Purge"),
 
-					//Build Force Bending
-					Spell.HoT("Resurgence", 80),
-					Spell.HoT("Resurgence", on => Tank, 100, ret => Tank != null && Tank.InCombat),
+                    //Emergency Heal (Insta-cast)
+                    Spell.Heal("Dark Heal", 80, ret => Me.HasBuff("Dark Concentration")),
 
-					//AoE Healing 
-					new Decorator(ctx => Tank != null,
-						Spell.CastOnGround("Revivification", on => Tank.Position)),
+                    //Buff Tank
+                    Spell.HoT("Static Barrier", on => Tank, 100, ret => Tank != null && Tank.InCombat),
+                    Spell.Heal("Roaming Mend", onUnit => Tank, 100, ret => Tank != null && Tank.InCombat && Me.BuffCount("Roaming Mend Charges") <= 1),
 
-					//Single Target Healing                  
-					Spell.Heal("Dark Heal", 35),
-					Spell.Heal("Dark Infusion", 80));
-			}
-		}
+                    //Single Target Healing
+                    Spell.HoT("Static Barrier", 99, ret => HealTarget != null && !HealTarget.HasDebuff("Deionized")),
+                      Spell.Heal("Innervate", 80),
 
-		private bool NeedForce()
-		{
-			if (Me.HasBuff("Force Surge") && Me.ForcePercent < 80 && !Me.HasBuff("Reverse Corruptions"))
-				return true;
-			return false;
-		}
-	}
+                    //Use Force Bending
+                    new Decorator(ret => Me.HasBuff("Force Bending"),
+                        new PrioritySelector(
+                            Spell.Heal("Innervate", 90),
+                            Spell.Heal("Dark Infusion", 50)
+                            )),
+
+                    //Build Force Bending
+                    Spell.HoT("Resurgence", 80),
+                    Spell.HoT("Resurgence", on => Tank, 100, ret => Tank != null && Tank.InCombat),
+
+                    //AoE Healing 
+                    new Decorator(ctx => Tank != null,
+                        Spell.CastOnGround("Revivification", on => Tank.Position)),
+
+                    //Single Target Healing                  
+                    Spell.Heal("Dark Heal", 35),
+                    Spell.Heal("Dark Infusion", 80));
+            }
+        }
+
+        private bool NeedForce()
+        {
+            if (Me.HasBuff("Force Surge") && Me.ForcePercent < 80 && !Me.HasBuff("Reverse Corruptions"))
+                return true;
+            return false;
+        }
+    }
 }
