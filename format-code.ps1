@@ -1,2 +1,2 @@
-.\tools\CodeFormatter\CodeFormatter.exe /rule+:BraceNewLine /rule+:FormatDocument /rule+:ReadonlyFields /rule+:FieldNames trunk/DefaultCombat/DefaultCombat.sln
+.\tools\CodeFormatter\CodeFormatter.exe /rule+:BraceNewLine /rule+:FormatDocument /rule+:ReadonlyFields /rule+:FieldNames /rule-:Copyright trunk/DefaultCombat/DefaultCombat.sln
 pause
