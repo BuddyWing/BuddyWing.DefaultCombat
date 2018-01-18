@@ -7,44 +7,44 @@ using DefaultCombat.Helpers;
 
 namespace DefaultCombat.Routines
 {
-	public class Consular : RotationBase
-	{
-		public override string Name
-		{
-			get { return "Basic Consular"; }
-		}
+    public class Consular : RotationBase
+    {
+        public override string Name
+        {
+            get { return "Basic Consular"; }
+        }
 
-		public override Composite Buffs
-		{
-			get { return new PrioritySelector(); }
-		}
+        public override Composite Buffs
+        {
+            get { return new PrioritySelector(); }
+        }
 
-		public override Composite Cooldowns
-		{
-			get { return new PrioritySelector(); }
-		}
+        public override Composite Cooldowns
+        {
+            get { return new PrioritySelector(); }
+        }
 
-		public override Composite SingleTarget
-		{
-			get
-			{
-				return new PrioritySelector(
-					CombatMovement.CloseDistance(Distance.Melee),
-					Spell.Cast("Project", ret => Me.Force > 75),
-					Spell.Cast("Saber Strike")
-					);
-			}
-		}
+        public override Composite SingleTarget
+        {
+            get
+            {
+                return new PrioritySelector(
+                    CombatMovement.CloseDistance(Distance.Melee),
+                    Spell.Cast("Project", ret => Me.Force > 75),
+                    Spell.Cast("Saber Strike")
+                    );
+            }
+        }
 
-		public override Composite AreaOfEffect
-		{
-			get
-			{
-				return new Decorator(ret => Targeting.ShouldAoe,
-					new PrioritySelector(
-						Spell.Cast("Force Wave", ret => Me.CurrentTarget.Distance <= Distance.MeleeAoE))
-					);
-			}
-		}
-	}
+        public override Composite AreaOfEffect
+        {
+            get
+            {
+                return new Decorator(ret => Targeting.ShouldAoe,
+                    new PrioritySelector(
+                        Spell.Cast("Force Wave", ret => Me.CurrentTarget.Distance <= Distance.MeleeAoE))
+                    );
+            }
+        }
+    }
 }
