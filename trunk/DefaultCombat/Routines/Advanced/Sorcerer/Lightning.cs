@@ -30,8 +30,6 @@ namespace DefaultCombat.Routines
 			{
 				return new PrioritySelector(
 					Spell.Buff("Unbreakable Will", ret => Me.IsStunned),
-					Spell.Buff("Recklessness", ret => Me.CurrentTarget.StrongOrGreater()),
-					Spell.Buff("Polarity Shift", ret => Me.CurrentTarget.StrongOrGreater()),
 					Spell.Buff("Unnatural Preservation", ret => Me.HealthPercent <= 80),
 					Spell.HoT("Static Barrier", on => Me, 99, ret => !Me.HasDebuff("Deionized") && !Me.HasBuff("Static Barrier")),
 					Spell.Buff("Consuming Darkness", ret => Me.ForcePercent < 50 && !Me.HasDebuff("Weary")),
@@ -61,18 +59,23 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Resurgence", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 70),
 					Spell.Cast("Dark Heal", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 60),
 					Spell.Cast("Unnatural Preservation", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 50),
-
+					//TODO Add Medpack's at 40%
+					
+					//Opener
+					Spell.Cast("Crushing Darkness", ret => Me.CurrentTarget.HealthPercent >= 90),
+					Spell.Buff("Polarity Shift", ret => Me.CurrentTarget.HealthPercent >= 90),
+					Spell.Cast("Affliction", ret => Me.CurrentTarget.HealthPercent >= 90 && Me.CurrentTarget.HasDebuff("Affliction")),
+					//TO ADD (use Advanced Polybiotic Attack Adrenal item here)
+					Spell.Buff("Unlimited Power", ret => Me.CurrentTarget.HealthPercent >= 90),
+					Spell.Buff("Recklessness", ret => Me.CurrentTarget.HealthPercent >= 90),
+					
 					//Rotation
-					Spell.Cast("Jolt", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
 					Spell.Cast("Thundering Blast"),
-					Spell.Cast("Affliction", ret => !Me.CurrentTarget.HasDebuff("Affliction")),
 					Spell.Cast("Crushing Darkness", ret => Me.HasBuff("Force Flash")),
 					Spell.Cast("Lightning Flash"),
 					Spell.Cast("Shock", ret => Me.CurrentTarget.HasDebuff("Crushed (Crushing Darkness)")),
 					Spell.Cast("Chain Lightning", ret => Me.HasBuff("Focal Lightning")),
 					Spell.Cast("Lightning Bolt"),
-					Spell.Cast("Force Lightning", ret => Me.HasBuff("Lightning Barrage")),
-					Spell.Cast("Lightning Strike"),
 
 					//HK-55 Mode Rotation
 					Spell.Cast("Charging In", ret => Me.CurrentTarget.Distance >= .4f && Me.InCombat && CombatHotkeys.EnableHK55),

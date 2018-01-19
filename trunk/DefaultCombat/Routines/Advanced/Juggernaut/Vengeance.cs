@@ -61,14 +61,14 @@ namespace DefaultCombat.Routines
 					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 
 					//Rotation
-					Spell.Cast("Disruption", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
+					Spell.Cast("Impale"),
+					Spell.Cast("Ravage"),					
+					Spell.Cast("Vicious Slash", ret => Me.ActionPoints >= 11),
+					Spell.Cast("Shatter"),
 					Spell.Cast("Force Scream", ret => Me.BuffCount("Savagery") == 2),
 					Spell.Cast("Hew", ret => Me.HasBuff("Destroyer") || Me.CurrentTarget.HealthPercent <= 30),
-					Spell.Cast("Shatter"),
-					Spell.Cast("Impale"),
 					Spell.Cast("Sundering Assault", ret => Me.ActionPoints <= 7),
-					Spell.Cast("Ravage"),
-					Spell.Cast("Vicious Slash", ret => Me.ActionPoints >= 11),
+					Spell.Cast("Disruption", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
 					Spell.Cast("Assault"),
 					Spell.Cast("Retaliation"),
 
