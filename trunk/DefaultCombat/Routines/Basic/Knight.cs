@@ -7,59 +7,59 @@ using DefaultCombat.Helpers;
 
 namespace DefaultCombat.Routines
 {
-	public class Knight : RotationBase
-	{
-		public override string Name
-		{
-			get { return "Basic Knight"; }
-		}
+    public class Knight : RotationBase
+    {
+        public override string Name
+        {
+            get { return "Basic Knight"; }
+        }
 
-		public override Composite Buffs
-		{
-			get
-			{
-				return new PrioritySelector(
-					);
-			}
-		}
+        public override Composite Buffs
+        {
+            get
+            {
+                return new PrioritySelector(
+                    );
+            }
+        }
 
-		public override Composite Cooldowns
-		{
-			get
-			{
-				return new PrioritySelector(
-					Spell.Cast("Saber Ward", ret => Me.HealthPercent <= 70)
-					);
-			}
-		}
+        public override Composite Cooldowns
+        {
+            get
+            {
+                return new PrioritySelector(
+                    Spell.Cast("Saber Ward", ret => Me.HealthPercent <= 70)
+                    );
+            }
+        }
 
-		public override Composite SingleTarget
-		{
-			get
-			{
-				return new PrioritySelector(
-					Spell.Cast("Force Leap", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance > 1f && Me.CurrentTarget.Distance <= 3f),
-					
-					
-				CombatMovement.CloseDistance(Distance.Melee),
-					Spell.Cast("Master Strike"),
-					Spell.Cast("Blade Storm"),
-					Spell.Cast("Riposte"),
-					Spell.Cast("Slash", ret => Me.ActionPoints >= 7),
-					Spell.Cast("Strike")
-					);
-			}
-		}
+        public override Composite SingleTarget
+        {
+            get
+            {
+                return new PrioritySelector(
+                    Spell.Cast("Force Leap", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance > 1f && Me.CurrentTarget.Distance <= 3f),
 
-		public override Composite AreaOfEffect
-		{
-			get
-			{
-				return new Decorator(ret => Targeting.ShouldAoe,
-					new PrioritySelector(
-						Spell.Cast("Force Sweep", ret => Me.CurrentTarget.Distance <= Distance.MeleeAoE))
-					);
-			}
-		}
-	}
+
+                CombatMovement.CloseDistance(Distance.Melee),
+                    Spell.Cast("Master Strike"),
+                    Spell.Cast("Blade Storm"),
+                    Spell.Cast("Riposte"),
+                    Spell.Cast("Slash", ret => Me.ActionPoints >= 7),
+                    Spell.Cast("Strike")
+                    );
+            }
+        }
+
+        public override Composite AreaOfEffect
+        {
+            get
+            {
+                return new Decorator(ret => Targeting.ShouldAoe,
+                    new PrioritySelector(
+                        Spell.Cast("Force Sweep", ret => Me.CurrentTarget.Distance <= Distance.MeleeAoE))
+                    );
+            }
+        }
+    }
 }

@@ -7,101 +7,101 @@ using DefaultCombat.Helpers;
 
 namespace DefaultCombat.Routines
 {
-	internal class Marksmanship : RotationBase
-	{
-		public override string Name
-		{
-			get { return "Sniper Marksmanship"; }
-		}
+    internal class Marksmanship : RotationBase
+    {
+        public override string Name
+        {
+            get { return "Sniper Marksmanship"; }
+        }
 
-		public override Composite Buffs
-		{
-			get
-			{
-				return new PrioritySelector(
-					Spell.Buff("Coordination")
-					);
-			}
-		}
+        public override Composite Buffs
+        {
+            get
+            {
+                return new PrioritySelector(
+                    Spell.Buff("Coordination")
+                    );
+            }
+        }
 
-		public override Composite Cooldowns
-		{
-			get
-			{
-				return new PrioritySelector(
-					Spell.Buff("Escape", ret => Me.IsStunned),
-					Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 70),
-					Spell.Buff("Evasion", ret => Me.HealthPercent <= 30),
-					Spell.Buff("Adrenaline Probe", ret => Me.EnergyPercent <= 40),
-					Spell.Buff("Sniper Volley", ret => Me.EnergyPercent <= 60),
-					Spell.Buff("Entrench", ret => Me.CurrentTarget.StrongOrGreater() && Me.IsInCover()),
-					Spell.Buff("Laze Target"),
-					Spell.Buff("Target Acquired"),
-					Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
-					Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
-					);
-			}
-		}
+        public override Composite Cooldowns
+        {
+            get
+            {
+                return new PrioritySelector(
+                    Spell.Buff("Escape", ret => Me.IsStunned),
+                    Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 70),
+                    Spell.Buff("Evasion", ret => Me.HealthPercent <= 30),
+                    Spell.Buff("Adrenaline Probe", ret => Me.EnergyPercent <= 40),
+                    Spell.Buff("Sniper Volley", ret => Me.EnergyPercent <= 60),
+                    Spell.Buff("Entrench", ret => Me.CurrentTarget.StrongOrGreater() && Me.IsInCover()),
+                    Spell.Buff("Laze Target"),
+                    Spell.Buff("Target Acquired"),
+                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
+                    Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
+                    );
+            }
+        }
 
-		public override Composite SingleTarget
-		{
-			get
-			{
-				return new PrioritySelector(
-					//Movement
-					CombatMovement.CloseDistance(Distance.Ranged),
-					
-					
-					//Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
-					Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
-					Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
-					Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
+        public override Composite SingleTarget
+        {
+            get
+            {
+                return new PrioritySelector(
+                    //Movement
+                    CombatMovement.CloseDistance(Distance.Ranged),
 
-					//Low Energy
-					new Decorator(ret => Me.EnergyPercent < 60,
-						new PrioritySelector(
-							Spell.Cast("Rifle Shot")
-							)),
 
-					//Rotation
-					Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-					Spell.Cast("Followthrough"),
-					Spell.Cast("Penetrating Blasts", ret => Me.Level >= 26),
-					Spell.Cast("Series of Shots", ret => Me.Level < 26),
-					Spell.DoT("Corrosive Dart", "Corrosive Dart"),
-					Spell.Cast("Ambush", ret => Me.BuffCount("Zeroing Shots") == 2),
-					Spell.Cast("Takedown", ret => Me.CurrentTarget.HealthPercent <= 30),
-					Spell.Cast("Snipe"),
+                    //Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
+                    Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
+                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
+                    Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
+                    Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
+                    Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
+                    Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 
-					//HK-55 Mode Rotation
-					Spell.Cast("Charging In", ret => Me.CurrentTarget.Distance >= .4f && Me.InCombat && CombatHotkeys.EnableHK55),
-					Spell.Cast("Blindside", ret => CombatHotkeys.EnableHK55),
-					Spell.Cast("Assassinate", ret => CombatHotkeys.EnableHK55),
-					Spell.Cast("Rail Blast", ret => CombatHotkeys.EnableHK55),
-					Spell.Cast("Rifle Blast", ret => CombatHotkeys.EnableHK55),
-					Spell.Cast("Execute", ret => Me.CurrentTarget.HealthPercent <= 45 && CombatHotkeys.EnableHK55)
-					);
-			}
-		}
+                    //Low Energy
+                    new Decorator(ret => Me.EnergyPercent < 60,
+                        new PrioritySelector(
+                            Spell.Cast("Rifle Shot")
+                            )),
 
-		public override Composite AreaOfEffect
-		{
-			get
-			{
-				return new Decorator(ret => Targeting.ShouldAoe,
-					new PrioritySelector(
-						Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving),
-						Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
-						Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
-						Spell.CastOnGround("Terminate", ret => CombatHotkeys.EnableHK55), //--will only be active when user initiates HK-55 Mode
-						Spell.CastOnGround("Orbital Strike", ret => Me.IsInCover() && Me.EnergyPercent > 30),
-						Spell.Cast("Fragmentation Grenade"),
-						Spell.CastOnGround("Suppressive Fire", ret => Me.IsInCover() && Me.EnergyPercent > 10)
-						));
-			}
-		}
-	}
+                    //Rotation
+                    Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
+                    Spell.Cast("Followthrough"),
+                    Spell.Cast("Penetrating Blasts", ret => Me.Level >= 26),
+                    Spell.Cast("Series of Shots", ret => Me.Level < 26),
+                    Spell.DoT("Corrosive Dart", "Corrosive Dart"),
+                    Spell.Cast("Ambush", ret => Me.BuffCount("Zeroing Shots") == 2),
+                    Spell.Cast("Takedown", ret => Me.CurrentTarget.HealthPercent <= 30),
+                    Spell.Cast("Snipe"),
+
+                    //HK-55 Mode Rotation
+                    Spell.Cast("Charging In", ret => Me.CurrentTarget.Distance >= .4f && Me.InCombat && CombatHotkeys.EnableHK55),
+                    Spell.Cast("Blindside", ret => CombatHotkeys.EnableHK55),
+                    Spell.Cast("Assassinate", ret => CombatHotkeys.EnableHK55),
+                    Spell.Cast("Rail Blast", ret => CombatHotkeys.EnableHK55),
+                    Spell.Cast("Rifle Blast", ret => CombatHotkeys.EnableHK55),
+                    Spell.Cast("Execute", ret => Me.CurrentTarget.HealthPercent <= 45 && CombatHotkeys.EnableHK55)
+                    );
+            }
+        }
+
+        public override Composite AreaOfEffect
+        {
+            get
+            {
+                return new Decorator(ret => Targeting.ShouldAoe,
+                    new PrioritySelector(
+                        Spell.Buff("Crouch", ret => !Me.IsInCover() && !Me.IsMoving),
+                        Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
+                        Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
+                        Spell.CastOnGround("Terminate", ret => CombatHotkeys.EnableHK55), //--will only be active when user initiates HK-55 Mode
+                        Spell.CastOnGround("Orbital Strike", ret => Me.IsInCover() && Me.EnergyPercent > 30),
+                        Spell.Cast("Fragmentation Grenade"),
+                        Spell.CastOnGround("Suppressive Fire", ret => Me.IsInCover() && Me.EnergyPercent > 10)
+                        ));
+            }
+        }
+    }
 }
