@@ -34,7 +34,7 @@ namespace DefaultCombat.Routines
                     Spell.HoT("Static Barrier", on => Me, 99, ret => !Me.HasDebuff("Deionized") && !Me.HasBuff("Static Barrier")),
                     Spell.Buff("Consuming Darkness", ret => Me.ForcePercent < 50 && !Me.HasDebuff("Weary")),
                     Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
-                    Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
+                    Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 25)
                     );
             }
         }
