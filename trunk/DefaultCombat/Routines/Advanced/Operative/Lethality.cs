@@ -67,7 +67,7 @@ namespace DefaultCombat.Routines
                     new Decorator(ret => Me.EnergyPercent
 < 40,
                         new PrioritySelector(
-                            Spell.Cast("Rifle Shot", ret => Me.EnergyPercent < 80 && !Me.HasBuff("Tactical Advantage")),
+                            Spell.Cast("Rifle Shot", ret => Me.EnergyPercent < 80 && !Me.HasBuff("Tactical Advantage"))
                             )),
 
                     //Solo Mode
