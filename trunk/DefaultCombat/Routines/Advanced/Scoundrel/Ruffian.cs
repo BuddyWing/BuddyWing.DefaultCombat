@@ -67,7 +67,7 @@ namespace DefaultCombat.Routines
                     new Decorator(ret => Me.EnergyPercent
 < 40,
                         new PrioritySelector(
-                            Spell.Cast("Flurry of Bolt", ret => Me.EnergyPercent < 80 && !Me.HasBuff("Upper Hand")),
+                            Spell.Cast("Flurry of Bolts", ret => Me.EnergyPercent < 80 && !Me.HasBuff("Upper Hand"))
                             )),
 
                     //Solo Mode
