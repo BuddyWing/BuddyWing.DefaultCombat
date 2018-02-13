@@ -36,7 +36,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Escape", ret => Me.IsStunned),
                     Spell.Buff("Adrenaline Probe", ret => Me.EnergyPercent <= 45),
                     Spell.Buff("Stim Boost", ret => !Me.HasBuff("Tactical Advantage") && Me.InCombat),
-                    Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 75),
+                    Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 80),
                     Spell.Buff("Evasion", ret => Me.HealthPercent <= 50),
                     Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
                     Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
@@ -50,7 +50,7 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Cast("Holotraverse", ret => CombatHotkeys.EnableCharge && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
-                    Spell.Cast("Hidden Strike", ret => Me.IsStealthed && Me.IsBehind(Me.CurrentTarget)),
+                    Spell.Cast("Lethal Strike", ret => (Me.IsStealthed)),
 
                     //Movement
                     CombatMovement.CloseDistance(Distance.Melee),
@@ -64,26 +64,29 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 
                     //Low Energy
-                    new Decorator(ret => Me.EnergyPercent < 60,
+                    new Decorator(ret => Me.EnergyPercent
+< 40,
                         new PrioritySelector(
-                            Spell.Cast("Overload Shot")
+                            Spell.Cast("Rifle Shot", ret => Me.EnergyPercent < 80 && !Me.HasBuff("Tactical Advantage")),
                             )),
 
                     //Solo Mode
-                    Spell.Cast("Kolto Infusion", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 70),
-                    Spell.Cast("Diagnostic Scan", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 60),
-                    Spell.Cast("Kolto Probe", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 50),
+                    Spell.Cast("Kolto Infusion", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 30),
+                    Spell.Cast("Diagnostic Scan", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 10),
+                    Spell.Cast("Kolto Probe", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 70),
 
                     //Rotation
                     Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.Cast("Lethal Strike", ret => Me.IsStealthed),
-                    Spell.Cast("Corrosive Dart", ret => !Me.CurrentTarget.HasDebuff("Corrosive Dart") || Me.CurrentTarget.DebuffTimeLeft("Corrosive Dart") <= 2),
-                    Spell.Cast("Corrosive Grenade", ret => !Me.CurrentTarget.HasDebuff("Corrosive Grenade") || Me.CurrentTarget.DebuffTimeLeft("Corrosive Grenade") <= 2),
-                    Spell.Cast("Shiv", ret => Me.CurrentTarget.Distance <= Distance.Melee && Me.BuffCount("Tactical Advantage") < 2 || Me.BuffTimeLeft("Tactical Advantage") < 6),
-                    Spell.Cast("Corrosive Assault", ret => Me.HasBuff("Tactical Advantage") && Me.CurrentTarget.HasDebuff("Corrosive Dart") && Me.CurrentTarget.HasDebuff("Corrosive Grenade")),
-                    Spell.Cast("Lethal Strike", ret => Me.CurrentTarget.HasDebuff("Corrosive Dart") && Me.CurrentTarget.HasDebuff("Corrosive Grenade")),
-                    Spell.Cast("Overload Shot", ret => Me.EnergyPercent > 85),
-                    Spell.Cast("Rifle Shot", ret => Me.EnergyPercent < 85),
+                    Spell.Cast("Toxic Blast", ret => Me.CurrentTarget.HasDebuff("Corrosive Dart") && Me.CurrentTarget.HasDebuff("Corrosive Grenade")),
+                    Spell.Cast("Corrosive Assault", ret => Me.CurrentTarget.HasDebuff("Corrosive Dart") && Me.CurrentTarget.HasDebuff("Corrosive Grenade") && Me.HasBuff("Tactical Advantage")),
+                    //Last minute changes Spell.DoT("Corrosive Dart", "Corrosive Dart"),
+                    Spell.Cast("Corrosive Dart", ret => !Me.CurrentTarget.HasDebuff("Corrosive Dart") || Me.CurrentTarget.DebuffTimeLeft("Corrosive Dart") <= 3),
+                    //Last minute changes Spell.DoT("Corrosive Grenade", "Corrosive Grenade"),
+                    Spell.Cast("Corrosive Grenade", ret => !Me.CurrentTarget.HasDebuff("Corrosive Grenade") || Me.CurrentTarget.DebuffTimeLeft("Corrosive Grenade") <= 3),
+                    Spell.Cast("Shiv", ret => Me.BuffCount("Tactical Advantage") < 2 || Me.BuffTimeLeft("Tactical Advantage") < 6),
+                    Spell.Cast("Lethal Strike", ret => Me.Level >= 57),
+                    Spell.Cast("Back Stab", ret => Me.IsBehind(Me.CurrentTarget) && Me.Level < 57),
+                    Spell.Cast("Overload Shot", ret => Me.EnergyPercent > 80 && !Me.HasBuff("Tactical Advantage")),
 
                     //HK-55 Mode Rotation
                     Spell.Cast("Charging In", ret => Me.CurrentTarget.Distance >= .4f && Me.InCombat && CombatHotkeys.EnableHK55),
