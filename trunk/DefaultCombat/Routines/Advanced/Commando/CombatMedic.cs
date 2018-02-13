@@ -1,5 +1,5 @@
-﻿// Copyright (C) 2011-2017 Bossland GmbH 
-// See the file LICENSE for the source code's detailed license 
+﻿// Copyright (C) 2011-2017 Bossland GmbH
+// See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
 using DefaultCombat.Core;
@@ -7,7 +7,7 @@ using DefaultCombat.Helpers;
 
 namespace DefaultCombat.Routines
 {
-    internal class CombatMedic : RotationBase
+    public class CombatMedic : RotationBase
     {
         public override string Name
         {
@@ -30,13 +30,11 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Tenacity", ret => Me.IsStunned),
-                    Spell.Buff("Supercharged Cell", ret => Me.ResourceStat >= 20 && HealTarget != null && HealTarget.HealthPercent <= 80 && Me.BuffCount("Supercharge") == 10),
+                    Spell.Buff("Supercharged Cell", ret => Me.BuffCount("Supercharge") == 10 && Me.ResourcePercent() <= 80 && HealTarget.HealthPercent <= 80),
+                    Spell.Buff("Recharge Cells", ret => Me.ResourcePercent() >= 70),
+                    Spell.Buff("Reactive Shield", ret => Me.HealthPercent <= 40),
                     Spell.Buff("Adrenaline Rush", ret => Me.HealthPercent <= 30),
-                    Spell.Buff("Reactive Shield", ret => Me.HealthPercent <= 70),
-                    Spell.Buff("Reserve Powercell", ret => Me.ResourceStat <= 60),
-                    Spell.Buff("Recharge Cells", ret => Me.ResourceStat <= 50),
-                    Spell.Cast("Tech Override", ret => Tank != null && Tank.HealthPercent <= 50),
-                    Spell.Cast("Echoing Deterrence", ret => Me.HealthPercent <= 30),
+                    Spell.Cast("Echoing Deterrence", ret => Me.HealthPercent <= 20),
                     Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
                     Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
                     );
@@ -48,7 +46,7 @@ namespace DefaultCombat.Routines
             get
             {
                 return new PrioritySelector(
-                    //Movement 
+                    //Movement
                     CombatMovement.CloseDistance(Distance.Ranged),
 
                     //Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
@@ -61,10 +59,13 @@ namespace DefaultCombat.Routines
 
                     //Rotation
                     Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
+                    Spell.Cast("Concussion Charge", ret => Me.InCombat && Me.CurrentTarget.Distance <= 0.4f && Me.CurrentTarget.IsHostile),
+                    Spell.Cast("Hammer Shot", ret => Me.ResourcePercent() > 40),
+                    Spell.Cast("Full Auto", ret => Me.Level < 57),
                     Spell.Cast("High Impact Bolt"),
-                    Spell.Cast("Full Auto"),
-                    Spell.Cast("Charged Bolts", ret => Me.ResourceStat >= 70),
-                    Spell.Cast("Hammer Shot"),
+                    Spell.Cast("Electro Net"),
+                    Spell.Cast("Charged Bolts", ret => Me.ResourceStat <= 70),
+                    Spell.Cast("Explosive Round"),
 
                     //HK-55 Mode Rotation
                     Spell.Cast("Charging In", ret => Me.CurrentTarget.Distance >= .4f && Me.InCombat && CombatHotkeys.EnableHK55),
@@ -83,30 +84,52 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
 
-                    //AoE Healing 
-                    new Decorator(ctx => Tank != null,
-                        Spell.CastOnGround("Kolto Bomb", on => Tank.Position, ret => !Tank.HasBuff("Invigorated") && Me.InCombat)),
+                        //Legacy Heroic Moment Ability
+                        Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
+                        Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
+                        Spell.CastOnGround("Terminate", ret => CombatHotkeys.EnableHK55), //--will only be active when user initiates HK-55 Mode
 
-                    //Legacy Heroic Moment Ability
-                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
-                    Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
-                    Spell.CastOnGround("Terminate", ret => CombatHotkeys.EnableHK55), //--will only be active when user initiates HK-55 Mode
+                        //Solo Mode
+                        Spell.Buff("Reserve Powercell", ret => CombatHotkeys.EnableSolo),
+                        Spell.CastOnGround("Mortar Volley", ret => Me.HasBuff("Reserve Powercell") && CombatHotkeys.EnableSolo && Me.InCombat && Me.CurrentTarget.IsHostile),
+                        Spell.Cast("Sticky Grenade", ret => CombatHotkeys.EnableSolo),
+                        Spell.Cast("Plasme Grenade", ret => CombatHotkeys.EnableSolo && Me.ResourcePercent() <= 35 && Me.CurrentTarget.IsHostile),
+                        Spell.CastOnGround("Hail of Bolts", ret => CombatHotkeys.EnableSolo && Me.ResourcePercent() <= 35 && Me.InCombat && Me.CurrentTarget.IsHostile),
 
-                    //Dispel 
-                    Spell.Cleanse("Field Aid"),
+                        //BuffLog.Instance.LogTargetBuffs,
 
-                    //Single Target Healing 
-                    Spell.Heal("Bacta Infusion", 80),
-                    Spell.Heal("Successive Treatment", 90),
-                    Spell.Heal("Advanced Medical Probe", 80),
-                    Spell.Heal("Medical Probe", 75),
+                        //Cleanse if needed
+                        Spell.Cleanse("Field Aid"),
 
-                    //Keep Trauma Probe on Tank 
-                    Spell.Heal("Trauma Probe", on => HealTarget, 100, ret => HealTarget != null && HealTarget.BuffCount("Trauma Probe") <= 1),
+                        //Buff Party
+                        Spell.Heal("Trauma Probe", on => HealTarget, 100, ret => !HealTarget.HasBuff("Trauma Probe")),
 
-                    //To keep Supercharge buff up; filler heal 
-                    Spell.Heal("Med Shot", onUnit => Tank, 100, ret => Tank != null && Me.InCombat)
-                    );
+                        //AoE Healing 
+                        new Decorator(ctx => Tank != null,
+                            Spell.CastOnGround("Kolto Bomb", on => HealTarget.Position, ret => HealTarget.HealthPercent < 85 && !HealTarget.HasBuff("Kolto Residue") && Me.InCombat)),
+
+                        //Free, so use it!
+                        Spell.Heal("Bacta Infusion", 80, ret => Me.InCombat),
+
+                        //Important Buffs to take advantage of
+                        new Decorator(ctx => Tank != null,
+                            Spell.CastOnGround("Kolto Bomb", on => HealTarget.Position, ret => Me.HasBuff("Supercharged Cell") && Me.InCombat)),
+
+                        Spell.Heal("Medical Probe", 80, ret => Me.HasBuff("Field Triage") && Me.InCombat),
+                        Spell.Heal("Advanced Medical Probe", 80, ret => Me.HasBuff("Supercharged Cell") && Me.InCombat),
+
+                        //Single Target Priority
+                        Spell.Heal("Advanced Medical Probe", 75, ret => Me.BuffCount("Field Triage") >= 3),
+                        Spell.Heal("Medical Probe", 88, ret => Me.ResourcePercent() <= 50),
+                        Spell.Heal("Successive Treatment", 99),
+                        Spell.Heal("Med Shot", 95),
+                        Spell.Heal("Bacta Infusion", 85),
+                        Spell.Heal("Advanced Medical Probe", 65),
+
+                        //Filler
+                        Spell.Heal("Med Shot", 95, ret => Me.IsMoving),
+                        Spell.HoT("Successive Treatment", 85, ret => Me.IsMoving)
+                        );
             }
         }
     }
