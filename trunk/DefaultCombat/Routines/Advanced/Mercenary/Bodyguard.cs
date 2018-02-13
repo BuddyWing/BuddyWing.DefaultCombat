@@ -30,7 +30,7 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Determination", ret => Me.IsStunned),
-                    Spell.Buff("Supercharged Gas", ret => Me.BuffCount("Supercharge") == 30 && Me.ResourcePercent() <= 60 && HealTarget != null && HealTarget.HealthPercent <= 80),
+                    Spell.Buff("Supercharged Gas", ret => Me.BuffCount("Supercharge") == 10 && Me.ResourcePercent() <= 80 && HealTarget.HealthPercent <= 80),
                     Spell.Buff("Vent Heat", ret => Me.ResourcePercent() >= 70),
                     Spell.Buff("Energy Shield", ret => Me.HealthPercent <= 40),
                     Spell.Buff("Kolto Overload", ret => Me.HealthPercent <= 30),
@@ -59,9 +59,13 @@ namespace DefaultCombat.Routines
 
                     //Rotation
                     Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.Cast("Unload"),
-                    Spell.Cast("Power Shot", ret => Me.ResourceStat >= 70),
-                    Spell.Cast("Rapid Shots"),
+                    Spell.Cast("Jet Boost", ret => Me.InCombat && Me.CurrentTarget.Distance <= 0.4f && Me.CurrentTarget.IsHostile),
+                    Spell.Cast("Rapid Shots", ret => Me.ResourcePercent() > 40),
+                    Spell.Cast("Unload", ret => Me.Level < 57),
+                    Spell.Cast("Rail Shot"),
+                    Spell.Cast("Electro Net"),
+                    Spell.Cast("Power Shot", ret => Me.ResourceStat <= 70),
+                    Spell.Cast("Missile Blast"),
 
                     //HK-55 Mode Rotation
                     Spell.Cast("Charging In", ret => Me.CurrentTarget.Distance >= .4f && Me.InCombat && CombatHotkeys.EnableHK55),
@@ -78,42 +82,53 @@ namespace DefaultCombat.Routines
         {
             get
             {
-                return new Decorator(ret => Targeting.ShouldAoe,
-                    new PrioritySelector(
+                return new PrioritySelector(
 
                         //Legacy Heroic Moment Ability
                         Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
                         Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
                         Spell.CastOnGround("Terminate", ret => CombatHotkeys.EnableHK55), //--will only be active when user initiates HK-55 Mode
 
+                        //Solo Mode
+                        Spell.Buff("Thermal Sensor Override", ret => CombatHotkeys.EnableSolo),
+                        Spell.CastOnGround("Death from Above", ret => Me.HasBuff("Thermal Sensor Override") && CombatHotkeys.EnableSolo && Me.InCombat && Me.CurrentTarget.IsHostile),
+                        Spell.Cast("Explosive Dart", ret => CombatHotkeys.EnableSolo),
+                        Spell.Cast("Fusion Missile", ret => CombatHotkeys.EnableSolo && Me.CurrentTarget.IsHostile),
+                        Spell.CastOnGround("Sweeping Blasters", ret => CombatHotkeys.EnableSolo && Me.ResourcePercent() <= 35 && Me.InCombat && Me.CurrentTarget.IsHostile),
+
                         //BuffLog.Instance.LogTargetBuffs,
+
+                        //Cleanse if needed
                         Spell.Cleanse("Cure"),
 
-                        //Buff Kolto Residue
-                        new Decorator(ctx => HealTarget != null,
-                            Spell.CastOnGround("Kolto Missile", on => HealTarget.Position, ret => HealTarget.HealthPercent < 60 && !HealTarget.HasBuff("Kolto Residue"))),
+                        //Buff Party
+                        Spell.Heal("Kolto Shell", on => HealTarget, 100, ret => !HealTarget.HasBuff("Kolto Shell")),
+
+                        //AoE Healing 
+                        new Decorator(ctx => Tank != null,
+                            Spell.CastOnGround("Kolto Missile", on => HealTarget.Position, ret => HealTarget.HealthPercent < 85 && !HealTarget.HasBuff("Kolto Residue") && Me.InCombat)),
 
                         //Free, so use it!
-                        Spell.Heal("Emergency Scan", 80),
+                        Spell.Heal("Emergency Scan", 80, ret => Me.InCombat),
 
                         //Important Buffs to take advantage of
                         new Decorator(ctx => Tank != null,
-                        Spell.CastOnGround("Kolto Missile", on => Tank.Position, ret => Me.HasBuff("Supercharged Gas") && Me.InCombat && !Tank.HasBuff("Charge Screen"))),
-                        Spell.Heal("Rapid Scan", 80, ret => Me.HasBuff("Critical Efficiency")),
-                        Spell.HealGround("Kolto Missile", ret => Me.HasBuff("Supercharged Gas")),
-                        Spell.Heal("Healing Scan", 80, ret => Me.HasBuff("Supercharged Gas")),
-
-                        //Buff Tank
-                        Spell.Heal("Kolto Shell", on => HealTarget, 100, ret => HealTarget != null && Me.InCombat && !HealTarget.HasBuff("Kolto Shell")),
+                            Spell.CastOnGround("Kolto Missile", on => HealTarget.Position, ret => Me.HasBuff("Supercharged Gas") && Me.InCombat)),
+                        Spell.Heal("Rapid Scan", 80, ret => Me.HasBuff("Critical Efficiency") && Me.InCombat),
+                        Spell.Heal("Healing Scan", 80, ret => Me.HasBuff("Supercharged Gas") && Me.InCombat),
 
                         //Single Target Priority
-                        Spell.Heal("Healing Scan", 75),
-                        Spell.Heal("Rapid Scan", 75),
+                        Spell.Heal("Healing Scan", 80, ret => Me.BuffCount("Critical Efficiency") >= 3),
+                        Spell.Heal("Rapid Scan", 88, ret => Me.ResourcePercent() <= 50),
+                        Spell.Heal("Progressive Scan", 99),
+                        Spell.Heal("Kolto Shot", 95),
+                        Spell.Heal("Emergency Scan", 85),
+                        Spell.Heal("Healing Scan", 65),
 
                         //Filler
-                        Spell.Heal("Rapid Shots", 95, ret => HealTarget != null && HealTarget.Name != Me.Name),
-                        Spell.Heal("Rapid Shots", on => Tank, 100, ret => Tank != null && Me.InCombat)
-                        ));
+                        Spell.Heal("Kolto Shot", 95, ret => Me.IsMoving),
+                        Spell.HoT("Progressive Scan", 85, ret => Me.IsMoving)
+                        );
             }
         }
     }
