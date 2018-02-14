@@ -20,6 +20,7 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Mark of Power"),
+                    Spell.Cast("Guard", on => Me.Companion, ret => Me.Companion != null && !Me.Companion.IsDead && !Me.Companion.HasBuff("Guard")),
                     Spell.Buff("Stealth", ret => !Rest.KeepResting() && !DefaultCombat.MovementDisabled)
                     );
             }
@@ -60,18 +61,20 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 
-                    //Low Force
-                    Spell.Cast("Saber Strike", ret => Me.ForcePercent <= 40),
+                    //Low Energy
+                    Spell.Cast("Eradicate", ret => Me.ForcePercent < 25 && Me.HasBuff("Raze")),
+                    Spell.Cast("Saber Strike", ret => Me.ForcePercent < 25),
 
                     //Rotation
                     Spell.Cast("Jolt", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
                     Spell.CastOnGround("Death Field"),
-                    Spell.Cast("Assassinate", ret => Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("Bloodletting")),
+                    Spell.Cast("Creeping Terror", ret => !Me.CurrentTarget.HasDebuff("Creeping Terror")),
+                    Spell.DoT("Discharge", "Crushed (Discharge)"),
                     Spell.Cast("Eradicate", ret => Me.HasBuff("Raze") && Me.Level >= 26),
-                    Spell.DoT("Discharge", "Shocked (Discharge)"),
-                    Spell.DoT("Creeping Terror", "Creeping Terror"),
-                    Spell.Cast("Leeching Strike"),
-                    Spell.Cast("Thrash", ret => Me.Force > 70),
+                    Spell.Cast("Shock", ret => Me.Level < 26),
+                    Spell.Cast("Assassinate", ret => Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("Bloodletting")),
+                    Spell.Cast("Leeching Strike", ret => Me.HealthPercent <= 70),
+                    Spell.Cast("Thrash"),
                     Spell.Buff("Force Speed", ret => Me.CurrentTarget.Distance >= 1.1f && Me.IsMoving && Me.InCombat),
 
                     //HK-55 Mode Rotation
@@ -89,15 +92,15 @@ namespace DefaultCombat.Routines
         {
             get
             {
-                return new Decorator(ret => Targeting.ShouldAoe,
+                return new Decorator(ret => Targeting.ShouldPbaoe,
                     new PrioritySelector(
                         Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
                         Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
                         Spell.CastOnGround("Terminate", ret => CombatHotkeys.EnableHK55), //--will only be active when user initiates HK-55 Mode
+                        Spell.DoT("Discharge", "Crushed (Discharge)"),
+                        Spell.Cast("Creeping Terror", ret => !Me.CurrentTarget.HasDebuff("Creeping Terror")),
                         Spell.CastOnGround("Death Field"),
-                        Spell.DoT("Discharge", "Shocked (Discharge)"),
-                        Spell.DoT("Creeping Terror", "Creeping Terror"),
-                        Spell.Cast("Lacerate", ret => Me.CurrentTarget.HasDebuff("Shocked (Discharge)") && Me.CurrentTarget.HasDebuff("Creeping Terror") && Me.ForcePercent >= 60 && Targeting.ShouldPbaoe)
+                        Spell.Cast("Lacerate", ret => Me.ForcePercent > 70)
                         ));
             }
         }
