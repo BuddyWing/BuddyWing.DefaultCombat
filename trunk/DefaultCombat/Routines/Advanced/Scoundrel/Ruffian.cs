@@ -64,10 +64,9 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 
                     //Low Energy
-                    new Decorator(ret => Me.EnergyPercent
-< 40,
+                    new Decorator(ret => Me.EnergyPercent < 40,
                         new PrioritySelector(
-                            Spell.Cast("Flurry of Bolts", ret => Me.EnergyPercent < 80 && !Me.HasBuff("Upper Hand"))
+                            Spell.Cast("Flurry of Bolts")
                             )),
 
                     //Solo Mode
@@ -79,14 +78,13 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
                     Spell.Cast("Brutal Shots", ret => Me.CurrentTarget.HasDebuff("Vital Shot") && Me.CurrentTarget.HasDebuff("Shrap Bomb") && Me.HasBuff("Upper Hand")),
                     Spell.Cast("Sanguinary Shot", ret => Me.CurrentTarget.HasDebuff("Vital Shot") && Me.CurrentTarget.HasDebuff("Shrap Bomb")),
-                    //Last minute changes Spell.DoT("Vital Shot", "Vital Shot"),
                     Spell.Cast("Vital Shot", ret => !Me.CurrentTarget.HasDebuff("Vital Shot") || Me.CurrentTarget.DebuffTimeLeft("Vital Shot") <= 3),
-                    //Last minute changes Spell.DoT("Shrap Bomb", "Shrap Bomb"),
                     Spell.Cast("Shrap Bomb", ret => !Me.CurrentTarget.HasDebuff("Shrap Bomb") || Me.CurrentTarget.DebuffTimeLeft("Shrap Bomb") <= 3),
                     Spell.Cast("Blaster Whip", ret => Me.BuffCount("Upper Hand") < 2 || Me.BuffTimeLeft("Upper Hand") < 6),
                     Spell.Cast("Point Blank Shot", ret => Me.Level >= 57),
                     Spell.Cast("Back Blast", ret => Me.IsBehind(Me.CurrentTarget) && Me.Level < 57),
                     Spell.Cast("Quick Shot", ret => Me.EnergyPercent > 80 && !Me.HasBuff("Upper Hand")),
+                    Spell.Cast("Flurry of Bolts", ret => Me.EnergyPercent < 80 && !Me.HasBuff("Upper Hand") || Me.CurrentTarget.Distance > 1f),
 
                     //HK-55 Mode Rotation
                     Spell.Cast("Charging In", ret => Me.CurrentTarget.Distance >= .4f && Me.InCombat && CombatHotkeys.EnableHK55),

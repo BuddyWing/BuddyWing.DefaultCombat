@@ -64,10 +64,9 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 
                     //Low Energy
-                    new Decorator(ret => Me.EnergyPercent
-< 40,
+                    new Decorator(ret => Me.EnergyPercent < 40,
                         new PrioritySelector(
-                            Spell.Cast("Rifle Shot", ret => Me.EnergyPercent < 80 && !Me.HasBuff("Tactical Advantage"))
+                            Spell.Cast("Rifle Shot")
                             )),
 
                     //Solo Mode
@@ -79,14 +78,13 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
                     Spell.Cast("Toxic Blast", ret => Me.CurrentTarget.HasDebuff("Corrosive Dart") && Me.CurrentTarget.HasDebuff("Corrosive Grenade")),
                     Spell.Cast("Corrosive Assault", ret => Me.CurrentTarget.HasDebuff("Corrosive Dart") && Me.CurrentTarget.HasDebuff("Corrosive Grenade") && Me.HasBuff("Tactical Advantage")),
-                    //Last minute changes Spell.DoT("Corrosive Dart", "Corrosive Dart"),
                     Spell.Cast("Corrosive Dart", ret => !Me.CurrentTarget.HasDebuff("Corrosive Dart") || Me.CurrentTarget.DebuffTimeLeft("Corrosive Dart") <= 3),
-                    //Last minute changes Spell.DoT("Corrosive Grenade", "Corrosive Grenade"),
                     Spell.Cast("Corrosive Grenade", ret => !Me.CurrentTarget.HasDebuff("Corrosive Grenade") || Me.CurrentTarget.DebuffTimeLeft("Corrosive Grenade") <= 3),
                     Spell.Cast("Shiv", ret => Me.BuffCount("Tactical Advantage") < 2 || Me.BuffTimeLeft("Tactical Advantage") < 6),
                     Spell.Cast("Lethal Strike", ret => Me.Level >= 57),
                     Spell.Cast("Back Stab", ret => Me.IsBehind(Me.CurrentTarget) && Me.Level < 57),
                     Spell.Cast("Overload Shot", ret => Me.EnergyPercent > 80 && !Me.HasBuff("Tactical Advantage")),
+                    Spell.Cast("Rifle Shot", ret => Me.EnergyPercent < 80 && !Me.HasBuff("Tactical Advantage") || Me.CurrentTarget.Distance > 1f),
 
                     //HK-55 Mode Rotation
                     Spell.Cast("Charging In", ret => Me.CurrentTarget.Distance >= .4f && Me.InCombat && CombatHotkeys.EnableHK55),
