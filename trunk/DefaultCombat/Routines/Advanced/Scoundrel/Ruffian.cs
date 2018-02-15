@@ -64,15 +64,15 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 
                     //Low Energy
-                    new Decorator(ret => Me.EnergyPercent < 40,
+                    new Decorator(ret => Me.EnergyPercent < 35,
                         new PrioritySelector(
                             Spell.Cast("Flurry of Bolts")
                             )),
 
                     //Solo Mode
-                    Spell.Cast("Kolto Pack", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 30),
+                    Spell.Cast("Kolto Pack", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 90 && Me.HasBuff("Scurry")),
                     Spell.Cast("Diagnostic Scan", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 10),
-                    Spell.Cast("Slow-release Medpac", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 70),
+                    Spell.Cast("Slow-release Medpac", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 80 && Me.BuffTimeLeft("Slow-release Medpac") <= 3),
 
                     //Rotation
                     Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
