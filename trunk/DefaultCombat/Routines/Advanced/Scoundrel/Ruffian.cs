@@ -9,7 +9,7 @@ using Targeting = DefaultCombat.Core.Targeting;
 
 namespace DefaultCombat.Routines
 {
-    public class Rufian : RotationBase
+    public class Ruffian : RotationBase
     {
         public override string Name
         {
