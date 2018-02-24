@@ -67,13 +67,13 @@ namespace DefaultCombat.Routines
 
                     //Rotation
                     Spell.Cast("Jolt", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.CastOnGround("Death Field"),
-                    Spell.Cast("Creeping Terror", ret => !Me.CurrentTarget.HasDebuff("Creeping Terror")),
-                    Spell.DoT("Discharge", "Crushed (Discharge)"),
                     Spell.Cast("Eradicate", ret => Me.HasBuff("Raze") && Me.Level >= 26),
+                    Spell.CastOnGround("Death Field", ret => !Me.CurrentTarget.HasDebuff("Deathmark") || Me.CurrentTarget.BuffCount("Deathmark") <= 2),
+                    Spell.Cast("Creeping Terror", ret => !Me.CurrentTarget.HasDebuff("Creeping Terror") || Me.CurrentTarget.DebuffTimeLeft("Creeping Terror") <= 2),
+                    Spell.Cast("Discharge", ret => !Me.CurrentTarget.HasDebuff("Discharge") || Me.CurrentTarget.DebuffTimeLeft("Discharge") <= 2),
                     Spell.Cast("Shock", ret => Me.Level < 26),
-                    Spell.Cast("Assassinate", ret => Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("Bloodletting")),
-                    Spell.Cast("Leeching Strike", ret => Me.HealthPercent <= 70),
+                    Spell.Cast("Assassinate", ret => Me.HasBuff("Reaper's Rush") || Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("Bloodletting")),
+                    Spell.Cast("Leeching Strike", ret => Me.ForcePercent > 40),
                     Spell.Cast("Thrash"),
                     Spell.Buff("Force Speed", ret => Me.CurrentTarget.Distance >= 1.1f && Me.IsMoving && Me.InCombat),
 
@@ -97,7 +97,7 @@ namespace DefaultCombat.Routines
                         Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
                         Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
                         Spell.CastOnGround("Terminate", ret => CombatHotkeys.EnableHK55), //--will only be active when user initiates HK-55 Mode
-                        Spell.DoT("Discharge", "Crushed (Discharge)"),
+                        Spell.DoT("Discharge", "Discharge"),
                         Spell.Cast("Creeping Terror", ret => !Me.CurrentTarget.HasDebuff("Creeping Terror")),
                         Spell.CastOnGround("Death Field"),
                         Spell.Cast("Lacerate", ret => Me.ForcePercent > 70)
