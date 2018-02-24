@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2017 Bossland GmbH
+// Copyright (C) 2011-2017 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
@@ -7,7 +7,7 @@ using DefaultCombat.Helpers;
 
 namespace DefaultCombat.Routines
 {
-    internal class Serenity : RotationBase
+    public class Serenity : RotationBase
     {
         public override string Name
         {
@@ -32,7 +32,7 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Force of Will", ret => Me.IsStunned),
-                    Spell.Buff("Battle Readiness", ret => Me.HealthPercent <= 85),
+                    Spell.Buff("Battle Readiness"),
                     Spell.Buff("Deflection", ret => Me.HealthPercent <= 60),
                     Spell.Buff("Resilience", ret => Me.HealthPercent <= 50),
                     Spell.Buff("Force Potency"),
@@ -67,13 +67,13 @@ namespace DefaultCombat.Routines
 
                     //Rotation
                     Spell.Cast("Mind Snap", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.CastOnGround("Force in Balance"),
-                    Spell.Cast("Sever Force", ret => !Me.CurrentTarget.HasDebuff("Sever Force")),
-                    Spell.DoT("Force Breach", "Crushed (Force Breach)"),
                     Spell.Cast("Squelch", ret => Me.HasBuff("Force Strike") && Me.Level >= 26),
+                    Spell.CastOnGround("Force in Balance", ret => !Me.CurrentTarget.HasDebuff("Force Suppression") || Me.CurrentTarget.BuffCount("Force Suppression") <= 2),
+                    Spell.Cast("Sever Force", ret => !Me.CurrentTarget.HasDebuff("Sever Force") || Me.CurrentTarget.DebuffTimeLeft("Sever Force") <= 2),
+                    Spell.Cast("Force Breach", ret => !Me.CurrentTarget.HasDebuff("Force Breach") || Me.CurrentTarget.DebuffTimeLeft("Force Breach") <= 2),
                     Spell.Cast("Project", ret => Me.Level < 26),
-                    Spell.Cast("Spinning Strike", ret => Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("Crush Spirit")),
-                    Spell.Cast("Serenity Strike", ret => Me.HealthPercent <= 70),
+                    Spell.Cast("Spinning Strike", ret => Me.HasBuff("Stalker's Swiftness") || Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("Crush Spirit")),
+                    Spell.Cast("Serenity Strike", ret => Me.ForcePercent > 40),
                     Spell.Cast("Double Strike"),
                     Spell.Buff("Force Speed", ret => Me.CurrentTarget.Distance >= 1.1f && Me.IsMoving && Me.InCombat),
 
@@ -97,7 +97,7 @@ namespace DefaultCombat.Routines
                         Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
                         Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
                         Spell.CastOnGround("Terminate", ret => CombatHotkeys.EnableHK55), //--will only be active when user initiates HK-55 Mode
-                        Spell.DoT("Force Breach", "Crushed (Force Breach)"),
+                        Spell.DoT("Force Breach", "Force Breach"),
                         Spell.Cast("Sever Force", ret => !Me.CurrentTarget.HasDebuff("Sever Force")),
                         Spell.CastOnGround("Force in Balance"),
                         Spell.Cast("Whirling Blow", ret => Me.ForcePercent > 70)
