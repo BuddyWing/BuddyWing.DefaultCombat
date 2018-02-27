@@ -70,10 +70,9 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Demolition Round", ret => Me.CurrentTarget.HasDebuff("Gravity Vortex")),
                     Spell.Cast("Electro Net"),
                     Spell.Cast("High Impact Bolt", ret => Me.BuffCount("Charged Barrel") == 5),
-                    Spell.Cast("Boltstorm"),
                     Spell.Cast("Vortex Bolt"),
+                    Spell.Cast("Boltstorm"),
                     Spell.Cast("Grav Round"),
-                    Spell.Cast("Hammer Shots"),
 
                     //HK-55 Mode Rotation
                     Spell.Cast("Charging In", ret => Me.CurrentTarget.Distance >= .4f && Me.InCombat && CombatHotkeys.EnableHK55),
