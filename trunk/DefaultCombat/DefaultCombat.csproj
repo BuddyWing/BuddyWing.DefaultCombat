@@ -81,6 +81,7 @@
     <Compile Include="Core\RotationFactory.cs" />
     <Compile Include="Core\Spell.cs" />
     <Compile Include="Core\Targeting.cs" />
+    <Compile Include="Extensions\TorCharacterExtensions.cs" />
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\Global.cs" />
     <Compile Include="Helpers\CombatHotkeys.cs" />
