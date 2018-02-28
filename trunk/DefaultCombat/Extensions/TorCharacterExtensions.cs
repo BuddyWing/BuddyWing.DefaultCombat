@@ -1,15 +1,20 @@
-﻿using Buddy.Swtor.Objects;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Buddy.Swtor.Objects;
 
 namespace DefaultCombat.Extensions
 {
     public static class TorCharacterExtensions
     {
-        public static bool ShouldDispel(this TorCharacter target, string debuffName)
+        private static readonly IReadOnlyList<string> _dispellableDebuffs = new List<string>
         {
-            if (target == null)
-                return false;
+            "Hunting Trap",
+            "Burning (Physical)"
+        };
 
-            return target.HasDebuff(debuffName);
+        public static bool ShouldDispel(this TorCharacter target)
+        {
+            return target != null && _dispellableDebuffs.Any(target.HasDebuff);
         }
     }
 }
