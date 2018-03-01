@@ -1,9 +1,10 @@
-﻿// Copyright (C) 2011-2017 Bossland GmbH
+﻿// Copyright (C) 2011-2018 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
 using DefaultCombat.Core;
 using DefaultCombat.Helpers;
+using DefaultCombat.Extensions;
 
 namespace DefaultCombat.Routines
 {
@@ -65,15 +66,7 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Rail Shot"),
                     Spell.Cast("Electro Net"),
                     Spell.Cast("Power Shot", ret => Me.ResourceStat <= 70),
-                    Spell.Cast("Missile Blast"),
-
-                    //HK-55 Mode Rotation
-                    Spell.Cast("Charging In", ret => Me.CurrentTarget.Distance >= .4f && Me.InCombat && CombatHotkeys.EnableHK55),
-                    Spell.Cast("Blindside", ret => CombatHotkeys.EnableHK55),
-                    Spell.Cast("Assassinate", ret => CombatHotkeys.EnableHK55),
-                    Spell.Cast("Rail Blast", ret => CombatHotkeys.EnableHK55),
-                    Spell.Cast("Rifle Blast", ret => CombatHotkeys.EnableHK55),
-                    Spell.Cast("Execute", ret => Me.CurrentTarget.HealthPercent <= 45 && CombatHotkeys.EnableHK55)
+                    Spell.Cast("Missile Blast")
                     );
             }
         }
@@ -98,8 +91,8 @@ namespace DefaultCombat.Routines
 
                         //BuffLog.Instance.LogTargetBuffs,
 
-                        //Cleanse if needed
-                        Spell.Cleanse("Cure"),
+                        //Cleanse
+                        //NEWCODE
 
                         //Buff Party
                         Spell.Heal("Kolto Shell", on => HealTarget, 100, ret => !HealTarget.HasBuff("Kolto Shell")),
@@ -113,7 +106,7 @@ namespace DefaultCombat.Routines
 
                         //Important Buffs to take advantage of
                         new Decorator(ctx => Tank != null,
-                            Spell.CastOnGround("Kolto Missile", on => HealTarget.Position, ret => Me.HasBuff("Supercharged Gas") && Me.InCombat)),
+                        Spell.CastOnGround("Kolto Missile", on => HealTarget.Position, ret => Me.HasBuff("Supercharged Gas") && Me.InCombat)),
                         Spell.Heal("Rapid Scan", 80, ret => Me.HasBuff("Critical Efficiency") && Me.InCombat),
                         Spell.Heal("Healing Scan", 80, ret => Me.HasBuff("Supercharged Gas") && Me.InCombat),
 

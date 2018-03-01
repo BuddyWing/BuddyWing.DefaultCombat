@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2017 Bossland GmbH
+﻿// Copyright (C) 2011-2018 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using System.Windows;
@@ -65,7 +65,7 @@ namespace DefaultCombat
 
         public override void Initialize()
         {
-            Logger.Write("*** Default Combat v79***");
+            Logger.Write("*** Default Combat v80***");
             Logger.Write("Level: " + BuddyTor.Me.Level);
             Logger.Write("Class: " + Class);
             Logger.Write("Advanced Class: " + BuddyTor.Me.AdvancedClass);

@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2011-2017 Bossland GmbH
+﻿// Copyright (C) 2011-2018 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using System.Windows.Forms;
@@ -26,9 +26,6 @@ namespace DefaultCombat.Helpers
             EnableHK55 = false;
 
             //F9 and F10 are reservered for internal commands
-
-            Hotkeys.RegisterHotkey("Toggle HK55 (F4)", ChangeHK55, Keys.F4);
-            Logger.Write("[Hot Key][F4] Toggle HK55");
 
             Hotkeys.RegisterHotkey("Toggle Interrupts (F5)", ChangeInterrupts, Keys.F5);
             Logger.Write("[Hot Key][F5] Toggle Interrupts");
@@ -116,20 +113,6 @@ namespace DefaultCombat.Helpers
             {
                 Logger.Write("Solo Mode Enabled");
                 EnableSolo = true;
-            }
-        }
-
-        private static void ChangeHK55()
-        {
-            if (EnableHK55)
-            {
-                Logger.Write("HK-55 Mode Disabled");
-                EnableHK55 = false;
-            }
-            else
-            {
-                Logger.Write("HK-55 Mode Enabled");
-                EnableHK55 = true;
             }
         }
     }

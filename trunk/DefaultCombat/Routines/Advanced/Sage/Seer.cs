@@ -1,13 +1,14 @@
-﻿// Copyright (C) 2011-2017 Bossland GmbH 
+﻿// Copyright (C) 2011-2018 Bossland GmbH 
 // See the file LICENSE for the source code's detailed license 
 
 using Buddy.BehaviorTree;
 using DefaultCombat.Core;
 using DefaultCombat.Helpers;
+using DefaultCombat.Extensions;
 
 namespace DefaultCombat.Routines
 {
-    internal class Seer : RotationBase
+    public class Seer : RotationBase
     {
         public override string Name
         {
@@ -65,15 +66,7 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Mind Crush"),
                     Spell.Cast("Project"),
                     Spell.Cast("Telekinetic Throw"),
-                    Spell.Cast("Disturbance"),
-
-                    //HK-55 Mode Rotation
-                    Spell.Cast("Charging In", ret => Me.CurrentTarget.Distance >= .4f && Me.InCombat && CombatHotkeys.EnableHK55),
-                    Spell.Cast("Blindside", ret => CombatHotkeys.EnableHK55),
-                    Spell.Cast("Assassinate", ret => CombatHotkeys.EnableHK55),
-                    Spell.Cast("Rail Blast", ret => CombatHotkeys.EnableHK55),
-                    Spell.Cast("Rifle Blast", ret => CombatHotkeys.EnableHK55),
-                    Spell.Cast("Execute", ret => Me.CurrentTarget.HealthPercent <= 45 && CombatHotkeys.EnableHK55)
+                    Spell.Cast("Disturbance")
                     );
             }
         }
@@ -87,10 +80,9 @@ namespace DefaultCombat.Routines
                     //Legacy Heroic Moment Ability
                     Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
                     Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
-                    Spell.CastOnGround("Terminate", ret => CombatHotkeys.EnableHK55), //--will only be active when user initiates HK-55 Mode
 
-                    //Cleanse if needed 
-                    Spell.Cleanse("Restoration"),
+                    //Cleanse 
+                    //NEWCODE
 
                     //Emergency Heal (Insta-cast) 
                     Spell.Heal("Benevolence", 80, ret => Me.HasBuff("Altruism")),

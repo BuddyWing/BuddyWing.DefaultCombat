@@ -9,7 +9,7 @@ namespace DefaultCombat.Extensions
         private static readonly IReadOnlyList<string> _dispellableDebuffs = new List<string>
         {
             "Hunting Trap",
-            "Burning (Physical)"
+            "Trauma (Physical)"
         };
 
         public static bool ShouldDispel(this TorCharacter target)

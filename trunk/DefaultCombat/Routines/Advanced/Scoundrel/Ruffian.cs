@@ -1,4 +1,4 @@
-// Copyright (C) 2011-2017 Bossland GmbH
+// Copyright (C) 2011-2018 Bossland GmbH
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
@@ -84,15 +84,7 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Point Blank Shot", ret => Me.Level >= 57),
                     Spell.Cast("Back Blast", ret => Me.IsBehind(Me.CurrentTarget) && Me.Level < 57),
                     Spell.Cast("Quick Shot", ret => Me.EnergyPercent > 80 && !Me.HasBuff("Upper Hand")),
-                    Spell.Cast("Flurry of Bolts", ret => Me.EnergyPercent < 80 && !Me.HasBuff("Upper Hand") || Me.CurrentTarget.Distance > 1f),
-
-                    //HK-55 Mode Rotation
-                    Spell.Cast("Charging In", ret => Me.CurrentTarget.Distance >= .4f && Me.InCombat && CombatHotkeys.EnableHK55),
-                    Spell.Cast("Blindside", ret => CombatHotkeys.EnableHK55),
-                    Spell.Cast("Assassinate", ret => CombatHotkeys.EnableHK55),
-                    Spell.Cast("Rail Blast", ret => CombatHotkeys.EnableHK55),
-                    Spell.Cast("Rifle Blast", ret => CombatHotkeys.EnableHK55),
-                    Spell.Cast("Execute", ret => Me.CurrentTarget.HealthPercent <= 45 && CombatHotkeys.EnableHK55)
+                    Spell.Cast("Flurry of Bolts", ret => Me.EnergyPercent < 80 && !Me.HasBuff("Upper Hand") || Me.CurrentTarget.Distance > 1f)
                     );
             }
         }
@@ -105,7 +97,6 @@ namespace DefaultCombat.Routines
                     new PrioritySelector(
                         Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
                         Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
-                        Spell.CastOnGround("Terminate", ret => CombatHotkeys.EnableHK55), //--will only be active when user initiates HK-55 Mode
                         Spell.DoT("Shrap Bomb", "Shrap Bomb"),
                         Spell.Cast("Thermal Grenade"),
                         Spell.Cast("Lacerating Blast"),

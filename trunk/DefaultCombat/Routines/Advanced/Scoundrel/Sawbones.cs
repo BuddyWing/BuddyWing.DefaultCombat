@@ -1,9 +1,10 @@
-﻿// Copyright (C) 2011-2017 Bossland GmbH 
+﻿// Copyright (C) 2011-2018 Bossland GmbH 
 // See the file LICENSE for the source code's detailed license 
 
 using Buddy.BehaviorTree;
 using DefaultCombat.Core;
 using DefaultCombat.Helpers;
+using DefaultCombat.Extensions;
 
 namespace DefaultCombat.Routines
 {
@@ -62,15 +63,7 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Blaster Whip"),
                     Spell.Cast("Vital Shot", ret => !Me.CurrentTarget.HasDebuff("Vital Shot")),
                     Spell.Cast("Quick Shot", ret => Me.EnergyPercent >= 70),
-                    Spell.Cast("Flurry of Bolts"),
-
-                    //HK-55 Mode Rotation
-                    Spell.Cast("Charging In", ret => Me.CurrentTarget.Distance >= .4f && Me.InCombat && CombatHotkeys.EnableHK55),
-                    Spell.Cast("Blindside", ret => CombatHotkeys.EnableHK55),
-                    Spell.Cast("Assassinate", ret => CombatHotkeys.EnableHK55),
-                    Spell.Cast("Rail Blast", ret => CombatHotkeys.EnableHK55),
-                    Spell.Cast("Rifle Blast", ret => CombatHotkeys.EnableHK55),
-                    Spell.Cast("Execute", ret => Me.CurrentTarget.HealthPercent <= 45 && CombatHotkeys.EnableHK55)
+                    Spell.Cast("Flurry of Bolts")
                     );
             }
         }
@@ -81,16 +74,19 @@ namespace DefaultCombat.Routines
             get
             {
                 return new PrioritySelector(
+
+                    //Cleanse
+                    //NEWCODE
+
+                    //Healing
                     Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
                     Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
-                    Spell.CastOnGround("Terminate", ret => CombatHotkeys.EnableHK55), //--will only be active when user initiates HK-55 Mode
                     Spell.HealGround("Kolto Waves", ret => Targeting.ShouldAoeHeal),
                     Spell.Heal("Kolto Cloud", on => Tank, 80, ret => Tank != null && Targeting.ShouldAoeHeal),
                     Spell.Heal("Emergency Medpac", 90, ret => emergencyMedpac()),
                     Spell.Heal("Slow-release Medpac", on => Tank, 100, ret => Tank != null && tankSlowMedpac()),
                     Spell.Heal("Kolto Pack", 80, ret => Me.BuffCount("Upper Hand") >= 2 && Me.EnergyPercent >= 60 && !HealTarget.HasMyBuff("Kolto Pack")),
                     Spell.Heal("Underworld Medicine", 80),
-                    Spell.Cleanse("Triage"),
                     Spell.Heal("Slow-release Medpac", 90, ret => targetSlowMedpac()),
                     Spell.Heal("Diagnostic Scan", 95)
                     );
