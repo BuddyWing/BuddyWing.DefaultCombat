@@ -9,7 +9,7 @@ namespace DefaultCombat.Extensions
         private static readonly IReadOnlyList<string> s_dispellableDebuffs = new List<string>
         {
             								//-=-Universal-=-
-            "Weakened (Physical)"
+            "Weakened (Physical)",
             								
             								
             								//-=-Operations-=-
