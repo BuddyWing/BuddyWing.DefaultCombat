@@ -4,7 +4,7 @@
 using Buddy.BehaviorTree;
 using DefaultCombat.Core;
 using DefaultCombat.Helpers;
-using DefaultCombat.Extensions;
+//using DefaultCombat.Extensions; ((Hold off for now))
 
 namespace DefaultCombat.Routines
 {
@@ -81,7 +81,8 @@ namespace DefaultCombat.Routines
                     Spell.CastOnGround("Terminate", ret => CombatHotkeys.EnableHK55), //--will only be active when user initiates HK-55 Mode
 
                     //Cleanse
-                    //NEWCODE
+                    //Spell.Cast("Purge", ret => HealTarget.ShouldDispel()), ((New Code Hold off for now))
+                    Spell.Cleanse("Purge"),
 
                     //Emergency Heal (Insta-cast)
                     Spell.Heal("Dark Heal", 80, ret => Me.HasBuff("Dark Concentration")),

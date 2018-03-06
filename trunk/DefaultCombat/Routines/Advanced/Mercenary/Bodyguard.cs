@@ -4,7 +4,7 @@
 using Buddy.BehaviorTree;
 using DefaultCombat.Core;
 using DefaultCombat.Helpers;
-using DefaultCombat.Extensions;
+//using DefaultCombat.Extensions; ((Hold off for now))
 
 namespace DefaultCombat.Routines
 {
@@ -92,7 +92,8 @@ namespace DefaultCombat.Routines
                         //BuffLog.Instance.LogTargetBuffs,
 
                         //Cleanse
-                        //NEWCODE
+                        //Spell.Cast("Cure", ret => HealTarget.ShouldDispel()), ((New Code Hold off for now))
+                        Spell.Cleanse("Cure"),
 
                         //Buff Party
                         Spell.Heal("Kolto Shell", on => HealTarget, 100, ret => !HealTarget.HasBuff("Kolto Shell")),

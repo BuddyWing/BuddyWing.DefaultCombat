@@ -22,7 +22,53 @@ namespace DefaultCombat.Helpers
             new Debuff("Crushing Affliction (Force)", 0),
             new Debuff("Crushing Affliction (All)", 0),
             new Debuff("Corrosive Slime", 0),
-            new Debuff("Laser", 4)
+            new Debuff("Laser", 4),
+            //=+=OPERATIONS=+=
+            //Eternity Vault
+            //Explosive Conflicts
+            new Debuff("Mental Anguish", 0),
+            new Debuff("Weakened", 0),
+            //Gods from the Machine
+            new Debuff("Armor Melt (Any)", 0),
+            //Karagga's Palace
+            new Debuff("Unstable Energy", 0),
+            //Scum and Villainy
+            //Temple of Scarifice
+            //Terror from Beyond
+            //The Dread Fortress
+            new Debuff("Corrupted Nanites (Any)", 0),
+            //The Dread Palace
+            //The Ravagers
+            //=+=FLASHPOINTS=+=
+            //Assault on Tython
+            //Athiss
+            //Battle of Rishi
+            //Blood Hunt
+            //Boarding Party
+            //Cademinu
+            //Collicoid War Games
+            //Crisis on Umbara
+            //Czerka Core Meltdown
+            //Depths of Manaan
+            //Directive 7
+            //Hammer Station
+            //Kaon
+            //Korriban Incursion
+            //Kuat Drive Yards
+            //Legacy of Rakata
+            new Debuff("Hunting Trap (Any)", 0)
+            //Lost Island
+            //Maelstrom Prison
+            //Mandalorian Raiders
+            //Red Reaper
+            //Taral V
+            //The Battle of Illum
+            //The Black Talon
+            //The Esseles
+            //The False Emperor
+            //A Traitor Among the Chiss
+            //The Foundry
+
         };
 
         public static string[] DebuffNamesCrowdControl =

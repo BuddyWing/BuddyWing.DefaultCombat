@@ -4,7 +4,7 @@
 using Buddy.BehaviorTree;
 using DefaultCombat.Core;
 using DefaultCombat.Helpers;
-using DefaultCombat.Extensions;
+//using DefaultCombat.Extensions; ((Hold off for now))
 
 namespace DefaultCombat.Routines
 {
@@ -89,7 +89,8 @@ namespace DefaultCombat.Routines
                         Spell.CastOnGround("Hail of Bolts", ret => CombatHotkeys.EnableSolo && Me.ResourcePercent() <= 35 && Me.InCombat && Me.CurrentTarget.IsHostile),
 
                         //Cleanse
-                        //NEWCODE
+                        //Spell.Cast("Field Aid", ret => HealTarget.ShouldDispel()), ((New Code Hold off for now))
+                        Spell.Cleanse("Field Aid"),
 
                         //Buff Party
                         Spell.Heal("Trauma Probe", on => HealTarget, 100, ret => !HealTarget.HasBuff("Trauma Probe")),

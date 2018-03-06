@@ -4,7 +4,7 @@
 using Buddy.BehaviorTree;
 using DefaultCombat.Core;
 using DefaultCombat.Helpers;
-using DefaultCombat.Extensions;
+//using DefaultCombat.Extensions; ((Hold off for now))
 
 namespace DefaultCombat.Routines
 {
@@ -78,7 +78,8 @@ namespace DefaultCombat.Routines
                 return new PrioritySelector(
 
                     //Cleanse
-                    //NEWCODE
+                    //Spell.Cast("Toxin Scan", ret => HealTarget.ShouldDispel()), ((New Code Hold off for now))
+                    Spell.Cleanse("Toxin Scan"),
 
                     //Healing
                     Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
