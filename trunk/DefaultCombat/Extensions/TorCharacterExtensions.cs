@@ -6,7 +6,7 @@ namespace DefaultCombat.Extensions
 {
     public static class TorCharacterExtensions
     {
-        private static readonly IReadOnlyList<string> _dispellableDebuffs = new List<string>
+        private static readonly IReadOnlyList<string> s_dispellableDebuffs = new List<string>
         {
             								//-=-Universal-=-
             "Weakened (Physical)"
@@ -73,7 +73,7 @@ namespace DefaultCombat.Extensions
             
             //Legacy of Rakata
             "Hunting Trap (Any)"
-            
+
             //Lost Island
             
             //Maelstrom Prison
@@ -139,14 +139,11 @@ namespace DefaultCombat.Extensions
             //The Eyeless
             
             		//World Bosses
-            
-            
-            
         };
 
         public static bool ShouldDispel(this TorCharacter target)
         {
-            return target != null && _dispellableDebuffs.Any(target.HasDebuff);
+            return target != null && s_dispellableDebuffs.Any(target.HasDebuff);
         }
     }
 }
