@@ -6,7 +6,7 @@ namespace DefaultCombat.Extensions
 {
     public static class TorCharacterExtensions
     {
-        private static readonly IReadOnlyList<string> s_dispellableDebuffs = new List<string>
+        private static readonly IReadOnlyList<string> _dispellableDebuffs = new List<string>
         {
             								//-=-Universal-=-
             "Weakened (Physical)",
@@ -143,7 +143,7 @@ namespace DefaultCombat.Extensions
 
         public static bool ShouldDispel(this TorCharacter target)
         {
-            return target != null && s_dispellableDebuffs.Any(target.HasDebuff);
+            return target != null && _dispellableDebuffs.Any(target.HasDebuff);
         }
     }
 }
