@@ -2,6 +2,8 @@
 // See the file LICENSE for the source code's detailed license
 
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Buddy.BehaviorTree;
 using Buddy.CommonBot;
@@ -15,6 +17,10 @@ namespace DefaultCombat.Helpers
     //This shit comes from Joe's
     internal class Scavenge
     {
+        private static Stopwatch _throttleTimer = Stopwatch.StartNew();
+        private static TimeSpan _pauseDuration = TimeSpan.FromSeconds(3);
+        private static TorNpc _scavengeTargetCached;
+
         private static TorPlayer Me
         {
             get { return BuddyTor.Me; }
@@ -32,7 +38,18 @@ namespace DefaultCombat.Helpers
 
         public static TorCharacter ScavUnit
         {
-            get { return ObjectManager.GetObjects<TorNpc>().Where(p => CanHarvestCorpse(p)).FirstOrDefault(); }
+            get
+            {
+                // This takes up about 50% of the total time we spend in Tick(), so we'll cache the target we select for scavenging.
+                // (Especially the npc.IsDead check takes a long time)
+                if (_throttleTimer.Elapsed < _pauseDuration && _scavengeTargetCached != null)
+                    return _scavengeTargetCached;
+
+                _scavengeTargetCached = ObjectManager.GetObjects<TorNpc>().FirstOrDefault(CanHarvestCorpse);
+
+                _throttleTimer.Restart();
+                return _scavengeTargetCached;
+            }
         }
 
         public static Composite ScavengeCorpse
