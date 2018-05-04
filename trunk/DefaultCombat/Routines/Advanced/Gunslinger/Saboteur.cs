@@ -77,7 +77,6 @@ namespace DefaultCombat.Routines
                     Spell.DoT("Shock Charge", "Shock Charge"),
                     Spell.Cast("Sabotage", ret => Me.CurrentTarget.HasDebuff("Shock Charge")),
                     Spell.Cast("Thermal Grenade", ret => Me.HasBuff("Seize the Moment")),
-                    Spell.CastOnGround("XS Freighter Flyby", ret => Me.EnergyPercent > 75),
                     Spell.DoT("Vital Shot", "Vital Shot"),
                     Spell.Cast("Quickdraw", ret => Me.CurrentTarget.HealthPercent <= 30)
                     );
