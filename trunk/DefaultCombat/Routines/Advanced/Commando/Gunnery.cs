@@ -33,9 +33,10 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Reactive Shield", ret => Me.HealthPercent <= 70),
                     Spell.Cast("Echoing Deterrence", ret => Me.HealthPercent <= 30),
                     Spell.Buff("Adrenaline Rush", ret => Me.HealthPercent <= 30),
-                    Spell.Buff("Recharge Cells", ret => Me.ResourceStat <= 40),
+                    Spell.Buff("Recharge Cells", ret => Me.ResourceStat <= 60),
                     Spell.Buff("Supercharged Cell", ret => Me.BuffCount("Supercharge") == 10),
                     Spell.Buff("Reserve Powercell", ret => Me.ResourceStat <= 60),
+                    Spell.Buff("Tech Override"),
                     Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
                     Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
                     );
@@ -68,10 +69,11 @@ namespace DefaultCombat.Routines
                     //Rotation
                     Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
                     Spell.Cast("Demolition Round", ret => Me.CurrentTarget.HasDebuff("Gravity Vortex")),
-                    Spell.Cast("Electro Net"),
+                    Spell.Cast("Electro Net", ret => !Me.HasBuff("Reserve Powercell")),
                     Spell.Cast("High Impact Bolt", ret => Me.BuffCount("Charged Barrel") == 5),
                     Spell.Cast("Vortex Bolt"),
-                    Spell.Cast("Boltstorm"),
+                    Spell.Cast("Grav Round", ret => Me.HasBuff("Grav Primer")),
+                    Spell.Cast("Boltstorm", ret => !Me.HasBuff("Reserve Powercell")),
                     Spell.Cast("Grav Round")
                     );
             }
