@@ -30,11 +30,13 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Determination", ret => Me.IsStunned),
-                    Spell.Buff("Vent Heat", ret => Me.ResourcePercent() >= 50),
-                    Spell.Buff("Supercharged Gas", ret => Me.BuffCount("Supercharge") == 10),
                     Spell.Buff("Energy Shield", ret => Me.HealthPercent <= 70),
+                    Spell.Cast("Responsive Safeguards", ret => Me.HealthPercent <= 30),
                     Spell.Buff("Kolto Overload", ret => Me.HealthPercent <= 30),
-                    Spell.Cast("Responsive Safeguards", ret => Me.HealthPercent <= 20),
+                    Spell.Buff("Vent Heat", ret => Me.ResourcePercent() >= 60),
+                    Spell.Buff("Supercharged Gas", ret => Me.BuffCount("Supercharge") == 10),
+                    Spell.Buff("Thermal Sensor Override", ret => Me.ResourceStat >= 60),
+                    Spell.Buff("Power Surge"),
                     Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
                     Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
                     );
@@ -46,6 +48,8 @@ namespace DefaultCombat.Routines
             get
             {
                 return new PrioritySelector(
+                    Spell.Cast("Rapid Shots", ret => Me.ResourcePercent() > 60),
+
                     //Movement
                     CombatMovement.CloseDistance(Distance.Ranged),
 
@@ -64,15 +68,13 @@ namespace DefaultCombat.Routines
 
                     //Rotation
                     Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.Cast("Rapid Shots", ret => Me.ResourcePercent() > 40),
-                    Spell.Cast("Blazing Bolts", ret => Me.Level >= 57),
-                    Spell.Cast("Unload", ret => Me.Level < 57),
                     Spell.Cast("Heatseeker Missiles", ret => Me.CurrentTarget.HasDebuff("Heat Signature")),
+                    Spell.Cast("Electro Net", ret => !Me.HasBuff("Thermal Sensor Override")),
                     Spell.Cast("Rail Shot", ret => Me.BuffCount("Tracer Lock") == 5),
-                    Spell.Cast("Electro Net"),
                     Spell.Cast("Priming Shot"),
-                    Spell.Cast("Tracer Missile"),
-                    Spell.Cast("Rapid Shots")
+                    Spell.Cast("Tracer Missile", ret => Me.HasBuff("Tracer Beacon")),
+                    Spell.Cast("Blazing Bolts", ret => !Me.HasBuff("Thermal Sensor Override")),
+                    Spell.Cast("Tracer Missile")
                     );
             }
         }
@@ -85,11 +87,9 @@ namespace DefaultCombat.Routines
                     new PrioritySelector(
                         Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
                         Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
-                        Spell.Buff("Thermal Sensor Override"),
+                        Spell.CastOnGround("Death from Above", ret => Me.HasBuff("Thermal Sensor Override")),
+                        Spell.Cast("Fusion Missile", ret => Me.ResourceStat <= 10 && Me.HasBuff("Power Surge")),
                         Spell.Cast("Explosive Dart"),
-                        Spell.Buff("Power Surge"),
-                        Spell.CastOnGround("Death from Above"),
-                        Spell.Cast("Fusion Missile", ret => Me.ResourcePercent() <= 10 && Me.HasBuff("Power Surge")),
                         Spell.CastOnGround("Sweeping Blasters", ret => Me.ResourcePercent() <= 10))
                     );
             }
