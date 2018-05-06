@@ -32,6 +32,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Unleash", ret => Me.IsStunned),
                     Spell.Buff("Saber Reflect", ret => Me.HealthPercent <= 90),
                     Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 70),
+                    Spell.Buff("Enraged Defense", ret => Me.HealthPercent < 70),
                     Spell.Buff("Endure Pain", ret => Me.HealthPercent <= 30),
                     Spell.Buff("Enrage", ret => Me.ActionPoints <= 6),
                     Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
