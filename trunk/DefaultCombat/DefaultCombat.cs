@@ -65,7 +65,7 @@ namespace DefaultCombat
 
         public override void Initialize()
         {
-            Logger.Write("*** Default Combat v80***");
+            Logger.Write("*** Default Combat v81***");
             Logger.Write("Level: " + BuddyTor.Me.Level);
             Logger.Write("Class: " + Class);
             Logger.Write("Advanced Class: " + BuddyTor.Me.AdvancedClass);
