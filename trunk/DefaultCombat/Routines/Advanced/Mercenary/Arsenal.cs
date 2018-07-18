@@ -37,8 +37,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Supercharged Gas", ret => Me.BuffCount("Supercharge") == 10),
                     Spell.Buff("Thermal Sensor Override", ret => Me.ResourceStat >= 60),
                     Spell.Buff("Power Surge"),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
-                    Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
+                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
                     );
             }
         }
@@ -54,6 +53,8 @@ namespace DefaultCombat.Routines
                     CombatMovement.CloseDistance(Distance.Ranged),
 
                     //Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
+                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f),
+                    Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
                     Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
@@ -85,8 +86,6 @@ namespace DefaultCombat.Routines
             {
                 return new Decorator(ret => Targeting.ShouldAoe,
                     new PrioritySelector(
-                        Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
-                        Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
                         Spell.CastOnGround("Death from Above", ret => Me.HasBuff("Thermal Sensor Override")),
                         Spell.Cast("Fusion Missile", ret => Me.ResourceStat <= 10 && Me.HasBuff("Power Surge")),
                         Spell.Cast("Explosive Dart"),

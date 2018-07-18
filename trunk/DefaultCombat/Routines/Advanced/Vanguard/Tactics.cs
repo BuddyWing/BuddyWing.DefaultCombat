@@ -35,8 +35,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Adrenaline Rush", ret => Me.HealthPercent <= 30),
                     Spell.Buff("Reserve Powercell", ret => Me.ResourceStat <= 80),
                     Spell.Buff("Battle Focus"),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
-                    Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
+                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
                     );
             }
         }
@@ -52,6 +51,8 @@ namespace DefaultCombat.Routines
                     CombatMovement.CloseDistance(Distance.Melee),
 
                     //Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
+                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f),
+                    Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
                     Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
@@ -88,11 +89,9 @@ namespace DefaultCombat.Routines
                             )),
                     new Decorator(ret => Targeting.ShouldPbaoe,
                         new PrioritySelector(
-                            Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
-                            Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
                             Spell.Cast("Ion Wave", ret => Me.CurrentTarget.Distance <= 1f),
-                             Spell.Cast("Flak Shell", ret => Me.CurrentTarget.Distance <= 1f),
-                             Spell.Cast("Explosive Surge", ret => Me.CurrentTarget.Distance <= .5f)
+                            Spell.Cast("Flak Shell", ret => Me.CurrentTarget.Distance <= 1f),
+                            Spell.Cast("Explosive Surge", ret => Me.CurrentTarget.Distance <= .5f)
                         )));
             }
         }

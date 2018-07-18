@@ -33,8 +33,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Unnatural Preservation", ret => Me.HealthPercent <= 80),
                     Spell.HoT("Static Barrier", on => Me, 99, ret => !Me.HasDebuff("Deionized") && !Me.HasBuff("Static Barrier")),
                     Spell.Buff("Consuming Darkness", ret => Me.ForcePercent < 50 && !Me.HasDebuff("Weary")),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
-                    Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
+                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
                     );
             }
         }
@@ -48,6 +47,8 @@ namespace DefaultCombat.Routines
                     CombatMovement.CloseDistance(Distance.Ranged),
 
                     //Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
+                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f),
+                    Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
                     Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
@@ -64,7 +65,6 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Crushing Darkness", ret => Me.CurrentTarget.HealthPercent >= 90),
                     Spell.Buff("Polarity Shift", ret => Me.CurrentTarget.HealthPercent >= 90),
                     Spell.Cast("Affliction", ret => Me.CurrentTarget.HealthPercent >= 90 && Me.CurrentTarget.HasDebuff("Affliction")),
-                    Spell.Buff("Unlimited Power", ret => Me.CurrentTarget.HealthPercent >= 90),
                     Spell.Buff("Recklessness", ret => Me.CurrentTarget.HealthPercent >= 90),
 
                     //Rotation
@@ -85,8 +85,6 @@ namespace DefaultCombat.Routines
             {
                 return new Decorator(ret => Targeting.ShouldAoe,
                     new PrioritySelector(
-                        Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
-                        Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
                         Spell.Cast("Chain Lightning"),
                         Spell.CastOnGround("Force Storm")
                         ));

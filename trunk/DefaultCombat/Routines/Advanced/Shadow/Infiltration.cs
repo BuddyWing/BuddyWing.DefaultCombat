@@ -34,8 +34,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Battle Readiness", ret => Me.HealthPercent <= 85),
                     Spell.Buff("Deflection", ret => Me.HealthPercent <= 60),
                     Spell.Buff("Resilience", ret => Me.HealthPercent <= 50),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
-                    Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
+                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
                     );
             }
         }
@@ -53,6 +52,8 @@ namespace DefaultCombat.Routines
                     CombatMovement.CloseDistance(Distance.Melee),
 
                     //Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
+                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f),
+                    Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
                     Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
@@ -85,8 +86,6 @@ namespace DefaultCombat.Routines
             get
             {
                 return new PrioritySelector(
-                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
-                    Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
                     Spell.Cast("Whirling Blow", ret => Me.ForcePercent >= 60 && Targeting.ShouldPbaoe)
                     );
             }

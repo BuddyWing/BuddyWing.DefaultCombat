@@ -36,8 +36,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Deflection", ret => Me.HealthPercent <= 60),
                     Spell.Buff("Force Shroud", ret => Me.HealthPercent <= 50),
                     Spell.Buff("Recklessness"),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
-                    Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
+                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
                     );
             }
         }
@@ -54,6 +53,8 @@ namespace DefaultCombat.Routines
                     CombatMovement.CloseDistance(Distance.Melee),
 
                     //Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
+                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f),
+                    Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
                     Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
@@ -75,15 +76,8 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Assassinate", ret => Me.HasBuff("Reaper's Rush") || Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("Bloodletting")),
                     Spell.Cast("Leeching Strike", ret => Me.ForcePercent > 40),
                     Spell.Cast("Thrash"),
-                    Spell.Buff("Force Speed", ret => Me.CurrentTarget.Distance >= 1.1f && Me.IsMoving && Me.InCombat),
+                    Spell.Buff("Force Speed", ret => Me.CurrentTarget.Distance >= 1.1f && Me.IsMoving && Me.InCombat)
 
-                    //HK-55 Mode Rotation
-                    Spell.Cast("Charging In", ret => Me.CurrentTarget.Distance >= .4f && Me.InCombat && CombatHotkeys.EnableHK55),
-                    Spell.Cast("Blindside", ret => CombatHotkeys.EnableHK55),
-                    Spell.Cast("Assassinate", ret => CombatHotkeys.EnableHK55),
-                    Spell.Cast("Rail Blast", ret => CombatHotkeys.EnableHK55),
-                    Spell.Cast("Rifle Blast", ret => CombatHotkeys.EnableHK55),
-                    Spell.Cast("Execute", ret => Me.CurrentTarget.HealthPercent <= 45 && CombatHotkeys.EnableHK55)
                     );
             }
         }
@@ -94,9 +88,6 @@ namespace DefaultCombat.Routines
             {
                 return new Decorator(ret => Targeting.ShouldPbaoe,
                     new PrioritySelector(
-                        Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
-                        Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
-                        Spell.CastOnGround("Terminate", ret => CombatHotkeys.EnableHK55), //--will only be active when user initiates HK-55 Mode
                         Spell.DoT("Discharge", "Discharge"),
                         Spell.Cast("Creeping Terror", ret => !Me.CurrentTarget.HasDebuff("Creeping Terror")),
                         Spell.CastOnGround("Death Field"),

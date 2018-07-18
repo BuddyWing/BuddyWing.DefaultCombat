@@ -36,8 +36,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 50),
                     Spell.Buff("Frenzy", ret => Me.BuffCount("Fury") < 5),
                     Spell.Buff("Berserk", ret => Me.BuffCount("Fury") > 29),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15),
-                    Spell.Cast("Sacrifice", ret => Me.HealthPercent <= 5)
+                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
                     );
             }
         }
@@ -47,13 +46,15 @@ namespace DefaultCombat.Routines
             get
             {
                 return new PrioritySelector(
-                    Spell.Cast("Dual Saber Throw", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
+                    Spell.Cast("Dual Saber Throw", ret => CombatHotkeys.EnableCharge && !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
                     Spell.Cast("Force Charge", ret => CombatHotkeys.EnableCharge && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
 
                     //Movement
                     CombatMovement.CloseDistance(Distance.Melee),
 
                     //Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
+                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f),
+                    Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
                     Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
@@ -69,7 +70,7 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Annihilate"),
                     Spell.Cast("Force Rend"),
                     Spell.Cast("Annihilate"),
-                    Spell.Cast("Dual Saber Throw", ret => Me.HasBuff("Pulverize")),
+                    Spell.Cast("Dual Saber Throw", ret => CombatHotkeys.EnableCharge && Me.HasBuff("Pulverize")),
                     Spell.Cast("Vicious Throw", ret => Me.CurrentTarget.HealthPercent <= 30),
                     Spell.Cast("Annihilate"),
                     Spell.Cast("Ravage"),
@@ -97,9 +98,7 @@ namespace DefaultCombat.Routines
             {
                 return new Decorator(ret => Targeting.ShouldPbaoe,
                     new PrioritySelector(
-                        Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f), //--will only be active when user initiates Heroic Moment--
-                        Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")), //--will only be active when user initiates Heroic Moment--
-                        Spell.Cast("Dual Saber Throw", ret => !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
+                        Spell.Cast("Dual Saber Throw", ret => CombatHotkeys.EnableCharge && !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
                         Spell.Cast("Smash", ret => Me.CurrentTarget.HasDebuff("Bleeding (Rupture)") && Me.CurrentTarget.HasDebuff("Force Rend")),
                         Spell.DoT("Force Rend", "Force Rend"),
                         Spell.DoT("Rupture", "Bleeding (Rupture)"),
