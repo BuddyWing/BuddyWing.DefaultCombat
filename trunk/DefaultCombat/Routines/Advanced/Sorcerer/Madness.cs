@@ -92,7 +92,9 @@ namespace DefaultCombat.Routines
                         Spell.DoT("Affliction", "Affliction"),
                         Spell.DoT("Creeping Terror", "Creeping Terror"),
                         Spell.CastOnGround("Death Field", ret => Me.CurrentTarget.HasDebuff("Affliction") && Me.CurrentTarget.HasDebuff("Creeping Terror")),
-                        Spell.CastOnGround("Force Storm", ret => Me.CurrentTarget.HasDebuff("Overwhelmed (Mental)"))
+                        Spell.CastOnGround("Force Storm", ret => Me.CurrentTarget.HasDebuff("Overwhelmed (Mental)")),
+                        Spell.Cast("Force Lightning"),
+                        Spell.Cast("Demolish")
                         ));
             }
         }
