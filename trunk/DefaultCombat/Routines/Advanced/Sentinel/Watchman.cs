@@ -30,10 +30,11 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Resolute", ret => Me.IsStunned),
-                    Spell.Buff("Rebuke", ret => Me.HealthPercent <= 50),
-                    Spell.Buff("Guarded by the Force", ret => Me.HealthPercent <= 10),
+                    Spell.Buff("Rebuke", ret => Me.HealthPercent <= 75),
+                    Spell.Buff("Force Camouflage", ret => Me.HealthPercent <= 50),
+                    Spell.Buff("Guarded by the Force", ret => Me.HealthPercent <= 15),
+                    Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 25),
                     Spell.Buff("Zen", ret => Me.BuffCount("Centering") > 29),
-                    Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 30),
                     Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
                     );
             }
