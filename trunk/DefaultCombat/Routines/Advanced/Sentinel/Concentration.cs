@@ -32,7 +32,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Resolute", ret => Me.IsStunned),
                     Spell.Buff("Rebuke", ret => Me.HealthPercent <= 50),
                     Spell.Buff("Guarded by the Force", ret => Me.HealthPercent <= 10),
-                    Spell.Buff("Zen", ret => Me.BuffCount("Centering") > 29),
+                    Spell.Buff("Zen", ret => Me.BuffCount("Centering") > 29 && !Me.HasBuff("Koan")),
                     Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 30),
                     Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
                     );
@@ -62,16 +62,17 @@ namespace DefaultCombat.Routines
 
                     //Rotation
                     Spell.Cast("Force Kick", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
+                    Spell.Cast("Force Kick", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
                     Spell.Cast("Dispatch", ret => Me.CurrentTarget.HealthPercent <= 30),
-                    Spell.Cast("Force Sweep", ret => Me.HasBuff("Singularity") && Me.HasBuff("Felling Blow")),
-                    Spell.Cast("Force Exhaustion"),
-                    Spell.Cast("Zealous Leap", ret => CombatHotkeys.EnableCharge && Me.HasBuff("Singularity")),
-                    Spell.Cast("Blade Storm", ret => Me.HasBuff("Battle Cry") || Me.Energy >= 5),
-                    Spell.Cast("Blade Barrage"),
-                    Spell.Cast("Force Stasis"),
-                    Spell.Cast("Slash", ret => Me.HasBuff("Zen")),
-                    Spell.Cast("Zealous Strike"),
-                    Spell.Cast("Strike")
+                    Spell.Cast("Force Exhaustion", ret => !Me.HasBuff("Koan")),
+                    Spell.Cast("Zealous Leap", ret => CombatHotkeys.EnableCharge && !Me.HasBuff("Felling Blow")),
+                    Spell.Cast("Concentrated Slice"),
+                    Spell.Cast("Focused Burst", ret => Me.HasBuff("Koan") || Me.HasBuff("Felling Blow")),
+                    Spell.Cast("Blade Barrage", ret => Me.HasBuff("Heightened Power")),
+                    Spell.Cast("Zealous Strike", ret => Me.HasBuff("Focused Slash")),
+                    Spell.Cast("Blade Storm", ret => Me.HasBuff("Momentum")),
+                    Spell.Cast("Slash"),
+                    Spell.Cast("Strike", ret => Me.ActionPoints <= 4)
                     );
             }
         }
@@ -82,7 +83,7 @@ namespace DefaultCombat.Routines
             {
                 return new Decorator(ret => Targeting.ShouldPbaoe,
                     new PrioritySelector(
-                        Spell.Cast("Force Sweep", ret => Me.HasBuff("Felling Blow") && Me.HasBuff("Koan")),
+                        Spell.Cast("Force Sweep"),
                         Spell.Cast("Cyclone Slash"),
                         Spell.Cast("Twin Saber Throw", ret => CombatHotkeys.EnableCharge && Me.CurrentTarget.Distance <= 3f)
                         ));
