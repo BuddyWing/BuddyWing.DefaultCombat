@@ -31,7 +31,7 @@ namespace DefaultCombat.Routines
                 return new PrioritySelector(
                     Spell.Buff("Resolute", ret => Me.IsStunned),
                     Spell.Buff("Rebuke", ret => Me.HealthPercent <= 90),
-                    Spell.Buff("Saber Reflect", ret => Me.HealthPercent <= 70),
+                    Spell.Buff("Force Camouflage", ret => Me.HealthPercent <= 70),
                     Spell.Buff("Guarded by the Force", ret => Me.HealthPercent <= 50),
                     Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 50),
                     Spell.Buff("Valorous Call", ret => Me.BuffCount("Centering") < 5),
@@ -67,7 +67,7 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Dispatch", ret => Me.HasBuff("Hand of Justice") || Me.CurrentTarget.HealthPercent <= 30),
                     Spell.Cast("Precision", ret => Me.CurrentTarget.Distance <= 0.4f),
                     Spell.Cast("Blade Barrage", ret => Me.HasBuff("Precision")),
-                    Spell.Cast("Clashing Blast", ret => Me.HasBuff("Opportune Attack") && Me.Level >= 57),
+                    Spell.Cast("Clashing Blast", ret => Me.HasBuff("Opportune Attack")),
                     Spell.Cast("Lance"),
                     Spell.Cast("Blade Storm", ret => Me.HasBuff("Opportune Attack") && Me.Level < 57),
                     Spell.Cast("Blade Rush"),
