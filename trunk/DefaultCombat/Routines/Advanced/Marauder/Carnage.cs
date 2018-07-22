@@ -32,8 +32,8 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Unleash", ret => Me.IsStunned),
                     Spell.Buff("Cloak of Pain", ret => Me.HealthPercent <= 90),
                     Spell.Buff("Force Camouflage", ret => Me.HealthPercent <= 70),
+                    Spell.Buff("Undying Rage", ret => Me.HealthPercent <= 50),
                     Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 50),
-                    Spell.Buff("Undying Rage", ret => Me.HealthPercent <= 20),
                     Spell.Buff("Frenzy", ret => Me.BuffCount("Fury") < 5),
                     Spell.Buff("Berserk", ret => Me.BuffCount("Fury") > 29),
                     Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
@@ -64,16 +64,16 @@ namespace DefaultCombat.Routines
 
                     //Rotation
                     Spell.Cast("Disruption", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.Cast("Battering Assault", ret => Me.ActionPoints <= 6 && !Me.HasBuff("Ferocity")),
-                    Spell.Cast("Ferocity"),
-                    Spell.Cast("Devastating Blast", ret => Me.HasBuff("Ferocity")),
-                    Spell.Cast("Gore", ret => Me.HasBuff("Ferocity")),
-                    Spell.Cast("Vicious Throw", ret => Me.HasBuff("Ferocity")),
+                    Spell.Cast("Vicious Throw", ret => Me.HasBuff("Slaughter") || Me.CurrentTarget.HealthPercent <= 30),
+                    Spell.Cast("Ferocity", ret => Me.CurrentTarget.Distance <= 0.4f),
                     Spell.Cast("Ravage", ret => Me.HasBuff("Ferocity")),
-                    Spell.Cast("Massacre", ret => !Me.HasBuff("Massacre")),
-                    Spell.Cast("Dual Saber Throw", ret => CombatHotkeys.EnableCharge && !Me.HasBuff("Ferocity")),
-                    Spell.Cast("Battering Assault", ret => Me.ActionPoints <= 6 && !Me.HasBuff("Ferocity")),
-                    Spell.Cast("Assault", ret => Me.ActionPoints <= 5 && !Me.HasBuff("Ferocity"))
+                    Spell.Cast("Devastating Blast", ret => Me.HasBuff("Execute")),
+                    Spell.Cast("Gore"),
+                    Spell.Cast("Force Scream", ret => Me.HasBuff("Execute") && Me.Level < 57),
+                    Spell.Cast("Massacre"),
+                    Spell.Cast("Vicious Slash", ret => Me.ActionPoints >= 7 && Me.Level < 26),
+                    Spell.Cast("Battering Assault", ret => Me.ActionPoints <= 7),
+                    Spell.Cast("Assault", ret => Me.ActionPoints <= 10)
                     );
             }
         }
@@ -87,8 +87,8 @@ namespace DefaultCombat.Routines
                         Spell.Cast("Ferocity"),
                         Spell.Cast("Sweeping Slash"),
                         Spell.Cast("Smash"),
-                        Spell.Cast("Vicious Throw", ret => Me.HasBuff("Ferocity")),
-                        Spell.Cast("Battering Assault", ret => Me.ActionPoints <= 6 && !Me.HasBuff("Ferocity"))
+                        Spell.Cast("Vicious Throw", ret => Me.HasBuff("Slaughter") || Me.CurrentTarget.HealthPercent <= 30),
+                        Spell.Cast("Battering Assault", ret => Me.ActionPoints <= 7)
                         ));
             }
         }
