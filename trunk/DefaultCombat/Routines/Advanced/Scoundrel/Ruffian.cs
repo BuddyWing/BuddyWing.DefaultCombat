@@ -82,7 +82,7 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Vital Shot", ret => !Me.CurrentTarget.HasDebuff("Vital Shot") || Me.CurrentTarget.DebuffTimeLeft("Vital Shot") <= 3),
                     Spell.Cast("Shrap Bomb", ret => !Me.CurrentTarget.HasDebuff("Shrap Bomb") || Me.CurrentTarget.DebuffTimeLeft("Shrap Bomb") <= 3),
                     Spell.Cast("Blaster Whip", ret => Me.BuffCount("Upper Hand") < 2 || Me.BuffTimeLeft("Upper Hand") < 6),
-                    Spell.Cast("Point Blank Shot", ret => Me.Level >= 57),
+                    Spell.Cast("Point Blank Shot"),
                     Spell.Cast("Back Blast", ret => Me.IsBehind(Me.CurrentTarget) && Me.Level < 57),
                     Spell.Cast("Quick Shot", ret => Me.EnergyPercent > 80 && !Me.HasBuff("Upper Hand")),
                     Spell.Cast("Flurry of Bolts", ret => Me.EnergyPercent < 80 && !Me.HasBuff("Upper Hand") || Me.CurrentTarget.Distance > 1f)

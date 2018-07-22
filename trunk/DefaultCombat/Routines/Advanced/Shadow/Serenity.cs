@@ -68,7 +68,7 @@ namespace DefaultCombat.Routines
 
                     //Rotation
                     Spell.Cast("Mind Snap", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.Cast("Squelch", ret => Me.HasBuff("Force Strike") && Me.Level >= 26),
+                    Spell.Cast("Squelch", ret => Me.HasBuff("Force Strike")),
                     Spell.CastOnGround("Force in Balance", ret => !Me.CurrentTarget.HasDebuff("Force Suppression") || Me.CurrentTarget.BuffCount("Force Suppression") <= 2),
                     Spell.Cast("Sever Force", ret => !Me.CurrentTarget.HasDebuff("Sever Force") || Me.CurrentTarget.DebuffTimeLeft("Sever Force") <= 2),
                     Spell.Cast("Force Breach", ret => !Me.CurrentTarget.HasDebuff("Force Breach") || Me.CurrentTarget.DebuffTimeLeft("Force Breach") <= 2),

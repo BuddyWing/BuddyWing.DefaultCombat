@@ -75,7 +75,7 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Sucker Punch", ret => Me.HasBuff("Upper Hand") && Me.CurrentTarget.HasDebuff("Vital Shot")),
                     Spell.DoT("Vital Shot", "Vital Shot"),
                     Spell.Cast("Blood Boiler"),
-                    Spell.Cast("Bludgeon", ret => Me.Level >= 41),
+                    Spell.Cast("Bludgeon"),
                     Spell.Cast("Blaster Whip", ret => Me.Level < 41),
                     Spell.Cast("Quick Shot", ret => Me.EnergyPercent >= 75)
                     );

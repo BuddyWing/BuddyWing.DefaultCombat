@@ -70,7 +70,7 @@ namespace DefaultCombat.Routines
                     //Rotation
                     Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
                     Spell.Cast("Followthrough"),
-                    Spell.Cast("Penetrating Blasts", ret => Me.Level >= 26),
+                    Spell.Cast("Penetrating Blasts"),
                     Spell.Cast("Series of Shots", ret => Me.Level < 26),
                     Spell.DoT("Corrosive Dart", "Corrosive Dart"),
                     Spell.Cast("Ambush", ret => Me.BuffCount("Zeroing Shots") == 2),

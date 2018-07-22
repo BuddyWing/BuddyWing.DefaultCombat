@@ -82,7 +82,7 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Corrosive Dart", ret => !Me.CurrentTarget.HasDebuff("Corrosive Dart") || Me.CurrentTarget.DebuffTimeLeft("Corrosive Dart") <= 3),
                     Spell.Cast("Corrosive Grenade", ret => !Me.CurrentTarget.HasDebuff("Corrosive Grenade") || Me.CurrentTarget.DebuffTimeLeft("Corrosive Grenade") <= 3),
                     Spell.Cast("Shiv", ret => Me.BuffCount("Tactical Advantage") < 2 || Me.BuffTimeLeft("Tactical Advantage") < 6),
-                    Spell.Cast("Lethal Strike", ret => Me.Level >= 57),
+                    Spell.Cast("Lethal Strike"),
                     Spell.Cast("Back Stab", ret => Me.IsBehind(Me.CurrentTarget) && Me.Level < 57),
                     Spell.Cast("Overload Shot", ret => Me.EnergyPercent > 85 && !Me.HasBuff("Tactical Advantage")),
                     Spell.Cast("Rifle Shot", ret => Me.EnergyPercent < 65 && !Me.HasBuff("Tactical Advantage") || Me.CurrentTarget.Distance > 1f)

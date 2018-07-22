@@ -72,7 +72,7 @@ namespace DefaultCombat.Routines
                     Spell.DoT("Gut", "Bleeding (Gut)"),
                     Spell.Cast("Assault Plastique"),
                     Spell.Cast("Stock Strike"),
-                    Spell.Cast("Tactical Surge", ret => Me.Level >= 26),
+                    Spell.Cast("Tactical Surge"),
                     Spell.Cast("Ion Pulse", ret => Me.Level < 26)
                     );
             }

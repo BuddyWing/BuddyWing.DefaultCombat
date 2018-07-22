@@ -75,7 +75,7 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Project", ret => Me.BuffCount("Circling Shadows") == 2),
                     Spell.Cast("Spinning Strike", ret => Me.CurrentTarget.HealthPercent <= 30),
                     Spell.Cast("Double Strike", ret => Me.ForcePercent >= 40),
-                    Spell.Cast("Clairvoyant Strike", ret => Me.Level >= 28 && Me.ForcePercent >= 40),
+                    Spell.Cast("Clairvoyant Strike", ret => Me.ForcePercent >= 40),
                     Spell.Cast("Saber Strike", ret => Me.ForcePercent <= 40)
                     );
             }

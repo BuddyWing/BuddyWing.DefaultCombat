@@ -75,7 +75,7 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
                     Spell.Cast("Trickshot"),
                     Spell.Cast("Quickdraw", ret => Me.CurrentTarget.HealthPercent <= 30),
-                    Spell.Cast("Penetrating Rounds", ret => Me.Level >= 26),
+                    Spell.Cast("Penetrating Rounds"),
                     Spell.Cast("Speed Shot", ret => Me.Level < 26),
                     new Decorator(ret => Me.BuffCount("Charged Aim") == 2,
                         new PrioritySelector(

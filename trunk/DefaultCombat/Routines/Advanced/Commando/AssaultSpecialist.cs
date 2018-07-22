@@ -48,7 +48,7 @@ namespace DefaultCombat.Routines
                 return new PrioritySelector(
                     new Decorator(ret => Me.ResourcePercent() < 60,
                         new PrioritySelector(
-                            Spell.Cast("Mag Bolt", ret => Me.HasBuff("Ionic Accelerator") && Me.Level >= 57),
+                            Spell.Cast("Mag Bolt", ret => Me.HasBuff("Ionic Accelerator")),
                             Spell.Cast("High Impact Bolt", ret => Me.HasBuff("Ionic Accelerator") && Me.Level < 57),
                             Spell.Cast("Hammer Shot")
                             )),
@@ -73,7 +73,7 @@ namespace DefaultCombat.Routines
 
                     //Rotation
                     Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.Cast("Mag Bolt", ret => Me.HasBuff("Ionic Accelerator") && Me.Level >= 57),
+                    Spell.Cast("Mag Bolt", ret => Me.HasBuff("Ionic Accelerator")),
                     Spell.Cast("High Impact Bolt", ret => Me.HasBuff("Ionic Accelerator") && Me.Level < 57),
                     Spell.Cast("Explosive Round", ret => Me.HasBuff("Hyper Assault Rounds")),
                     Spell.Cast("Assault Plastique"),
@@ -81,7 +81,7 @@ namespace DefaultCombat.Routines
                     Spell.DoT("Incendiary Round", "Burning (Incendiary Round)"),
                     Spell.Cast("Electro Net"),
                     Spell.Cast("Full Auto"),
-                    Spell.Cast("Mag Bolt", ret => Me.Level >= 57),
+                    Spell.Cast("Mag Bolt"),
                     Spell.Cast("High Impact Bolt", ret => Me.Level < 57),
                     Spell.Cast("Charged Bolts")
                     );

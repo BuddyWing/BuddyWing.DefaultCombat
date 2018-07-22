@@ -68,7 +68,7 @@ namespace DefaultCombat.Routines
 
                     //Rotation
                     Spell.Cast("Jolt", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.Cast("Eradicate", ret => Me.HasBuff("Raze") && Me.Level >= 26),
+                    Spell.Cast("Eradicate", ret => Me.HasBuff("Raze")),
                     Spell.CastOnGround("Death Field", ret => !Me.CurrentTarget.HasDebuff("Deathmark") || Me.CurrentTarget.BuffCount("Deathmark") <= 2),
                     Spell.Cast("Creeping Terror", ret => !Me.CurrentTarget.HasDebuff("Creeping Terror") || Me.CurrentTarget.DebuffTimeLeft("Creeping Terror") <= 2),
                     Spell.Cast("Discharge", ret => !Me.CurrentTarget.HasDebuff("Discharge") || Me.CurrentTarget.DebuffTimeLeft("Discharge") <= 2),

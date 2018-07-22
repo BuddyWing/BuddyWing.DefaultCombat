@@ -70,7 +70,7 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Wounding Shots", ret => Me.CurrentTarget.DebuffTimeLeft("Vital Shot") > 3 && Me.CurrentTarget.DebuffTimeLeft("Shrap Bomb") > 3),
                     Spell.Cast("Quickdraw", ret => Me.CurrentTarget.HealthPercent <= 30),
                     Spell.Cast("Speed Shot"),
-                    Spell.Cast("Dirty Blast", ret => Me.Level >= 57),
+                    Spell.Cast("Dirty Blast"),
                     Spell.Cast("Charged Burst", ret => Me.Level < 57)
                     );
             }

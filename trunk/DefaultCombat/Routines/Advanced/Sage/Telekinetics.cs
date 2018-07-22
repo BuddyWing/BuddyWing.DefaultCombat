@@ -71,7 +71,7 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Mind Crush", ret => Me.HasBuff("Force Gust")),
                     Spell.Cast("Telekinetic Gust"),
                     Spell.Cast("Telekinetic Wave", ret => Me.HasBuff("Tidal Force")),
-                    Spell.Cast("Telekinetic Burst", ret => Me.Level >= 57),
+                    Spell.Cast("Telekinetic Burst"),
                     Spell.Cast("Disturbance", ret => Me.Level < 57),
                     Spell.Cast("Project"),
                     Spell.Cast("Telekinetic Throw")

@@ -78,7 +78,7 @@ namespace DefaultCombat.Routines
                     Spell.DoT("Retractable Blade", "Bleeding (Retractable Blade)"),
                     Spell.Cast("Thermal Detonator"),
                     Spell.Cast("Rocket Punch"),
-                    Spell.Cast("Magnetic Blast", ret => Me.Level >= 26),
+                    Spell.Cast("Magnetic Blast"),
                     Spell.Cast("Flame Burst", ret => Me.Level < 26)
                     );
             }
