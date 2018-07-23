@@ -68,7 +68,7 @@ namespace DefaultCombat.Routines
 
                     //Rotation
                     Spell.Cast("Discharge", ret => Me.BuffCount("Static Charge") == 3),
-                    Spell.Cast("Ball Lightning", ret => Me.BuffCount("Induction")),
+                    Spell.Cast("Ball Lightning", ret => Me.BuffCount("Induction") == 2),
                     Spell.Cast("Shock", ret => Me.BuffCount("Induction") == 2 && Me.Level < 57),
                     Spell.Cast("Maul", ret => Me.HasBuff("Duplicity") && Me.IsBehind(Me.CurrentTarget)),
                     Spell.Cast("Assassinate", ret => Me.CurrentTarget.HealthPercent <= 30),
