@@ -32,9 +32,11 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Resolute", ret => Me.IsStunned),
                     Spell.Buff("Rebuke", ret => Me.HealthPercent <= 75),
                     Spell.Buff("Force Camouflage", ret => Me.HealthPercent <= 50),
-                    Spell.Buff("Guarded by the Force", ret => Me.HealthPercent <= 15),
                     Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 25),
-                    Spell.Buff("Zen", ret => Me.BuffCount("Centering") > 29),
+                    Spell.Buff("Guarded by the Force", ret => Me.HealthPercent <= 15),
+                    Spell.Buff("Overload Saber", ret => !Me.HasBuff("Overload Saber")),
+                    Spell.Buff("Valorous Call", ret => Me.BuffCount("Centering") < 15),
+                    Spell.Buff("Zen"),
                     Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
                     );
             }
@@ -64,7 +66,6 @@ namespace DefaultCombat.Routines
                     //Rotation
                     Spell.Cast("Force Kick", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
                     Spell.Buff("Valorous Call", ret => Me.BuffCount("Centering") < 5),
-                    Spell.Buff("Overload Saber", ret => !Me.HasBuff("Overload Saber")),
                     Spell.DoT("Cauterize", "Burning (Cauterize)"),
                     Spell.DoT("Force Melt", "Burning (Force Melt)"),
                     Spell.Cast("Dispatch", ret => Me.CurrentTarget.HealthPercent <= 30),

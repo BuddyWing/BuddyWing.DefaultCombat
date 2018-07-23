@@ -32,9 +32,10 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Resolute", ret => Me.IsStunned),
                     Spell.Buff("Rebuke", ret => Me.HealthPercent <= 75),
                     Spell.Buff("Force Camouflage", ret => Me.HealthPercent <= 50),
-                    Spell.Buff("Guarded by the Force", ret => Me.HealthPercent <= 15),
                     Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 25),
-                    Spell.Buff("Zen", ret => Me.BuffCount("Centering") > 29 && !Me.HasBuff("Koan")),
+                    Spell.Buff("Guarded by the Force", ret => Me.HealthPercent <= 15),
+                    Spell.Buff("Valorous Call", ret => Me.BuffCount("Centering") < 15),
+                    Spell.Buff("Zen"),
                     Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
                     );
             }

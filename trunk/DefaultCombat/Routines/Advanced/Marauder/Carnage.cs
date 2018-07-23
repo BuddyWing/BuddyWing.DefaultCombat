@@ -32,10 +32,10 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Unleash", ret => Me.IsStunned),
                     Spell.Buff("Cloak of Pain", ret => Me.HealthPercent <= 75),
                     Spell.Buff("Force Camouflage", ret => Me.HealthPercent <= 50),
-                    Spell.Buff("Undying Rage", ret => Me.HealthPercent <= 15),
                     Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 25),
-                    Spell.Buff("Frenzy", ret => Me.BuffCount("Fury") < 5),
-                    Spell.Buff("Berserk", ret => Me.BuffCount("Fury") > 29),
+                    Spell.Buff("Undying Rage", ret => Me.HealthPercent <= 15),
+                    Spell.Buff("Frenzy", ret => Me.BuffCount("Fury") < 15),
+                    Spell.Buff("Berserk"),
                     Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
                     );
             }
