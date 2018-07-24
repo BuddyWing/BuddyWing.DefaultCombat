@@ -65,15 +65,30 @@ namespace DefaultCombat.Routines
 
                     //Rotation
                     Spell.Cast("Force Kick", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.Buff("Valorous Call", ret => Me.BuffCount("Centering") < 5),
+                    Spell.Cast("Merciless Slash"),
+                    Spell.DoT("Force Melt", "Force Melt"),
                     Spell.DoT("Cauterize", "Burning (Cauterize)"),
-                    Spell.DoT("Force Melt", "Burning (Force Melt)"),
+                    Spell.Cast("Merciless Slash"),
+                    Spell.Cast("Force Melt"),
+                    Spell.Cast("Merciless Slash"),
+                    Spell.Cast("Twin Saber Throw", ret => CombatHotkeys.EnableCharge && Me.HasBuff("Mind Sear")),
                     Spell.Cast("Dispatch", ret => Me.CurrentTarget.HealthPercent <= 30),
                     Spell.Cast("Merciless Slash"),
-                    Spell.Cast("Zealous Strike", ret => Me.ActionPoints <= 5),
                     Spell.Cast("Blade Barrage"),
-                    Spell.Cast("Slash", ret => Me.Level < 41),
-                    Spell.Cast("Strike", ret => Me.ActionPoints <= 10)
+                    Spell.Cast("Merciless Slash"),
+                    Spell.Cast("Force Melt"),
+                    Spell.Cast("Slash", ret => Me.ActionPoints >= 9 && Me.CurrentTarget.HasDebuff("Burning (Cauterize)")),
+                    Spell.Cast("Merciless Slash"),
+                    Spell.Cast("Force Melt"),
+                    Spell.Cast("Zealous Strike", ret => Me.ActionPoints <= 6),
+                    Spell.Cast("Merciless Slash"),
+                    Spell.Cast("Force Melt"),
+                    Spell.Cast("Force Leap", ret => Me.ActionPoints <= 8),
+                    Spell.Cast("Merciless Slash"),
+                    Spell.Cast("Force Melt"),
+                    Spell.Cast("Strike", ret => Me.ActionPoints < 9 && Me.CurrentTarget.HasDebuff("Burning (Cauterize)")),
+                    Spell.Cast("Merciless Slash"),
+                    Spell.Cast("Force Melt")
                     );
             }
         }
@@ -84,8 +99,10 @@ namespace DefaultCombat.Routines
             {
                 return new Decorator(ret => Targeting.ShouldPbaoe,
                     new PrioritySelector(
-                        Spell.Cast("Force Sweep"),
-                        Spell.Cast("Twin Saber Throw", ret => CombatHotkeys.EnableCharge && Me.CurrentTarget.Distance <= 3f),
+                        Spell.Cast("Twin Saber Throw", ret => CombatHotkeys.EnableCharge && !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
+                        Spell.Cast("Force Sweep", ret => Me.CurrentTarget.HasDebuff("Burning (Cauterize)") && Me.CurrentTarget.HasDebuff("Force Melt")),
+                        Spell.DoT("Force Melt", "Force Melt"),
+                        Spell.DoT("Cauterize", "Burning (Cauterize)"),
                         Spell.Cast("Cyclone Slash")
                         ));
             }
