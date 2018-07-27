@@ -38,6 +38,8 @@ namespace DefaultCombat.Helpers
             //The Dread Fortress
             new Debuff("Corrupted Nanites (Any)", 0),
             //The Dread Palace
+            new Debuff("Affliction", 0),
+            new Debuff("Death Mark", 0),
             //The Ravagers
             //=+=FLASHPOINTS=+=
             //Assault on Tython
