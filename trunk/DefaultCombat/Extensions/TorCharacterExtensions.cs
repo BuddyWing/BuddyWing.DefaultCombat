@@ -36,8 +36,8 @@ namespace DefaultCombat.Extensions
             "Corrupted Nanites (Any)",
             
             //The Dread Palace
-            "Affliction (Any)",
-            "Death Mark (Any)",
+            "Affliction",
+            "Death Mark",
 
             //The Ravagers
             

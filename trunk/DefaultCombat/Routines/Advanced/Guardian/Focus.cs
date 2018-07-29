@@ -63,8 +63,6 @@ namespace DefaultCombat.Routines
 
                     //Interrupts
                     Spell.Cast("Force Kick", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.Cast("Awe", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.Cast("Force Stasis", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
 
                     //Rotation
                     Spell.Cast("Force Exhaustion", ret => !Me.HasBuff("Protective Focus")),
