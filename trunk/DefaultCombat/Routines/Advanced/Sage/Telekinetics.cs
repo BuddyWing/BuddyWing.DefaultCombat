@@ -30,10 +30,8 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Force of Will", ret => Me.IsStunned),
-                    Spell.Buff("Force Potency", ret => Me.CurrentTarget.StrongOrGreater()),
-                    Spell.Buff("Mental Alacrity", ret => Me.CurrentTarget.StrongOrGreater()),
-                    Spell.Buff("Force Mend", ret => Me.HealthPercent <= 80),
-                    Spell.HoT("Force Armor", on => Me, 99, ret => !Me.HasDebuff("Force-imbalance") && !Me.HasBuff("Force Armor")),
+                    Spell.Buff("Force Potency"),
+                    Spell.Buff("Mental Alacrity"),
                     Spell.Buff("Vindicate", ret => Me.ForcePercent < 50 && !Me.HasDebuff("Weary")),
                     Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
                     );
@@ -72,7 +70,7 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Telekinetic Gust"),
                     Spell.Cast("Telekinetic Wave", ret => Me.HasBuff("Tidal Force")),
                     Spell.Cast("Telekinetic Burst"),
-                    Spell.Cast("Disturbance", ret => Me.Level < 57),
+                    Spell.Cast("Disturbance"),
                     Spell.Cast("Project"),
                     Spell.Cast("Telekinetic Throw")
                     );
