@@ -30,9 +30,10 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Unbreakable Will", ret => Me.IsStunned),
-                    Spell.Buff("Unnatural Preservation", ret => Me.HealthPercent <= 80),
-                    Spell.HoT("Static Barrier", on => Me, 99, ret => !Me.HasDebuff("Deionized") && !Me.HasBuff("Static Barrier")),
+                    Spell.Buff("Recklessness"),
+                    Spell.Buff("Polarity Shift"),
                     Spell.Buff("Consuming Darkness", ret => Me.ForcePercent < 50 && !Me.HasDebuff("Weary")),
+                    Spell.HoT("Static Barrier", on => Me, 60, ret => !Me.HasDebuff("Deionized") && !Me.HasBuff("Static Barrier")),
                     Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
                     );
             }
@@ -61,20 +62,17 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Dark Heal", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 60),
                     Spell.Cast("Unnatural Preservation", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 50),
 
-                    //Opener
-                    Spell.Cast("Crushing Darkness", ret => Me.CurrentTarget.HealthPercent >= 90),
-                    Spell.Buff("Polarity Shift", ret => Me.CurrentTarget.HealthPercent >= 90),
-                    Spell.Cast("Affliction", ret => Me.CurrentTarget.HealthPercent >= 90 && Me.CurrentTarget.HasDebuff("Affliction")),
-                    Spell.Buff("Recklessness", ret => Me.CurrentTarget.HealthPercent >= 90),
-
                     //Rotation
                     Spell.Cast("Jolt", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.Cast("Thundering Blast"),
+                    Spell.Cast("Affliction", ret => !Me.CurrentTarget.HasDebuff("Affliction")),
+                    Spell.Cast("Thundering Blast", ret => Me.CurrentTarget.HasDebuff("Affliction")),
                     Spell.Cast("Crushing Darkness", ret => Me.HasBuff("Force Flash")),
                     Spell.Cast("Lightning Flash"),
-                    Spell.Cast("Shock", ret => Me.CurrentTarget.HasDebuff("Crushed (Crushing Darkness)")),
-                    Spell.Cast("Chain Lightning", ret => Me.HasBuff("Focal Lightning")),
-                    Spell.Cast("Lightning Bolt")
+                    Spell.Cast("Chain Lightning", ret => Me.HasBuff("Lightning Storm")),
+                    Spell.Cast("Lightning Bolt"),
+                    Spell.Cast("Lightning Strike"),
+                    Spell.Cast("Shock"),
+                    Spell.Cast("Force Lightning")
                     );
             }
         }
@@ -85,7 +83,7 @@ namespace DefaultCombat.Routines
             {
                 return new Decorator(ret => Targeting.ShouldAoe,
                     new PrioritySelector(
-                        Spell.Cast("Chain Lightning"),
+                        Spell.Cast("Chain Lightning", ret => Me.HasBuff("Lightning Storm")),
                         Spell.CastOnGround("Force Storm")
                         ));
             }
