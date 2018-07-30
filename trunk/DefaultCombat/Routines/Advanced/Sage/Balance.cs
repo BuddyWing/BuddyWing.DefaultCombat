@@ -65,7 +65,6 @@ namespace DefaultCombat.Routines
 
                     //Rotation
                     Spell.Cast("Mind Snap", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.Cast("Force Stun", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
                     Spell.Cast("Vanquish", ret => Me.BuffCount("Presence of Mind") == 4),
                     Spell.Cast("Mind Crush", ret => Me.BuffCount("Presence of Mind") == 4 && Me.Level < 57),
                     Spell.DoT("Weaken Mind", "Weaken Mind"),

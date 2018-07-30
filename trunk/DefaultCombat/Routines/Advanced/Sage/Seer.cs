@@ -61,7 +61,6 @@ namespace DefaultCombat.Routines
 
                     //Rotation
                     Spell.Cast("Mind Snap", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.Cast("Force Stun", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
                     Spell.Cast("Forcequake", ret => Targeting.ShouldAoe),
                     Spell.DoT("Weaken Mind", "Weaken Mind"),
                     Spell.Cast("Mind Crush"),
