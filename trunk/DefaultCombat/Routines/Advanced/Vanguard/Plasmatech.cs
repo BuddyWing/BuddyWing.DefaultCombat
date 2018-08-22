@@ -45,6 +45,7 @@ namespace DefaultCombat.Routines
             get
             {
                 return new PrioritySelector(
+                    Spell.Cast("Storm", ret => CombatHotkeys.EnableCharge && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
 
                     //Movement
                     CombatMovement.CloseDistance(Distance.Melee),
