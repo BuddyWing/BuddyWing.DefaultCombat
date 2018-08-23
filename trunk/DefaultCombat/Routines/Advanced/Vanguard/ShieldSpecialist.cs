@@ -64,7 +64,6 @@ namespace DefaultCombat.Routines
                     new Decorator(ret => Me.ResourcePercent() < 60,
                         new PrioritySelector(
                             Spell.Cast("Energy Blast", ret => Me.BuffCount("Power Screen") == 3),
-                            Spell.Cast("Pulse Cannon", ret => Me.HasBuff("Pulse Engine") && Me.CurrentTarget.Distance <= 1f),
                             Spell.Cast("Stockstrike", ret => Me.CurrentTarget.Distance <= .4f),
                             Spell.Cast("Explosive Surge", ret => Me.HasBuff("Static Surge") && Me.CurrentTarget.Distance <= 0.5f),
                             Spell.Cast("Hammer Shot")
@@ -74,7 +73,6 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Energy Blast", ret => Me.BuffCount("Power Screen") == 3),
                     Spell.Cast("Stockstrike"),
                     Spell.Cast("High Impact Bolt"),
-                    Spell.Cast("Pulse Cannon", ret => Me.HasBuff("Pulse Engine") && Me.CurrentTarget.Distance <= 1f),
                     Spell.Cast("Explosive Surge", ret => Me.HasBuff("Static Surge") && Me.CurrentTarget.Distance <= 0.5f),
                     Spell.Cast("Ion Pulse")
                     );
