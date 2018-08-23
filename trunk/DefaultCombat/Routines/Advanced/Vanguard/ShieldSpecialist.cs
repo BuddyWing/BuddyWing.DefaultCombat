@@ -70,7 +70,6 @@ namespace DefaultCombat.Routines
                             Spell.Cast("Hammer Shot")
                             )),
                     Spell.Cast("Riot Strike", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.CastOnGround("Smoke Grenade", ret => Me.CurrentTarget.Distance <= 0.8f),
                     Spell.Cast("Shoulder Cannon"),
                     Spell.Cast("Energy Blast", ret => Me.BuffCount("Power Screen") == 3),
                     Spell.Cast("Stockstrike"),
