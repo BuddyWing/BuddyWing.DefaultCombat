@@ -70,7 +70,7 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Merciless Slash"),
                     Spell.Cast("Force Melt"),
                     Spell.Cast("Merciless Slash"),
-                    Spell.Cast("Twin Saber Throw", ret => ("Mind Sear")),
+                    Spell.Cast("Twin Saber Throw", ret => Me.HasBuff("Mind Sear")),
                     Spell.Cast("Dispatch", ret => Me.CurrentTarget.HealthPercent <= 30),
                     Spell.Cast("Merciless Slash"),
                     Spell.Cast("Blade Barrage"),
@@ -98,7 +98,7 @@ namespace DefaultCombat.Routines
             {
                 return new Decorator(ret => Targeting.ShouldPbaoe,
                     new PrioritySelector(
-                        Spell.Cast("Twin Saber Throw", ret => ("Mind Sear")),
+                        Spell.Cast("Twin Saber Throw", ret => Me.HasBuff("Mind Sear")),
                         Spell.Cast("Force Sweep", ret => Me.CurrentTarget.HasDebuff("Burning (Cauterize)") && Me.CurrentTarget.HasDebuff("Force Melt")),
                         Spell.DoT("Force Melt", "Force Melt"),
                         Spell.DoT("Cauterize", "Burning (Cauterize)"),
