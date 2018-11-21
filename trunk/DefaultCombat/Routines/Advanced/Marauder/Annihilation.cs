@@ -36,7 +36,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Undying Rage", ret => Me.HealthPercent <= 15),
                     Spell.Buff("Deadly Saber", ret => !Me.HasBuff("Deadly Saber")),
                     Spell.Buff("Frenzy", ret => Me.BuffCount("Fury") < 15),
-                    Spell.Buff("Berserk"),
+                    //Need to hotkey these types of buffs for classes the req stacks for raid buffs Spell.Buff("Berserk"),
                     Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
                     );
             }
@@ -47,7 +47,6 @@ namespace DefaultCombat.Routines
             get
             {
                 return new PrioritySelector(
-                    Spell.Cast("Dual Saber Throw", ret => CombatHotkeys.EnableCharge && !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
                     Spell.Cast("Force Charge", ret => CombatHotkeys.EnableCharge && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
 
                     //Movement
@@ -71,7 +70,7 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Annihilate"),
                     Spell.Cast("Force Rend"),
                     Spell.Cast("Annihilate"),
-                    Spell.Cast("Dual Saber Throw", ret => CombatHotkeys.EnableCharge && Me.HasBuff("Pulverize")),
+                    Spell.Cast("Dual Saber Throw", ret => Me.HasBuff("Pulverize")),
                     Spell.Cast("Vicious Throw", ret => Me.CurrentTarget.HealthPercent <= 30),
                     Spell.Cast("Annihilate"),
                     Spell.Cast("Ravage"),
@@ -83,7 +82,7 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Battering Assault", ret => Me.ActionPoints <= 6),
                     Spell.Cast("Annihilate"),
                     Spell.Cast("Force Rend"),
-                    Spell.Cast("Force Charge", ret => Me.ActionPoints <= 8),
+                    Spell.Cast("Force Charge", ret => CombatHotkeys.EnableCharge && Me.ActionPoints <= 8),
                     Spell.Cast("Annihilate"),
                     Spell.Cast("Force Rend"),
                     Spell.Cast("Assault", ret => Me.ActionPoints < 9 && Me.CurrentTarget.HasDebuff("Bleeding (Rupture)")),
@@ -99,7 +98,7 @@ namespace DefaultCombat.Routines
             {
                 return new Decorator(ret => Targeting.ShouldPbaoe,
                     new PrioritySelector(
-                        Spell.Cast("Dual Saber Throw", ret => CombatHotkeys.EnableCharge && !DefaultCombat.MovementDisabled && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
+                        Spell.Cast("Dual Saber Throw", ret => Me.HasBuff("Pulverize")),
                         Spell.Cast("Smash", ret => Me.CurrentTarget.HasDebuff("Bleeding (Rupture)") && Me.CurrentTarget.HasDebuff("Force Rend")),
                         Spell.DoT("Force Rend", "Force Rend"),
                         Spell.DoT("Rupture", "Bleeding (Rupture)"),

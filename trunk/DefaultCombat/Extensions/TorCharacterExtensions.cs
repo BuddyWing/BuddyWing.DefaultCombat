@@ -50,7 +50,7 @@ namespace DefaultCombat.Extensions
             //Battle of Rishi
             
             //Blood Hunt
-            "Bleeding (Any)",
+            "Bleeding (Physical)",
             //Boarding Party
             
             //Cademinu

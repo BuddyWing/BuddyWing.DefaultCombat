@@ -69,12 +69,13 @@ namespace DefaultCombat.Routines
 
                     //Rotation
                     Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
+                    Spell.Cast("Blazing Bolts", ret => !Me.HasBuff("Thermal Sensor Override")),
                     Spell.Cast("Heatseeker Missiles", ret => Me.CurrentTarget.HasDebuff("Heat Signature")),
                     Spell.Cast("Electro Net", ret => !Me.HasBuff("Thermal Sensor Override")),
                     Spell.Cast("Rail Shot", ret => Me.BuffCount("Tracer Lock") == 5),
                     Spell.Cast("Priming Shot"),
+                    Spell.Cast("Blazing Bolts", ret => Me.ResourceStat <= 50),
                     Spell.Cast("Tracer Missile", ret => Me.HasBuff("Tracer Beacon")),
-                    Spell.Cast("Blazing Bolts", ret => !Me.HasBuff("Thermal Sensor Override")),
                     Spell.Cast("Tracer Missile")
                     );
             }

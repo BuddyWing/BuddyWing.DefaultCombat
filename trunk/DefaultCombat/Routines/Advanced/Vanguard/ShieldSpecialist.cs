@@ -60,20 +60,19 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 
-                    //Rotation
+                    //Low Enerfy
                     new Decorator(ret => Me.ResourcePercent() < 60,
                         new PrioritySelector(
-                            Spell.Cast("Energy Blast", ret => Me.BuffCount("Power Screen") == 3),
-                            Spell.Cast("Stockstrike", ret => Me.CurrentTarget.Distance <= .4f),
-                            Spell.Cast("Explosive Surge", ret => Me.HasBuff("Static Surge") && Me.CurrentTarget.Distance <= 0.5f),
                             Spell.Cast("Hammer Shot")
                             )),
+
+                    //Rotation
                     Spell.Cast("Riot Strike", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.Cast("Shoulder Cannon"),
                     Spell.Cast("Energy Blast", ret => Me.BuffCount("Power Screen") == 3),
                     Spell.Cast("Stockstrike"),
                     Spell.Cast("High Impact Bolt"),
-                    Spell.Cast("Explosive Surge", ret => Me.HasBuff("Static Surge") && Me.CurrentTarget.Distance <= 0.5f),
+                    Spell.Cast("Ion Storm", ret => Me.HasBuff("Pulse Engine")),
+                    Spell.Cast("Explosive Surge", ret => Me.HasBuff("Static Surge")),
                     Spell.Cast("Ion Pulse")
                     );
             }
@@ -86,9 +85,9 @@ namespace DefaultCombat.Routines
                 return new Decorator(ret => Targeting.ShouldAoe,
                     new PrioritySelector(
                         Spell.CastOnGround("Artillery Blitz"),
-                        Spell.Cast("Ion Wave", ret => Me.CurrentTarget.Distance <= 1f),
-                        Spell.Cast("Flak Shell", ret => Me.CurrentTarget.Distance <= 1f),
-                        Spell.Cast("Explosive Surge", ret => Me.CurrentTarget.Distance <= .5f)
+                        Spell.Cast("Ion Wave"),
+                        Spell.Cast("Flak Shell"),
+                        Spell.Cast("Explosive Surge")
                         ));
             }
         }

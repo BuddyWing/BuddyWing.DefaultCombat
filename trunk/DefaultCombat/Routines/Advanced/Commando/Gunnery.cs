@@ -69,12 +69,13 @@ namespace DefaultCombat.Routines
 
                     //Rotation
                     Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
+                    Spell.Cast("Boltstorm", ret => !Me.HasBuff("Reserve Powercell")),
                     Spell.Cast("Demolition Round", ret => Me.CurrentTarget.HasDebuff("Gravity Vortex")),
                     Spell.Cast("Electro Net", ret => !Me.HasBuff("Reserve Powercell")),
                     Spell.Cast("High Impact Bolt", ret => Me.BuffCount("Charged Barrel") == 5),
                     Spell.Cast("Vortex Bolt"),
+                    Spell.Cast("Boltstorm", ret => Me.ResourceStat >= 50),
                     Spell.Cast("Grav Round", ret => Me.HasBuff("Grav Primer")),
-                    Spell.Cast("Boltstorm", ret => !Me.HasBuff("Reserve Powercell")),
                     Spell.Cast("Grav Round")
                     );
             }

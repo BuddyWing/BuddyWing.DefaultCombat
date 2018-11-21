@@ -46,7 +46,7 @@ namespace DefaultCombat.Helpers
             //Athiss
             //Battle of Rishi
             //Blood Hunt
-            new Debuff("Bleeding (Any)", 0),
+            new Debuff("Bleeding (Physical)", 0),
             //Boarding Party
             //Cademinu
             //Collicoid War Games
