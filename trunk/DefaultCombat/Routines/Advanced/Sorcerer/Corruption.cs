@@ -32,6 +32,7 @@ namespace DefaultCombat.Routines
                 return new PrioritySelector(
 
                     Spell.Buff("Unbreakable Will", ret => Me.IsStunned),
+                    Spell.Buff("Unlimited Power", ret => CombatHotkeys.EnableRaidBuffs),
                     Spell.Buff("Recklessness", ret => Targeting.ShouldAoeHeal),
                     Spell.Buff("Consuming Darkness", ret => NeedForce()),
                     Spell.Buff("Unnatural Preservation", ret => Me.HealthPercent < 50),

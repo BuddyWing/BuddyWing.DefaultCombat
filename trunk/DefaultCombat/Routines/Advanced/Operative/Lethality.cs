@@ -34,6 +34,7 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Escape", ret => Me.IsStunned),
+                    Spell.Buff("Tactical Superiority", ret => CombatHotkeys.EnableRaidBuffs),
                     Spell.Buff("Adrenaline Probe", ret => Me.EnergyPercent <= 45),
                     Spell.Buff("Stim Boost", ret => !Me.HasBuff("Tactical Advantage") && Me.InCombat),
                     Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 80),

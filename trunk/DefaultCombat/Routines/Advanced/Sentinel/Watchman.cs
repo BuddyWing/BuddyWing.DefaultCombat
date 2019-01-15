@@ -30,13 +30,14 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Resolute", ret => Me.IsStunned),
+                    Spell.Buff("Inspiration", ret => CombatHotkeys.EnableRaidBuffs),
                     Spell.Buff("Rebuke", ret => Me.HealthPercent <= 75),
-                    Spell.Buff("Force Camouflage", ret => Me.HealthPercent <= 50),
+                    Spell.Buff("Force Camouflage"),
                     Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 25),
                     Spell.Buff("Guarded by the Force", ret => Me.HealthPercent <= 15),
                     Spell.Buff("Overload Saber", ret => !Me.HasBuff("Overload Saber")),
                     Spell.Buff("Valorous Call", ret => Me.BuffCount("Centering") < 15),
-                    //Need to hotkey these types of buffs for classes the req stacks for raid buffs Spell.Buff("Zen"),
+                    Spell.Buff("Zen", ret => !Me.HasBuff("Zen") && Me.CurrentTarget.HasDebuff("Burning (Overload Saber)")),
                     Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
                     );
             }
@@ -64,30 +65,17 @@ namespace DefaultCombat.Routines
 
                     //Rotation
                     Spell.Cast("Force Kick", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.Cast("Merciless Slash"),
-                    Spell.DoT("Force Melt", "Force Melt"),
-                    Spell.DoT("Cauterize", "Burning (Cauterize)"),
-                    Spell.Cast("Merciless Slash"),
-                    Spell.Cast("Force Melt"),
-                    Spell.Cast("Merciless Slash"),
                     Spell.Cast("Twin Saber Throw", ret => Me.HasBuff("Mind Sear")),
+                    Spell.Cast("Merciless Slash"),
+                    Spell.Cast("Cauterize", ret => !Me.CurrentTarget.HasMyDebuff("Burning (Cauterize)")),
+                    Spell.Cast("Force Melt"),
                     Spell.Cast("Dispatch", ret => Me.CurrentTarget.HealthPercent <= 30),
-                    Spell.Cast("Merciless Slash"),
                     Spell.Cast("Blade Barrage"),
-                    Spell.Cast("Merciless Slash"),
-                    Spell.Cast("Force Melt"),
                     Spell.Cast("Slash", ret => Me.ActionPoints >= 9 && Me.CurrentTarget.HasDebuff("Burning (Cauterize)")),
-                    Spell.Cast("Merciless Slash"),
-                    Spell.Cast("Force Melt"),
                     Spell.Cast("Zealous Strike", ret => Me.ActionPoints <= 6),
-                    Spell.Cast("Merciless Slash"),
-                    Spell.Cast("Force Melt"),
                     Spell.Cast("Force Leap", ret => CombatHotkeys.EnableCharge && Me.ActionPoints <= 8),
-                    Spell.Cast("Merciless Slash"),
-                    Spell.Cast("Force Melt"),
-                    Spell.Cast("Strike", ret => Me.ActionPoints < 9 && Me.CurrentTarget.HasDebuff("Burning (Cauterize)")),
-                    Spell.Cast("Merciless Slash"),
-                    Spell.Cast("Force Melt")
+                    Spell.Cast("Strike", ret => Me.ActionPoints < 7 ),
+                    Spell.Cast("Blade Storm", ret => Me.ActionPoints < 5)
                     );
             }
         }
@@ -99,9 +87,9 @@ namespace DefaultCombat.Routines
                 return new Decorator(ret => Targeting.ShouldPbaoe,
                     new PrioritySelector(
                         Spell.Cast("Twin Saber Throw", ret => Me.HasBuff("Mind Sear")),
-                        Spell.Cast("Force Sweep", ret => Me.CurrentTarget.HasDebuff("Burning (Cauterize)") && Me.CurrentTarget.HasDebuff("Force Melt")),
-                        Spell.DoT("Force Melt", "Force Melt"),
-                        Spell.DoT("Cauterize", "Burning (Cauterize)"),
+                        Spell.Cast("Force Melt", ret => !Me.CurrentTarget.HasMyDebuff("Force Melt")),
+                        Spell.Cast("Cauterize", ret => !Me.CurrentTarget.HasMyDebuff("Burning (Cauterize)")),
+                        Spell.Cast("Force Sweep", ret => Me.CurrentTarget.HasDebuff("Burning (Cauterize)") || Me.CurrentTarget.HasMyDebuff("Force Melt")),
                         Spell.Cast("Cyclone Slash")
                         ));
             }

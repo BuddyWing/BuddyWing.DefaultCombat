@@ -14,7 +14,7 @@ namespace DefaultCombat.Helpers
         public static bool EnableInterrupts;
         public static bool EnableCharge;
         public static bool EnableSolo;
-        public static bool EnableHK55;
+        public static bool EnableRaidBuffs;
 
         public static void Initialize()
         {
@@ -23,9 +23,12 @@ namespace DefaultCombat.Helpers
             EnableInterrupts = true;
             EnableCharge = true;
             EnableSolo = false;
-            EnableHK55 = false;
+            EnableRaidBuffs = false;
 
             //F9 and F10 are reservered for internal commands
+
+            Hotkeys.RegisterHotkey("Toggle RaidBuffs (F4)", ChangeRaidBuffs, Keys.F4);
+            Logger.Write("[Hot Key][F4] Toggle Raid Buffs");
 
             Hotkeys.RegisterHotkey("Toggle Interrupts (F5)", ChangeInterrupts, Keys.F5);
             Logger.Write("[Hot Key][F5] Toggle Interrupts");
@@ -38,6 +41,10 @@ namespace DefaultCombat.Helpers
 
             Hotkeys.RegisterHotkey("Pause Rotation (F8)", ChangePause, Keys.F8);
             Logger.Write("[Hot Key][F8] Pause Rotation");
+
+            Logger.Write("[Hot Key][F9] Pause/Resume Bot");
+
+            Logger.Write("[Hot Key][F10] Start/Stop Bot");
 
             Hotkeys.RegisterHotkey("Toggle Solo (F11)", ChangeSolo, Keys.F11);
             Logger.Write("[Hot Key][F11] Toggle Solo Mode");
@@ -99,6 +106,20 @@ namespace DefaultCombat.Helpers
             {
                 Logger.Write("Interrupts Enabled");
                 EnableInterrupts = true;
+            }
+        }
+
+        private static void ChangeRaidBuffs()
+        {
+            if (EnableRaidBuffs)
+            {
+                Logger.Write("Raid Buffs Disabled");
+                EnableRaidBuffs = false;
+            }
+            else
+            {
+                Logger.Write("Raid Buffs Enabled");
+                EnableRaidBuffs = true;
             }
         }
 

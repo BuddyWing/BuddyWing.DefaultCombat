@@ -31,6 +31,7 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Tenacity", ret => Me.IsStunned),
+                    Spell.Buff("Supercharged Celerity", ret => CombatHotkeys.EnableRaidBuffs),
                     Spell.Buff("Supercharged Cell", ret => Me.BuffCount("Supercharge") == 10 && Me.ResourcePercent() <= 80 && HealTarget.HealthPercent <= 80),
                     Spell.Buff("Recharge Cells", ret => Me.ResourcePercent() >= 70),
                     Spell.Buff("Reactive Shield", ret => Me.HealthPercent <= 40),

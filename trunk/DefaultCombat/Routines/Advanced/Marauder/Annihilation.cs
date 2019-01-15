@@ -30,13 +30,14 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Unleash", ret => Me.IsStunned),
+                    Spell.Buff("Bloodthirst", ret => CombatHotkeys.EnableRaidBuffs),
                     Spell.Buff("Cloak of Pain", ret => Me.HealthPercent <= 75),
-                    Spell.Buff("Force Camouflage", ret => Me.HealthPercent <= 50),
+                    Spell.Buff("Force Camouflage"),
                     Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 25),
                     Spell.Buff("Undying Rage", ret => Me.HealthPercent <= 15),
                     Spell.Buff("Deadly Saber", ret => !Me.HasBuff("Deadly Saber")),
                     Spell.Buff("Frenzy", ret => Me.BuffCount("Fury") < 15),
-                    //Need to hotkey these types of buffs for classes the req stacks for raid buffs Spell.Buff("Berserk"),
+                    Spell.Buff("Berserk", ret => !Me.HasBuff("Berserk") && Me.CurrentTarget.HasDebuff("Bleeding (Deadly Saber)")),
                     Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
                     );
             }
@@ -64,30 +65,17 @@ namespace DefaultCombat.Routines
 
                     //Rotation
                     Spell.Cast("Disruption", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.Cast("Annihilate"),
-                    Spell.DoT("Force Rend", "Force Rend"),
-                    Spell.DoT("Rupture", "Bleeding (Rupture)"),
-                    Spell.Cast("Annihilate"),
-                    Spell.Cast("Force Rend"),
-                    Spell.Cast("Annihilate"),
                     Spell.Cast("Dual Saber Throw", ret => Me.HasBuff("Pulverize")),
+                    Spell.Cast("Annihilate"),
+                    Spell.Cast("Rupture", ret => !Me.CurrentTarget.HasMyDebuff("Bleeding (Rupture)")),
+                    Spell.Cast("Force Rend"),
                     Spell.Cast("Vicious Throw", ret => Me.CurrentTarget.HealthPercent <= 30),
-                    Spell.Cast("Annihilate"),
                     Spell.Cast("Ravage"),
-                    Spell.Cast("Annihilate"),
-                    Spell.Cast("Force Rend"),
                     Spell.Cast("Vicious Slash", ret => Me.ActionPoints >= 9 && Me.CurrentTarget.HasDebuff("Bleeding (Rupture)")),
-                    Spell.Cast("Annihilate"),
-                    Spell.Cast("Force Rend"),
                     Spell.Cast("Battering Assault", ret => Me.ActionPoints <= 6),
-                    Spell.Cast("Annihilate"),
-                    Spell.Cast("Force Rend"),
                     Spell.Cast("Force Charge", ret => CombatHotkeys.EnableCharge && Me.ActionPoints <= 8),
-                    Spell.Cast("Annihilate"),
-                    Spell.Cast("Force Rend"),
-                    Spell.Cast("Assault", ret => Me.ActionPoints < 9 && Me.CurrentTarget.HasDebuff("Bleeding (Rupture)")),
-                    Spell.Cast("Annihilate"),
-                    Spell.Cast("Force Rend")
+                    Spell.Cast("Assault", ret => Me.ActionPoints < 7),
+                    Spell.Cast("Force Scream", ret => Me.ActionPoints < 5)
                     );
             }
         }
@@ -99,9 +87,9 @@ namespace DefaultCombat.Routines
                 return new Decorator(ret => Targeting.ShouldPbaoe,
                     new PrioritySelector(
                         Spell.Cast("Dual Saber Throw", ret => Me.HasBuff("Pulverize")),
-                        Spell.Cast("Smash", ret => Me.CurrentTarget.HasDebuff("Bleeding (Rupture)") && Me.CurrentTarget.HasDebuff("Force Rend")),
-                        Spell.DoT("Force Rend", "Force Rend"),
-                        Spell.DoT("Rupture", "Bleeding (Rupture)"),
+                        Spell.Cast("Force Rend", ret => !Me.CurrentTarget.HasMyDebuff("Force Rend")),
+                        Spell.Cast("Rupture", ret => !Me.CurrentTarget.HasMyDebuff("Bleeding (Rupture)")),
+                        Spell.Cast("Smash", ret => Me.CurrentTarget.HasDebuff("Bleeding (Rupture)") || Me.CurrentTarget.HasDebuff("Force Rend")),
                         Spell.Cast("Sweeping Slash")
                         ));
             }

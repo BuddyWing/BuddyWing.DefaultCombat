@@ -32,6 +32,7 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Escape", ret => Me.IsStunned),
+                    Spell.Buff("Stack the Deck", ret => CombatHotkeys.EnableRaidBuffs),
                     Spell.Buff("Cool Head", ret => Me.EnergyPercent <= 20),
                     Spell.Buff("Pugnacity", ret => Me.EnergyPercent <= 70 && Me.BuffCount("Upper Hand") < 3),
                     Spell.Buff("Defense Screen", ret => Me.HealthPercent <= 75),

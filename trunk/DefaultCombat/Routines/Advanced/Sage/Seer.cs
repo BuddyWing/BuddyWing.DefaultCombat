@@ -31,6 +31,7 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Force of Will", ret => Me.IsStunned),
+                    Spell.Buff("Force Empowerment", ret => CombatHotkeys.EnableRaidBuffs),
                     Spell.Buff("Force Potency", ret => Targeting.ShouldAoeHeal),
                     Spell.Buff("Mental Alacrity", ret => Targeting.ShouldAoeHeal),
                     Spell.Buff("Vindicate", ret => NeedForce()),

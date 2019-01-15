@@ -30,6 +30,7 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Force of Will", ret => Me.IsStunned),
+                    Spell.Buff("Force Empowerment", ret => CombatHotkeys.EnableRaidBuffs),
                     Spell.Buff("Force Potency"),
                     Spell.Buff("Mental Alacrity"),
                     Spell.Buff("Vindicate", ret => Me.ForcePercent < 50 && !Me.HasDebuff("Weary")),

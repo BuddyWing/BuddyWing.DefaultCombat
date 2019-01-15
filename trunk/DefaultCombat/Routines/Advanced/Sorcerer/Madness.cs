@@ -31,7 +31,8 @@ namespace DefaultCombat.Routines
             get
             {
                 return new PrioritySelector(
-          Spell.Buff("Unbreakable Will", ret => Me.IsStunned),
+                    Spell.Buff("Unbreakable Will", ret => Me.IsStunned),
+                    Spell.Buff("Unlimited Power", ret => CombatHotkeys.EnableRaidBuffs),
                     Spell.Buff("Force Barrier", ret => Me.HealthPercent <= 20),
                     Spell.Buff("Static Barrier", ret => !Me.HasBuff("Static Barrier") && !Me.HasDebuff("Deionized")),
                     Spell.Buff("Unnatural Preservation", ret => Me.HealthPercent <= 50),

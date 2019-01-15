@@ -36,7 +36,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Deflection", ret => Me.HealthPercent <= 60),
                     Spell.Buff("Force Shroud", ret => Me.HealthPercent <= 50),
                     Spell.Buff("Recklessness"),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

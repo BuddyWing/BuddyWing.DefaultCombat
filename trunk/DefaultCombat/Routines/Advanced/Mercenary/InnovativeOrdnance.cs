@@ -30,6 +30,7 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Determination", ret => Me.IsStunned),
+                    Spell.Buff("Supercharged Celerity", ret => CombatHotkeys.EnableRaidBuffs),
                     Spell.Buff("Vent Heat", ret => Me.ResourcePercent() >= 50),
                     Spell.Buff("Energy Shield", ret => Me.HealthPercent <= 50),
                     Spell.Buff("Kolto Overload", ret => Me.HealthPercent <= 30),
