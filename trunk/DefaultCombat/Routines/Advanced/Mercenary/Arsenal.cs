@@ -38,7 +38,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Supercharged Gas", ret => Me.BuffCount("Supercharge") == 10),
                     Spell.Buff("Thermal Sensor Override", ret => Me.ResourceStat >= 60),
                     Spell.Buff("Power Surge"),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

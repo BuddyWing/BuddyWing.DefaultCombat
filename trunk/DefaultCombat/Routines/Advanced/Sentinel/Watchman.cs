@@ -38,7 +38,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Overload Saber", ret => !Me.HasBuff("Overload Saber")),
                     Spell.Buff("Valorous Call", ret => Me.BuffCount("Centering") < 15),
                     Spell.Buff("Zen", ret => !Me.HasBuff("Zen") && Me.CurrentTarget.HasDebuff("Burning (Overload Saber)")),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

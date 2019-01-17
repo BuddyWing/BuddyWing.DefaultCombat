@@ -35,7 +35,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Adrenaline Probe", ret => Me.EnergyPercent <= 50),
                     Spell.Buff("Laze Target", ret => Me.CurrentTarget.StrongOrGreater()),
                     Spell.Cast("Target Acquired", ret => Me.CurrentTarget.StrongOrGreater()),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

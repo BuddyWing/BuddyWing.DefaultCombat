@@ -39,7 +39,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Vent Heat", ret => Me.ResourcePercent() >= 50),
                     Spell.Buff("Energy Shield", ret => Me.HealthPercent <= 60),
                     Spell.Buff("Kolto Overload", ret => Me.HealthPercent <= 30),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

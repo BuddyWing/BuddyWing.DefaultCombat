@@ -35,7 +35,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Mental Alacrity"),
                     Spell.Buff("Vindicate", ret => Me.ForcePercent < 50 && !Me.HasDebuff("Weary")),
                     Spell.HoT("Force Armor", on => Me, 60, ret => !Me.HasDebuff("Force-imbalance") && !Me.HasBuff("Force Armor")),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

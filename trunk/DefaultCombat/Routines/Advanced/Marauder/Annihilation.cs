@@ -38,7 +38,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Deadly Saber", ret => !Me.HasBuff("Deadly Saber")),
                     Spell.Buff("Frenzy", ret => Me.BuffCount("Fury") < 15),
                     Spell.Buff("Berserk", ret => !Me.HasBuff("Berserk") && Me.CurrentTarget.HasDebuff("Bleeding (Deadly Saber)")),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

@@ -37,7 +37,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Invincible", ret => Me.HealthPercent <= 50),
                     Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 30),
                     Spell.Buff("Enrage", ret => Me.ActionPoints <= 6),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

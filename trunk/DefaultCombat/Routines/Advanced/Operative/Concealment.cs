@@ -38,7 +38,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Stim Boost", ret => Me.BuffCount("Tactical Advantage") < 2),
                     Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 75),
                     Spell.Buff("Evasion", ret => Me.HealthPercent <= 50),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

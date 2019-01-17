@@ -37,7 +37,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Undying Rage", ret => Me.HealthPercent <= 15),
                     Spell.Buff("Frenzy", ret => Me.BuffCount("Fury") < 15),
                     Spell.Buff("Berserk", ret => !Me.HasBuff("Berserk")),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

@@ -37,7 +37,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Cool Head", ret => Me.EnergyPercent <= 50),
                     Spell.Buff("Smuggler's Luck", ret => Me.CurrentTarget.BossOrGreater()),
                     Spell.Buff("Illegal Mods", ret => Me.CurrentTarget.BossOrGreater()),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

@@ -37,7 +37,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Entrench", ret => Me.CurrentTarget.StrongOrGreater() && Me.IsInCover()),
                     Spell.Buff("Laze Target"),
                     Spell.Buff("Target Acquired"),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

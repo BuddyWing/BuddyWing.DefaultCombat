@@ -42,7 +42,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Warding Call", ret => Me.HealthPercent <= 50),
                     Spell.Buff("Saber Ward", ret => Me.HealthPercent <= 30),
                     Spell.Buff("Combat Focus", ret => Me.ActionPoints <= 6),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

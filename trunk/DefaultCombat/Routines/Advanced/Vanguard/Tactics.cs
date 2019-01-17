@@ -35,7 +35,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Adrenaline Rush", ret => Me.HealthPercent <= 30),
                     Spell.Buff("Reserve Powercell", ret => Me.ResourceStat <= 80),
                     Spell.Buff("Battle Focus"),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

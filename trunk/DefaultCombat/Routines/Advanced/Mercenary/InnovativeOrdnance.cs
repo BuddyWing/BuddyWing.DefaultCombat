@@ -35,7 +35,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Energy Shield", ret => Me.HealthPercent <= 50),
                     Spell.Buff("Kolto Overload", ret => Me.HealthPercent <= 30),
                     Spell.Cast("Responsive Safeguards", ret => Me.HealthPercent <= 20),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

@@ -35,7 +35,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Focused Defense", ret => Me.HealthPercent < 70),
                     Spell.Buff("Enure", ret => Me.HealthPercent <= 30),
                     Spell.Buff("Combat Focus", ret => Me.ActionPoints <= 6),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

@@ -37,7 +37,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Deflection", ret => Me.HealthPercent <= 60),
                     Spell.Buff("Resilience", ret => Me.HealthPercent <= 50),
                     Spell.Buff("Force Potency"),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

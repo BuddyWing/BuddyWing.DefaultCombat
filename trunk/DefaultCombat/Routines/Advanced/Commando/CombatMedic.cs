@@ -37,7 +37,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Reactive Shield", ret => Me.HealthPercent <= 40),
                     Spell.Buff("Adrenaline Rush", ret => Me.HealthPercent <= 30),
                     Spell.Cast("Echoing Deterrence", ret => Me.HealthPercent <= 20),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

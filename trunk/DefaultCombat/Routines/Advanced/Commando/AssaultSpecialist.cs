@@ -37,7 +37,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Supercharged Cell", ret => Me.BuffCount("Supercharge") == 10),
                     Spell.Buff("Reserve Powercell", ret => Me.ResourceStat <= 60),
                     Spell.Cast("Echoing Deterrence", ret => Me.HealthPercent <= 30),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

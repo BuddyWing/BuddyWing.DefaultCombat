@@ -35,7 +35,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Enraged Defense", ret => Me.HealthPercent < 70),
                     Spell.Buff("Endure Pain", ret => Me.HealthPercent <= 30),
                     Spell.Buff("Enrage", ret => Me.ActionPoints <= 6),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

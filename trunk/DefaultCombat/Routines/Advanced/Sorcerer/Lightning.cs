@@ -35,7 +35,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Polarity Shift"),
                     Spell.Buff("Consuming Darkness", ret => Me.ForcePercent < 50 && !Me.HasDebuff("Weary")),
                     Spell.HoT("Static Barrier", on => Me, 60, ret => !Me.HasDebuff("Deionized") && !Me.HasBuff("Static Barrier")),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

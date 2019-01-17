@@ -37,7 +37,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Pugnacity", ret => Me.EnergyPercent <= 70 && Me.BuffCount("Upper Hand") < 3),
                     Spell.Buff("Defense Screen", ret => Me.HealthPercent <= 75),
                     Spell.Buff("Dodge", ret => Me.HealthPercent <= 50),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

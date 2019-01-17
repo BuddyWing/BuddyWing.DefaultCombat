@@ -37,7 +37,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Consuming Darkness", ret => NeedForce()),
                     Spell.Buff("Unnatural Preservation", ret => Me.HealthPercent < 50),
                     Spell.HoT("Static Barrier", on => Me, 100, ret => Me.InCombat && !Me.HasDebuff("Deionized")),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                 );
             }
         }

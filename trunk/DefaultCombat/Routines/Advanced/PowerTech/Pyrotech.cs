@@ -39,7 +39,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Energy Shield", ret => Me.HealthPercent <= 60),
                     Spell.Buff("Shoulder Cannon"),
                     Spell.Buff("Kolto Overload", ret => Me.HealthPercent <= 30),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

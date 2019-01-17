@@ -37,7 +37,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Vindicate", ret => NeedForce()),
                     Spell.Buff("Force Mend", ret => Me.HealthPercent <= 75),
                     Spell.HoT("Force Armor", on => Me, 100, ret => Me.InCombat && !Me.HasDebuff("Force-imbalance")),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }

@@ -37,7 +37,7 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Guarded by the Force", ret => Me.HealthPercent <= 15),
                     Spell.Buff("Valorous Call", ret => Me.BuffCount("Centering") < 15),
                     Spell.Buff("Zen", ret => !Me.HasBuff("Zen")),
-                    Spell.Cast("Unity", ret => Me.HealthPercent <= 15)
+                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }
