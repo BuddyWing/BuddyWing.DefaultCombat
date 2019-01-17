@@ -67,8 +67,8 @@ namespace DefaultCombat.Routines
                             )),
 
                     //Solo Mode
-                    Spell.Cast("Diagnostic Scan", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 70),
-                    Spell.Cast("Slow-release Medpac", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 60),
+                    Spell.Cast("Slow-release Medpac", ret => CombatHotkeys.EnableSolo && Me.BuffCount("Slow-release Medpac") < 2 || Me.BuffTimeLeft("Slow-release Medpac") <= 5),
+                    Spell.Cast("Diagnostic Scan", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 60),
                     Spell.Cast("Kolto Pack", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 50),
 
                     //Rotation

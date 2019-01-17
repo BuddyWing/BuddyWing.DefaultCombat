@@ -72,9 +72,9 @@ namespace DefaultCombat.Routines
                             )),
 
                     //Solo Mode
-                    Spell.Cast("Kolto Infusion", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 90 && Me.HasBuff("Quickening")),
-                    Spell.Cast("Diagnostic Scan", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 10),
-                    Spell.Cast("Kolto Probe", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 80 && Me.BuffTimeLeft("Kolto Probe") <= 3),
+                    Spell.Cast("Kolto Probe", ret => CombatHotkeys.EnableSolo && Me.BuffCount("Kolto Probe") < 2 || Me.BuffTimeLeft("Kolto Probe") <= 5),
+                    Spell.Cast("Diagnostic Scan", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 60),
+                    Spell.Cast("Kolto Infusion", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 50),
 
                     //Rotation
                     Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),

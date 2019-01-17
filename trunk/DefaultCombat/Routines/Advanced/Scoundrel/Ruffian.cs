@@ -72,9 +72,9 @@ namespace DefaultCombat.Routines
                             )),
 
                     //Solo Mode
-                    Spell.Cast("Kolto Pack", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 90 && Me.HasBuff("Scurry")),
-                    Spell.Cast("Diagnostic Scan", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 10),
-                    Spell.Cast("Slow-release Medpac", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 80 && Me.BuffTimeLeft("Slow-release Medpac") <= 3),
+                    Spell.Cast("Slow-release Medpac", ret => CombatHotkeys.EnableSolo && Me.BuffCount("Slow-release Medpac") < 2 || Me.BuffTimeLeft("Slow-release Medpac") <= 5),
+                    Spell.Cast("Diagnostic Scan", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 60),
+                    Spell.Cast("Kolto Pack", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 50),
 
                     //Rotation
                     Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
