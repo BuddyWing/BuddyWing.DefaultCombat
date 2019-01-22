@@ -117,7 +117,7 @@ namespace DefaultCombat.Routines
 
         private bool NeedForce()
         {
-            if (Me.HasBuff("Resplendence") && Me.ForcePercent < 80 && !Me.HasBuff("Amnesty"))
+            if (Me.HasBuff("Resplendence") && Me.ForcePercent < 80)
                 return true;
             return false;
         }

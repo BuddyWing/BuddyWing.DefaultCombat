@@ -64,7 +64,7 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 
                     //Solo Mode
-                    Spell.Cast("Kolto Probe", ret => CombatHotkeys.EnableSolo && Me.BuffCount("Kolto Probe") < 2 || Me.BuffTimeLeft("Kolto Probe") <= 5),
+                    Spell.Cast("Kolto Probe", ret => CombatHotkeys.EnableSolo && Me.BuffCount("Kolto Probe") < 2 && Me.BuffTimeLeft("Kolto Probe") <= 5),
                     Spell.Cast("Diagnostic Scan", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 60),
                     Spell.Cast("Kolto Infusion", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 50),
 

@@ -115,7 +115,7 @@ namespace DefaultCombat.Routines
 
         private bool NeedForce()
         {
-            if (Me.HasBuff("Force Surge") && Me.ForcePercent < 80 && !Me.HasBuff("Reverse Corruptions"))
+            if (Me.HasBuff("Force Surge") && Me.ForcePercent < 80)
                 return true;
             return false;
         }

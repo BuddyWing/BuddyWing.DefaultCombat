@@ -93,6 +93,7 @@ namespace DefaultCombat.Extensions
             //The Esseles
             
             //The False Emperor
+            "Affliction (Force)",
             
             //A Traitor Among the Chiss
             
