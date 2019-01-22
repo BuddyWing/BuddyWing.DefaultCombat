@@ -74,7 +74,7 @@ namespace DefaultCombat.Extensions
             //Kuat Drive Yards
             
             //Legacy of Rakata
-            "Hunting Trap (Any)"
+            "Hunting Trap (Any)",
 
             //Lost Island
             
