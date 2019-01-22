@@ -59,10 +59,10 @@ namespace DefaultCombat.Helpers
             //Korriban Incursion
             //Kuat Drive Yards
             //Legacy of Rakata
-            new Debuff("Hunting Trap (Any)", 0)
+            new Debuff("Hunting Trap (Any)", 0),
             //Lost Island
             //Maelstrom Prison
-            new Debuff("Affliction (Force)", 0)
+            new Debuff("Affliction (Force)", 0),
             //Mandalorian Raiders
             //Red Reaper
             //Taral V
