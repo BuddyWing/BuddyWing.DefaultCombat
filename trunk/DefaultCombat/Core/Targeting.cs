@@ -135,9 +135,11 @@ namespace DefaultCombat.Core
                                 Tank = Me;
 
                             //Check for HealTarget
-                            if (p.Health <= p.statHealth && !p.IsDead)
+                            //if (p.Health <= p.statHealth && !p.IsDead)
+							if (p.HealthPercent <= MaxHealth && !p.IsDead)
                             {
-                                if (HealTarget == null || p.Health < HealTarget.statHealth)
+                                //if (HealTarget == null || p.Health < HealTarget.statHealth)
+								if (HealTarget == null || p.HealthPercent < HealTarget.HealthPercent)
                                     HealTarget = p;
 
                                 //Add to candidtates list
@@ -145,13 +147,15 @@ namespace DefaultCombat.Core
                                 HealCandidatePoints.Add(p.Position);
 
                                 //increment our AOEHealCount
-                                if (p.Health <= AoeHealHp)
+                                //if (p.Health <= AoeHealHp)
+								if (p.HealthPercent <= AoeHealHp)
                                     AoeHealCount++;
                             }
 
                             if (p.NeedsCleanse())
                             {
-                                if (DispelTarget != null && p.Health < DispelTarget.statHealth)
+                                //if (DispelTarget != null && p.Health < DispelTarget.statHealth)
+								if (DispelTarget != null && p.HealthPercent < DispelTarget.HealthPercent)
                                     DispelTarget = p;
 
                                 if (DispelTarget == null)

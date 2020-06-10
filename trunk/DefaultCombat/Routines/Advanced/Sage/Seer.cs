@@ -31,13 +31,14 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Force of Will", ret => Me.IsStunned),
+					Spell.Cast("Telekenetic Blitz", ret => Me.CurrentTarget.BossOrGreater()),   // maybe this could be implemented better in the rotation
                     Spell.Buff("Force Empowerment", ret => CombatHotkeys.EnableRaidBuffs),
-                    Spell.Buff("Force Potency", ret => Targeting.ShouldAoeHeal),
-                    Spell.Buff("Mental Alacrity", ret => Targeting.ShouldAoeHeal),
+                    Spell.Cast("Force Potency", ret => Targeting.ShouldAoeHeal),
+                    Spell.Cast("Mental Alacrity", ret => Targeting.ShouldAoeHeal),
                     Spell.Buff("Vindicate", ret => NeedForce()),
                     Spell.Buff("Force Mend", ret => Me.HealthPercent <= 75),
                     Spell.HoT("Force Armor", on => Me, 100, ret => Me.InCombat && !Me.HasDebuff("Force-imbalance")),
-                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
+                    Spell.Buff("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }
@@ -51,23 +52,14 @@ namespace DefaultCombat.Routines
                     CombatMovement.CloseDistance(Distance.Ranged),
 
                     //Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
-                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f),
+                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .6f),
                     Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
-                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
+                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .5f),
                     Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
-                    Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
-
-                    //Rotation
-                    Spell.Cast("Mind Snap", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.Cast("Forcequake", ret => Targeting.ShouldAoe),
-                    Spell.DoT("Weaken Mind", "Weaken Mind"),
-                    Spell.Cast("Mind Crush"),
-                    Spell.Cast("Project"),
-                    Spell.Cast("Telekinetic Throw"),
-                    Spell.Cast("Disturbance")
+                    Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment"))
                     );
             }
         }

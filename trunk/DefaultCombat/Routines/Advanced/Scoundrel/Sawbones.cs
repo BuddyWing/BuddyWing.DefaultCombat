@@ -20,8 +20,7 @@ namespace DefaultCombat.Routines
             get
             {
                 return new PrioritySelector(
-                    Spell.Buff("Lucky Shots"),
-                    Spell.Buff("Stealth", ret => !Rest.KeepResting() && !Rest.NeedRest())
+                    Spell.Buff("Lucky Shots")
                     );
             }
         }
@@ -33,11 +32,11 @@ namespace DefaultCombat.Routines
                 return new PrioritySelector(
                     Spell.Buff("Escape", ret => Me.IsStunned),
                     Spell.Buff("Stack the Deck", ret => CombatHotkeys.EnableRaidBuffs),
-                    Spell.Buff("Cool Head", ret => Me.EnergyPercent <= 20),
-                    Spell.Buff("Pugnacity", ret => Me.EnergyPercent <= 70 && Me.BuffCount("Upper Hand") < 3),
+                    Spell.Cast("Cool Head", ret => Me.EnergyPercent <= 20),
+                    Spell.Cast("Pugnacity", ret => Me.EnergyPercent <= 70 && Me.BuffCount("Upper Hand") < 3),
                     Spell.Buff("Defense Screen", ret => Me.HealthPercent <= 75),
                     Spell.Buff("Dodge", ret => Me.HealthPercent <= 50),
-                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
+                    Spell.Buff("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }
@@ -50,22 +49,14 @@ namespace DefaultCombat.Routines
                 return new PrioritySelector(
 
                     //Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
-                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f),
+                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .6f),
                     Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
-                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
+                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .5f),
                     Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
-                    Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
-
-                    //Rotation
-                    Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.Cast("Back Blast", ret => Me.IsBehind(Me.CurrentTarget)),
-                    Spell.Cast("Blaster Whip"),
-                    Spell.Cast("Vital Shot", ret => !Me.CurrentTarget.HasDebuff("Vital Shot")),
-                    Spell.Cast("Quick Shot", ret => Me.EnergyPercent >= 70),
-                    Spell.Cast("Flurry of Bolts")
+                    Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment"))
                     );
             }
         }
@@ -82,10 +73,13 @@ namespace DefaultCombat.Routines
                     Spell.Cleanse("Triage"),
 
                     //Healing
-                    Spell.HealGround("Kolto Waves", ret => Targeting.ShouldAoeHeal),
+                    //Spell.Cast("Kolto Waves", ret => Targeting.ShouldAoeHeal),
+					Spell.CastOnGround("Kolto Waves", ret => Targeting.ShouldAoeHeal),
+					//Spell.HealGround("Kolto Waves", ret => Targeting.ShouldAoeHeal),
                     Spell.Heal("Kolto Cloud", on => Tank, 80, ret => Tank != null && Targeting.ShouldAoeHeal),
                     Spell.Heal("Emergency Medpac", 90, ret => emergencyMedpac()),
-                    Spell.Heal("Slow-release Medpac", on => Tank, 100, ret => Tank != null && tankSlowMedpac()),
+					//Spell.Heal("Slow-release Medpac", on => Tank, 100, ret => Tank != null && tankSlowMedpac()),
+                    Spell.Heal("Slow-release Medpac", on => Tank, 90, ret => Tank != null && tankSlowMedpac()),
                     Spell.Heal("Kolto Pack", 80, ret => Me.BuffCount("Upper Hand") >= 2 && Me.EnergyPercent >= 60 && !HealTarget.HasMyBuff("Kolto Pack")),
                     Spell.Heal("Underworld Medicine", 80),
                     Spell.Heal("Slow-release Medpac", 90, ret => targetSlowMedpac()),

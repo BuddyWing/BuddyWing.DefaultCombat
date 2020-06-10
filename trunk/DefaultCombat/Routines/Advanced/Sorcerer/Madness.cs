@@ -32,13 +32,14 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Unbreakable Will", ret => Me.IsStunned),
+					Spell.Cast("Volt Rush", ret => Me.CurrentTarget.BossOrGreater()),   // maybe this could be implemented better in the rotation
                     Spell.Buff("Unlimited Power", ret => CombatHotkeys.EnableRaidBuffs),
                     Spell.Buff("Force Barrier", ret => Me.HealthPercent <= 20),
-                    Spell.Buff("Static Barrier", ret => !Me.HasBuff("Static Barrier") && !Me.HasDebuff("Deionized")),
+                    Spell.Cast("Static Barrier", ret => !Me.HasBuff("Static Barrier") && !Me.HasDebuff("Deionized")),
                     Spell.Buff("Unnatural Preservation", ret => Me.HealthPercent <= 50),
-                    Spell.Buff("Polarity Shift"),
-                    Spell.Buff("Recklessness"),
-                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
+                    Spell.Cast("Polarity Shift"),
+                    Spell.Cast("Recklessness"),
+                    Spell.Buff("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }
@@ -54,19 +55,14 @@ namespace DefaultCombat.Routines
                     CombatMovement.CloseDistance(Distance.Ranged),
 
                     //Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
-                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f),
+                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .6f),
                     Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
-                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
+                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .5f),
                     Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
-
-                    //Solo Mode
-                    Spell.Cast("Resurgence", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 70),
-                    Spell.Cast("Dark Heal", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 60),
-                    Spell.Cast("Unnatural Preservation", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 50),
 
                     //Rotation
                     Spell.Cast("Jolt", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),

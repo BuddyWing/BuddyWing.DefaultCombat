@@ -215,7 +215,8 @@ namespace DefaultCombat.Core
         public static Composite HealAoe(string spell, Selection<bool> reqs = null)
         {
             return new Decorator(
-                ret => (reqs == null || reqs(ret)) && Targeting.ShouldAoeHeal && Targeting.AoeHealTarget != null,
+				//ret => (reqs == null || reqs(ret)) && Targeting.ShouldAoeHeal && Targeting.AoeHealTarget != null,
+                ret => (reqs == null || reqs(ret)) && Targeting.ShouldAoe && Targeting.AoeHealTarget != null,
                 Cast(spell, onUnit => Targeting.AoeHealTarget, reqs));
         }
 
@@ -239,7 +240,8 @@ namespace DefaultCombat.Core
             return new Decorator(
                 ret =>
                     Targeting.AoeHealPoint != Vector3.Zero && (reqs == null || reqs(ret)) &&
-                    Targeting.ShouldAoeHeal,
+					//Targeting.ShouldAoeHeal,
+                    Targeting.ShouldAoe,
                 CastOnGround(spell, ret => Targeting.AoeHealPoint, ret => true));
         }
 

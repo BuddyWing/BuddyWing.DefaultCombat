@@ -22,7 +22,7 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Coordination"),
-                    Spell.Cast("Stealth", ret => !DefaultCombat.MovementDisabled && !Me.InCombat && !Me.HasBuff("Coordination"))
+					Spell.Buff("Stealth", ret => !Rest.KeepResting() && !DefaultCombat.MovementDisabled && !Me.IsMounted)
                     );
             }
         }
@@ -34,11 +34,11 @@ namespace DefaultCombat.Routines
                 return new PrioritySelector(
                     Spell.Buff("Escape", ret => Me.IsStunned),
                     Spell.Buff("Tactical Superiority", ret => CombatHotkeys.EnableRaidBuffs),
-                    Spell.Buff("Adrenaline Probe", ret => Me.EnergyPercent <= 45),
-                    Spell.Buff("Stim Boost", ret => Me.BuffCount("Tactical Advantage") < 2),
+                    Spell.Cast("Adrenaline Probe", ret => Me.EnergyPercent <= 45),
+                    Spell.Cast("Stim Boost", ret => Me.BuffCount("Tactical Advantage") < 2),
                     Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 75),
                     Spell.Buff("Evasion", ret => Me.HealthPercent <= 50),
-                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
+                    Spell.Buff("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }
@@ -48,25 +48,20 @@ namespace DefaultCombat.Routines
             get
             {
                 return new PrioritySelector(
-                    Spell.Cast("Backstab", ret => Me.IsStealthed && Me.IsBehind(Me.CurrentTarget)),
+                    Spell.Cast("Holotraverse", ret => CombatHotkeys.EnableCharge && Me.CurrentTarget.Distance > .4f),
 
                     //Movement
                     CombatMovement.CloseDistance(Distance.Melee),
 
                     //Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
-                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f),
+                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .6f),
                     Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
-                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
+                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .5f),
                     Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
-
-                    //Solo Mode
-                    Spell.Cast("Kolto Probe", ret => CombatHotkeys.EnableSolo && Me.BuffCount("Kolto Probe") < 2 && Me.BuffTimeLeft("Kolto Probe") <= 5),
-                    Spell.Cast("Diagnostic Scan", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 60),
-                    Spell.Cast("Kolto Infusion", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 50),
 
                     //Rotation
                     Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),

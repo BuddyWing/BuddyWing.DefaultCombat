@@ -23,7 +23,7 @@ namespace DefaultCombat.Routines
                 return new PrioritySelector(
 
                     Spell.Buff("Lucky Shots"),
-                    Spell.Cast("Stealth", ret => !Me.InCombat && !Me.HasBuff("Lucky Shots"))
+					Spell.Buff("Stealth", ret => !Rest.KeepResting() && !DefaultCombat.MovementDisabled && !Me.IsMounted)
                     );
             }
         }
@@ -35,11 +35,11 @@ namespace DefaultCombat.Routines
                 return new PrioritySelector(
                     Spell.Buff("Escape", ret => Me.IsStunned),
                     Spell.Buff("Stack the Deck", ret => CombatHotkeys.EnableRaidBuffs),
-                    Spell.Buff("Cool Head", ret => Me.EnergyPercent <= 45),
-                    Spell.Buff("Pugnacityt", ret => !Me.HasBuff("Upper Hand") && Me.InCombat),
+                    Spell.Cast("Cool Head", ret => Me.EnergyPercent <= 45),
+                    Spell.Cast("Pugnacityt", ret => !Me.HasBuff("Upper Hand") && Me.InCombat),
                     Spell.Buff("Defense Screen", ret => Me.HealthPercent <= 80),
                     Spell.Buff("Dodge", ret => Me.HealthPercent <= 50),
-                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
+                    Spell.Buff("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }
@@ -49,17 +49,16 @@ namespace DefaultCombat.Routines
             get
             {
                 return new PrioritySelector(
-                    Spell.Cast("Trick Move", ret => CombatHotkeys.EnableCharge && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
-                    Spell.Cast("Point Blank Shot", ret => (Me.IsStealthed)),
+                    Spell.Cast("Trick Move", ret => CombatHotkeys.EnableCharge && Me.CurrentTarget.Distance > .4f),
 
                     //Movement
                     CombatMovement.CloseDistance(Distance.Melee),
 
                     //Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
-                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f),
+                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .6f),
                     Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
-                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
+                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .5f),
                     Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
@@ -71,11 +70,6 @@ namespace DefaultCombat.Routines
                             Spell.Cast("Flurry of Bolts")
                             )),
 
-                    //Solo Mode
-                    Spell.Cast("Slow-release Medpac", ret => CombatHotkeys.EnableSolo && Me.BuffCount("Slow-release Medpac") < 2 && Me.BuffTimeLeft("Slow-release Medpac") <= 5),
-                    Spell.Cast("Diagnostic Scan", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 60),
-                    Spell.Cast("Kolto Pack", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 50),
-
                     //Rotation
                     Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
                     Spell.Cast("Brutal Shots", ret => Me.CurrentTarget.HasDebuff("Vital Shot") && Me.CurrentTarget.HasDebuff("Shrap Bomb") && Me.HasBuff("Upper Hand")),
@@ -84,7 +78,6 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Shrap Bomb", ret => !Me.CurrentTarget.HasDebuff("Shrap Bomb") || Me.CurrentTarget.DebuffTimeLeft("Shrap Bomb") <= 3),
                     Spell.Cast("Blaster Whip", ret => Me.BuffCount("Upper Hand") < 2 || Me.BuffTimeLeft("Upper Hand") < 6),
                     Spell.Cast("Point Blank Shot"),
-                    Spell.Cast("Back Blast", ret => Me.IsBehind(Me.CurrentTarget) && Me.Level < 57),
                     Spell.Cast("Quick Shot", ret => Me.EnergyPercent > 80 && !Me.HasBuff("Upper Hand")),
                     Spell.Cast("Flurry of Bolts", ret => Me.EnergyPercent < 80 && !Me.HasBuff("Upper Hand") || Me.CurrentTarget.Distance > 1f)
                     );

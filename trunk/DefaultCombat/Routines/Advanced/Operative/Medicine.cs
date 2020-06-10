@@ -20,8 +20,7 @@ namespace DefaultCombat.Routines
             get
             {
                 return new PrioritySelector(
-                    Spell.Buff("Coordination"),
-                    Spell.Cast("Stealth", ret => !Me.InCombat && !Me.HasBuff("Coordination"))
+                    Spell.Buff("Coordination")
                     );
             }
         }
@@ -33,11 +32,11 @@ namespace DefaultCombat.Routines
                 return new PrioritySelector(
                     Spell.Buff("Escape", ret => Me.IsStunned),
                     Spell.Buff("Tactical Superiority", ret => CombatHotkeys.EnableRaidBuffs),
-                    Spell.Buff("Adrenaline Probe", ret => Me.EnergyPercent <= 20),
-                    Spell.Buff("Stim Boost", ret => Me.EnergyPercent <= 70 && !Me.HasBuff("Tactical Advantage")),
+                    Spell.Cast("Adrenaline Probe", ret => Me.EnergyPercent <= 20),
+                    Spell.Cast("Stim Boost", ret => Me.EnergyPercent <= 70 && !Me.HasBuff("Tactical Advantage")),
                     Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 75),
                     Spell.Buff("Evasion", ret => Me.HealthPercent <= 50),
-                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
+                    Spell.Buff("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }
@@ -51,24 +50,14 @@ namespace DefaultCombat.Routines
                     CombatMovement.CloseDistance(Distance.Melee),
 
                     //Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
-                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f),
+                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .6f),
                     Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
-                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
+                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .5f),
                     Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
-                    Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
-
-                    //Rotation
-                    Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.Cast("Shiv", ret => Me.CurrentTarget.Distance <= Distance.Melee),
-                    Spell.Cast("Explosive Probe", ret => Me.IsInCover()),
-                    Spell.Cast("Hidden Strike", ret => Me.HasBuff("Stealth")),
-                    Spell.Cast("Backstab"),
-                    Spell.DoT("Corrosive Dart", "", 16000),
-                    Spell.Cast("Overload Shot", ret => Me.EnergyPercent >= 70),
-                    Spell.Cast("Rifle Shot")
+                    Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment"))
                     );
             }
         }

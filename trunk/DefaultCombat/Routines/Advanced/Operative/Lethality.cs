@@ -21,9 +21,8 @@ namespace DefaultCombat.Routines
             get
             {
                 return new PrioritySelector(
-
                     Spell.Buff("Coordination"),
-                    Spell.Cast("Stealth", ret => !Me.InCombat && !Me.HasBuff("Coordination"))
+					Spell.Buff("Stealth", ret => !Rest.KeepResting() && !DefaultCombat.MovementDisabled && !Me.IsMounted)
                     );
             }
         }
@@ -35,11 +34,11 @@ namespace DefaultCombat.Routines
                 return new PrioritySelector(
                     Spell.Buff("Escape", ret => Me.IsStunned),
                     Spell.Buff("Tactical Superiority", ret => CombatHotkeys.EnableRaidBuffs),
-                    Spell.Buff("Adrenaline Probe", ret => Me.EnergyPercent <= 45),
-                    Spell.Buff("Stim Boost", ret => !Me.HasBuff("Tactical Advantage") && Me.InCombat),
+                    Spell.Cast("Adrenaline Probe", ret => Me.EnergyPercent <= 45),
+                    Spell.Cast("Stim Boost", ret => !Me.HasBuff("Tactical Advantage") && Me.InCombat),
                     Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 80),
                     Spell.Buff("Evasion", ret => Me.HealthPercent <= 50),
-                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
+                    Spell.Buff("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }
@@ -49,17 +48,16 @@ namespace DefaultCombat.Routines
             get
             {
                 return new PrioritySelector(
-                    Spell.Cast("Holotraverse", ret => CombatHotkeys.EnableCharge && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
-                    Spell.Cast("Lethal Strike", ret => (Me.IsStealthed)),
+                    Spell.Cast("Holotraverse", ret => CombatHotkeys.EnableCharge && Me.CurrentTarget.Distance > .4f),
 
                     //Movement
                     CombatMovement.CloseDistance(Distance.Melee),
 
                     //Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
-                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f),
+                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .6f),
                     Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
-                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
+                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .5f),
                     Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
@@ -71,11 +69,6 @@ namespace DefaultCombat.Routines
                             Spell.Cast("Rifle Shot")
                             )),
 
-                    //Solo Mode
-                    Spell.Cast("Kolto Probe", ret => CombatHotkeys.EnableSolo && Me.BuffCount("Kolto Probe") < 2 && Me.BuffTimeLeft("Kolto Probe") <= 5),
-                    Spell.Cast("Diagnostic Scan", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 60),
-                    Spell.Cast("Kolto Infusion", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 50),
-
                     //Rotation
                     Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
                     Spell.Cast("Toxic Blast", ret => Me.CurrentTarget.HasDebuff("Corrosive Dart") && Me.CurrentTarget.HasDebuff("Corrosive Grenade")),
@@ -84,7 +77,6 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Corrosive Grenade", ret => !Me.CurrentTarget.HasDebuff("Corrosive Grenade") || Me.CurrentTarget.DebuffTimeLeft("Corrosive Grenade") <= 3),
                     Spell.Cast("Shiv", ret => Me.BuffCount("Tactical Advantage") < 2 || Me.BuffTimeLeft("Tactical Advantage") < 6),
                     Spell.Cast("Lethal Strike"),
-                    Spell.Cast("Back Stab", ret => Me.IsBehind(Me.CurrentTarget) && Me.Level < 57),
                     Spell.Cast("Overload Shot", ret => Me.EnergyPercent > 85 && !Me.HasBuff("Tactical Advantage")),
                     Spell.Cast("Rifle Shot", ret => Me.EnergyPercent < 65 && !Me.HasBuff("Tactical Advantage") || Me.CurrentTarget.Distance > 1f)
                     );

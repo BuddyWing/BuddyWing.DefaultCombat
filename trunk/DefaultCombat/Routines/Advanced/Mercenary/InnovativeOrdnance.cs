@@ -31,11 +31,11 @@ namespace DefaultCombat.Routines
                 return new PrioritySelector(
                     Spell.Buff("Determination", ret => Me.IsStunned),
                     Spell.Buff("Supercharged Celerity", ret => CombatHotkeys.EnableRaidBuffs),
-                    Spell.Buff("Vent Heat", ret => Me.ResourcePercent() >= 50),
+                    Spell.Cast("Vent Heat", ret => Me.ResourcePercent() >= 50),
                     Spell.Buff("Energy Shield", ret => Me.HealthPercent <= 50),
                     Spell.Buff("Kolto Overload", ret => Me.HealthPercent <= 30),
-                    Spell.Cast("Responsive Safeguards", ret => Me.HealthPercent <= 20),
-                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
+                    Spell.Buff("Responsive Safeguards", ret => Me.HealthPercent <= 20),
+                    Spell.Buff("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }
@@ -52,19 +52,14 @@ namespace DefaultCombat.Routines
                     new PrioritySelector(Spell.Cast("Rapid Shots"))),
 
                     //Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
-                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f),
+                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .6f),
                     Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
-                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
+                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .5f),
                     Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
-
-                    //Solo Mode
-                    Spell.Cast("Kolto Shot", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 70),
-                    Spell.Cast("Emergency Scan", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 60),
-                    Spell.Cast("Rapid Scan", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 50),
 
                     //Rotation
                     Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
@@ -86,8 +81,7 @@ namespace DefaultCombat.Routines
                 return new Decorator(ret => Targeting.ShouldAoe,
                     new PrioritySelector(
                         Spell.CastOnGround("Death from Above"),
-                        Spell.Cast("Fusion Missle", ret => Me.HasBuff("Thermal Sensor Override")),
-                        Spell.Cast("Explosive Dart"))
+                        Spell.CastOnGround("Sweeping Blasters", ret => Me.ResourceStat <= 60))
                     );
             }
         }

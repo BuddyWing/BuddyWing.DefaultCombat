@@ -30,12 +30,12 @@ namespace DefaultCombat.Routines
             get
             {
                 return new PrioritySelector(
-                  Spell.Buff("Determination", ret => Me.IsStunned),
-                    Spell.Buff("Vent Heat", ret => Me.ResourcePercent() >= 50),
+                    Spell.Buff("Determination", ret => Me.IsStunned),
+                    Spell.Cast("Vent Heat", ret => Me.ResourcePercent() >= 50),
                     Spell.Buff("Energy Shield", ret => Me.HealthPercent <= 40),
                     Spell.Buff("Kolto Overload", ret => Me.HealthPercent <= 30),
-                    Spell.Buff("Shoulder Cannon", ret => !Me.HasBuff("Shoulder Cannon")),
-                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
+                    Spell.Cast("Shoulder Cannon", ret => !Me.HasBuff("Shoulder Cannon")),
+                    Spell.Buff("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }
@@ -45,16 +45,16 @@ namespace DefaultCombat.Routines
             get
             {
                 return new PrioritySelector(
-                    Spell.Cast("Jet Charge", ret => CombatHotkeys.EnableCharge && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
+                    Spell.Cast("Jet Charge", ret => CombatHotkeys.EnableCharge && Me.CurrentTarget.Distance >= 1f),
 
                     //Movement
                     CombatMovement.CloseDistance(Distance.Melee),
 
                     //Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
-                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f),
+                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .6f),
                     Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
-                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
+                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .5f),
                     Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
@@ -65,7 +65,6 @@ namespace DefaultCombat.Routines
                         new PrioritySelector(
                             Spell.Cast("Heat Blast", ret => Me.BuffCount("Heat Screen") == 3),
                             Spell.Cast("Firestorm", ret => Me.HasBuff("Flame Engine") && Me.CurrentTarget.Distance <= 1f),
-                            Spell.Cast("Searing Wave", ret => Me.HasBuff("Flame Engine") && Me.CurrentTarget.Distance <= 1f && Me.Level < 57),
                             Spell.Cast("Flame Burst", ret => Me.HasBuff("Flame Surge")),
                             Spell.Cast("Rapid Shots"))),
                             Spell.Cast("Quell", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
@@ -75,7 +74,6 @@ namespace DefaultCombat.Routines
                             Spell.Cast("Rocket Punch"),
                             Spell.Cast("Rail Shot"),
                             Spell.Cast("Firestorm", ret => Me.HasBuff("Flame Engine") && Me.CurrentTarget.Distance <= 1f),
-                            Spell.Cast("Searing Wave", ret => Me.HasBuff("Flame Engine") && Me.CurrentTarget.Distance <= 1f && Me.Level < 57),
                             Spell.Cast("Flame Burst")
                             );
             }
@@ -93,7 +91,6 @@ namespace DefaultCombat.Routines
                     new Decorator(ret => Targeting.ShouldPbaoe,
                         new PrioritySelector(
                             Spell.Cast("Firestorm"),
-                            Spell.Cast("Searing Wave", ret => Me.Level < 57),
                             Spell.Cast("Flame Sweep"),
                             Spell.Cast("Shatter Slug")
                             )));

@@ -32,12 +32,12 @@ namespace DefaultCombat.Routines
                 return new PrioritySelector(
                     Spell.Buff("Determination", ret => Me.IsStunned),
                     Spell.Buff("Supercharged Celerity", ret => CombatHotkeys.EnableRaidBuffs),
-                    Spell.Buff("Supercharged Gas", ret => Me.BuffCount("Supercharge") == 10 && Me.ResourcePercent() <= 80 && HealTarget.HealthPercent <= 80),
-                    Spell.Buff("Vent Heat", ret => Me.ResourcePercent() >= 70),
+                    Spell.Cast("Supercharged Gas", ret => Me.BuffCount("Supercharge") == 10 && Me.ResourcePercent() <= 80 && HealTarget.HealthPercent <= 80),
+                    Spell.Cast("Vent Heat", ret => Me.ResourcePercent() >= 70),
                     Spell.Buff("Energy Shield", ret => Me.HealthPercent <= 40),
                     Spell.Buff("Kolto Overload", ret => Me.HealthPercent <= 30),
-                    Spell.Cast("Responsive Safeguards", ret => Me.HealthPercent <= 20),
-                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
+                    Spell.Buff("Responsive Safeguards", ret => Me.HealthPercent <= 20),
+                    Spell.Buff("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }
@@ -51,24 +51,14 @@ namespace DefaultCombat.Routines
                     CombatMovement.CloseDistance(Distance.Ranged),
 
                     //Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
-                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f),
+                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .6f),
                     Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
-                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
+                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .5f),
                     Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
-                    Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
-
-                    //Rotation
-                    Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.Cast("Jet Boost", ret => Me.InCombat && Me.CurrentTarget.Distance <= 0.4f && Me.CurrentTarget.IsHostile),
-                    Spell.Cast("Rapid Shots", ret => Me.ResourcePercent() > 40),
-                    Spell.Cast("Unload", ret => Me.Level < 57),
-                    Spell.Cast("Rail Shot"),
-                    Spell.Cast("Electro Net"),
-                    Spell.Cast("Power Shot", ret => Me.ResourceStat <= 70),
-                    Spell.Cast("Missile Blast")
+                    Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment"))
                     );
             }
         }
@@ -78,15 +68,6 @@ namespace DefaultCombat.Routines
             get
             {
                 return new PrioritySelector(
-
-                        //Solo Mode
-                        Spell.Buff("Thermal Sensor Override", ret => CombatHotkeys.EnableSolo),
-                        Spell.CastOnGround("Death from Above", ret => Me.HasBuff("Thermal Sensor Override") && CombatHotkeys.EnableSolo && Me.InCombat && Me.CurrentTarget.IsHostile),
-                        Spell.Cast("Explosive Dart", ret => CombatHotkeys.EnableSolo),
-                        Spell.Cast("Fusion Missile", ret => CombatHotkeys.EnableSolo && Me.CurrentTarget.IsHostile),
-                        Spell.CastOnGround("Sweeping Blasters", ret => CombatHotkeys.EnableSolo && Me.ResourcePercent() <= 35 && Me.InCombat && Me.CurrentTarget.IsHostile),
-
-                        //BuffLog.Instance.LogTargetBuffs,
 
                         //Cleanse
                         //Spell.Cast("Cure", ret => HealTarget.ShouldDispel()), ((New Code Hold off for now))

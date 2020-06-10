@@ -32,10 +32,10 @@ namespace DefaultCombat.Routines
                     Spell.Buff("Escape", ret => Me.IsStunned),
                     Spell.Buff("Shield Probe", ret => Me.HealthPercent <= 50),
                     Spell.Buff("Evasion", ret => Me.HealthPercent <= 30),
-                    Spell.Buff("Adrenaline Probe", ret => Me.EnergyPercent <= 45),
-                    Spell.Buff("Laze Target"),
-                    Spell.Buff("Target Acquired"),
-                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
+                    Spell.Buff("Adrenaline Probe", ret => Me.EnergyPercent <= 55),
+                    Spell.Cast("Laze Target"),
+                    Spell.Cast("Target Acquired"),
+                    Spell.Buff("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }
@@ -50,49 +50,32 @@ namespace DefaultCombat.Routines
 
 
                     //Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
-                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f),
+                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .6f),
                     Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
-                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
+                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .5f),
                     Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
 
                     //Low Energy
-                    new Decorator(ret => Me.EnergyPercent < 30,
+                    new Decorator(ret => Me.EnergyPercent < 40,
                         new PrioritySelector(
-                            Spell.Cast("Fragmentation Grenade", ret => Me.HasBuff("Energy Overrides")),
                             Spell.Cast("Rifle Shot")
                             )),
 
-                    //Burn-ish
-                    new Decorator(ret => Me.CurrentTarget.HealthPercent < 30,
-                        new PrioritySelector(
-                            Spell.Cast("Explosive Probe"),
-                            Spell.Cast("Series of Shots"),
-                            Spell.DoTGround("Plasma Probe", 8500),
-                            Spell.DoT("Interrogation Probe", "Interrogation Probe"),
-                            Spell.Cast("Fragmentation Grenade", ret => Me.HasBuff("Energy Overrides")),
-                            Spell.Cast("EMP Discharge", ret => Me.CurrentTarget.HasDebuff("Interrogation Probe")),
-                            Spell.Cast("Corrosive Dart", ret => !Me.CurrentTarget.HasDebuff("Marked [Physical]")),
-                            Spell.Cast("Takedown")
-                            )),
-
-
                     //Rotation
                     Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
+                    Spell.Cast("Takedown", ret => Me.EnergyPercent >= 80 && Me.CurrentTarget.HealthPercent <= 30),
+                    Spell.DoTGround("Plasma Probe", 9000),
+                    Spell.Cast("Interrogation Probe", ret => !Me.CurrentTarget.HasDebuff("Interrogation Probe")),
                     Spell.Cast("Explosive Probe"),
                     Spell.Cast("Series of Shots"),
-                    Spell.DoTGround("Plasma Probe", 8500),
-                    Spell.Cast("Fragmentation Grenade", ret => Me.HasBuff("Energy Overrides")),
-                    Spell.DoT("Interrogation Probe", "Interrogation Probe"),
-                    Spell.Cast("EMP Discharge", ret => Me.CurrentTarget.HasDebuff("Interrogation Probe")),
-                    Spell.CastOnGround("Orbital Strike"),
-                    Spell.DoT("Corrosive Dart", "Corrosive Dart"),
                     Spell.Cast("Fragmentation Grenade"),
-                    Spell.Cast("Rifle Shot"),
-                    Spell.Cast("Snipe")
+                    Spell.Cast("EMP Discharge", ret => Me.CurrentTarget.HasDebuff("Interrogation Probe")),
+                    Spell.CastOnGround("Orbital Strike", ret => Me.EnergyPercent > 80),
+                    Spell.Cast("Corrosive Dart", ret => Me.EnergyPercent > 75 && !Me.CurrentTarget.HasDebuff("Corrosive Dart"))
                     );
             }
         }

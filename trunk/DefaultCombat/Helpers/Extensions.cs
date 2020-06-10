@@ -22,7 +22,6 @@ namespace DefaultCombat.Helpers
             new Debuff("Crushing Affliction (Force)", 0),
             new Debuff("Crushing Affliction (All)", 0),
             new Debuff("Corrosive Slime", 0),
-            new Debuff("Laser", 4),
             //=+=OPERATIONS=+=
             //Eternity Vault
             //Explosive Conflicts
@@ -55,6 +54,7 @@ namespace DefaultCombat.Helpers
             //Depths of Manaan
             //Directive 7
             //Hammer Station
+			new Debuff("Laser", 6),
             //Kaon
             //Korriban Incursion
             //Kuat Drive Yards

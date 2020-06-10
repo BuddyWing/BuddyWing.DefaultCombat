@@ -2,8 +2,10 @@
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
+using Buddy.CommonBot;
 using DefaultCombat.Core;
 using DefaultCombat.Helpers;
+using Targeting = DefaultCombat.Core.Targeting;
 
 namespace DefaultCombat.Routines
 {
@@ -20,7 +22,7 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Lucky Shots"),
-                    Spell.Buff("Stealth", ret => !Rest.KeepResting() && !Rest.NeedRest())
+					Spell.Buff("Stealth", ret => !Rest.KeepResting() && !DefaultCombat.MovementDisabled && !Me.IsMounted)
                     );
             }
         }
@@ -32,12 +34,11 @@ namespace DefaultCombat.Routines
                 return new PrioritySelector(
                     Spell.Buff("Escape", ret => Me.IsStunned),
                     Spell.Buff("Stack the Deck", ret => CombatHotkeys.EnableRaidBuffs),
-                    Spell.Buff("Cool Head", ret => Me.EnergyPercent <= 45),
-                    Spell.Buff("Pugnacity", ret => Me.HasBuff("Upper Hand")),
+                    Spell.Cast("Cool Head", ret => Me.EnergyPercent <= 45),
+                    Spell.Cast("Pugnacity", ret => Me.HasBuff("Upper Hand")),
                     Spell.Buff("Defense Screen", ret => Me.HealthPercent <= 75),
                     Spell.Buff("Dodge", ret => Me.HealthPercent <= 50),
-                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15),
-                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
+                    Spell.Buff("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }
@@ -47,14 +48,16 @@ namespace DefaultCombat.Routines
             get
             {
                 return new PrioritySelector(
+                    Spell.Cast("Trick Move", ret => CombatHotkeys.EnableCharge && Me.CurrentTarget.Distance > .4f),
+
                     //Movement
                     CombatMovement.CloseDistance(Distance.Melee),
 
                     //Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
-                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f),
+                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .6f),
                     Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
-                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
+                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .5f),
                     Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
@@ -66,11 +69,6 @@ namespace DefaultCombat.Routines
                             Spell.Cast("Flurry of Bolts")
                             )),
 
-                    //Solo Mode
-                    Spell.Cast("Slow-release Medpac", ret => CombatHotkeys.EnableSolo && Me.BuffCount("Slow-release Medpac") < 2 && Me.BuffTimeLeft("Slow-release Medpac") <= 5),
-                    Spell.Cast("Diagnostic Scan", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 60),
-                    Spell.Cast("Kolto Pack", ret => CombatHotkeys.EnableSolo && Me.HealthPercent <= 50),
-
                     //Rotation
                     Spell.Cast("Distraction", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
                     Spell.Cast("Back Blast", ret => Me.IsBehind(Me.CurrentTarget)),
@@ -78,7 +76,6 @@ namespace DefaultCombat.Routines
                     Spell.DoT("Vital Shot", "Vital Shot"),
                     Spell.Cast("Blood Boiler"),
                     Spell.Cast("Bludgeon"),
-                    Spell.Cast("Blaster Whip", ret => Me.Level < 41),
                     Spell.Cast("Quick Shot", ret => Me.EnergyPercent >= 75)
                     );
             }

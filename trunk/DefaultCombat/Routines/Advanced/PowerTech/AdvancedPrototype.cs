@@ -33,13 +33,13 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Determination", ret => Me.IsStunned),
-                    Spell.Buff("Shoulder Cannon"),
-                    Spell.Buff("Thermal Sensor Override", ret => Me.InCombat && Me.CurrentTarget.BossOrGreater()),
-                    Spell.Buff("Explosive Fuel", ret => Me.InCombat && Me.CurrentTarget.BossOrGreater()),
-                    Spell.Buff("Vent Heat", ret => Me.ResourcePercent() >= 50),
+                    Spell.Cast("Shoulder Cannon"),
+                    Spell.Cast("Thermal Sensor Override", ret => Me.InCombat && Me.CurrentTarget.BossOrGreater()),
+                    Spell.Cast("Explosive Fuel", ret => Me.InCombat && Me.CurrentTarget.BossOrGreater()),
+                    Spell.Cast("Vent Heat", ret => Me.ResourcePercent() >= 50),
                     Spell.Buff("Energy Shield", ret => Me.HealthPercent <= 60),
                     Spell.Buff("Kolto Overload", ret => Me.HealthPercent <= 30),
-                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
+                    Spell.Buff("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
         }
@@ -50,16 +50,16 @@ namespace DefaultCombat.Routines
             get
             {
                 return new PrioritySelector(
-                    Spell.Cast("Jet Charge", ret => CombatHotkeys.EnableCharge && Me.CurrentTarget.Distance >= 1f && Me.CurrentTarget.Distance <= 3f),
+                    Spell.Cast("Jet Charge", ret => CombatHotkeys.EnableCharge && Me.CurrentTarget.Distance >= 1f),
 
                     //Movement
                     CombatMovement.CloseDistance(Distance.Melee),
 
                     //Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
-                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f),
+                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .6f),
                     Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
-                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
+                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .5f),
                     Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
@@ -80,8 +80,7 @@ namespace DefaultCombat.Routines
                     Spell.DoT("Retractable Blade", "Bleeding (Retractable Blade)"),
                     Spell.Cast("Thermal Detonator"),
                     Spell.Cast("Rocket Punch"),
-                    Spell.Cast("Magnetic Blast"),
-                    Spell.Cast("Flame Burst", ret => Me.Level < 26)
+                    Spell.Cast("Magnetic Blast")
                     );
             }
         }

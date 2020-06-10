@@ -13,7 +13,6 @@ namespace DefaultCombat.Helpers
         public static bool PauseRotation;
         public static bool EnableInterrupts;
         public static bool EnableCharge;
-        public static bool EnableSolo;
         public static bool EnableRaidBuffs;
 
         public static void Initialize()
@@ -22,7 +21,6 @@ namespace DefaultCombat.Helpers
             PauseRotation = false;
             EnableInterrupts = true;
             EnableCharge = true;
-            EnableSolo = false;
             EnableRaidBuffs = false;
 
             //F9 and F10 are reservered for internal commands
@@ -45,9 +43,6 @@ namespace DefaultCombat.Helpers
             Logger.Write("[Hot Key][F9] Pause/Resume Bot");
 
             Logger.Write("[Hot Key][F10] Start/Stop Bot");
-
-            Hotkeys.RegisterHotkey("Toggle Solo (F11)", ChangeSolo, Keys.F11);
-            Logger.Write("[Hot Key][F11] Toggle Solo Mode");
 
             Hotkeys.RegisterHotkey("Set Tank (F12)", Targeting.SetTank, Keys.F12);
             Logger.Write("[Hot Key][F12] Set Tank");
@@ -120,20 +115,6 @@ namespace DefaultCombat.Helpers
             {
                 Logger.Write("Raid Buffs Enabled");
                 EnableRaidBuffs = true;
-            }
-        }
-
-        private static void ChangeSolo()
-        {
-            if (EnableSolo)
-            {
-                Logger.Write("Solo Mode Disabled");
-                EnableSolo = false;
-            }
-            else
-            {
-                Logger.Write("Solo Mode Enabled");
-                EnableSolo = true;
             }
         }
     }

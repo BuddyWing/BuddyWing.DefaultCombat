@@ -32,12 +32,13 @@ namespace DefaultCombat.Routines
                 return new PrioritySelector(
 
                     Spell.Buff("Unbreakable Will", ret => Me.IsStunned),
+					Spell.Cast("Volt Rush", ret => Me.CurrentTarget.BossOrGreater()),   // maybe this could be implemented better in the rotation
                     Spell.Buff("Unlimited Power", ret => CombatHotkeys.EnableRaidBuffs),
-                    Spell.Buff("Recklessness", ret => Targeting.ShouldAoeHeal),
+                    Spell.Cast("Recklessness", ret => Targeting.ShouldAoeHeal),
                     Spell.Buff("Consuming Darkness", ret => NeedForce()),
                     Spell.Buff("Unnatural Preservation", ret => Me.HealthPercent < 50),
                     Spell.HoT("Static Barrier", on => Me, 100, ret => Me.InCombat && !Me.HasDebuff("Deionized")),
-                    Spell.Cast("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
+                    Spell.Buff("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                 );
             }
         }
@@ -51,22 +52,14 @@ namespace DefaultCombat.Routines
                     CombatMovement.CloseDistance(Distance.Ranged),
 
                     //Legacy Heroic Moment Abilities --will only be active when user initiates Heroic Moment--
-                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.5f),
+                    Spell.Cast("Legacy Force Sweep", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .6f),
                     Spell.CastOnGround("Legacy Orbital Strike", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Project", ret => Me.HasBuff("Heroic Moment")),
-                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance <= 0.4f),
+                    Spell.Cast("Legacy Dirty Kick", ret => Me.HasBuff("Heroic Moment") && Me.CurrentTarget.Distance < .5f),
                     Spell.Cast("Legacy Sticky Plasma Grenade", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Flame Thrower", ret => Me.HasBuff("Heroic Moment")),
                     Spell.Cast("Legacy Force Lightning", ret => Me.HasBuff("Heroic Moment")),
-                    Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment")),
-
-                    //Rotation
-                    Spell.Cast("Jolt", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-                    Spell.Cast("Force Lightning"),
-                    Spell.Cast("Crushing Darkness"),
-                    Spell.Cast("Affliction", ret => !Me.CurrentTarget.HasDebuff("Affliction")),
-                    Spell.Cast("Lightning Strike"),
-                    Spell.Cast("Shock")
+                    Spell.Cast("Legacy Force Choke", ret => Me.HasBuff("Heroic Moment"))
                     );
             }
         }

@@ -31,6 +31,7 @@ namespace DefaultCombat.Extensions
             //Temple of Scarifice
             
             //Terror from Beyond
+            "Corrosive Slime",
             
             //The Dread Fortress
             "Corrupted Nanites (Any)",
