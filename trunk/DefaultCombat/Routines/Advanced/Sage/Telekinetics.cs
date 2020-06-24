@@ -62,14 +62,12 @@ namespace DefaultCombat.Routines
                     //Rotation
                     Spell.Cast("Mind Snap", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
                     Spell.Cast("Weaken Mind", ret => !Me.CurrentTarget.HasDebuff("Weaken Mind")),
-                    Spell.Cast("Turbulence", ret => Me.CurrentTarget.HasDebuff("Weaken Mind")),
-                    Spell.Cast("Mind Crush", ret => Me.HasBuff("Force Gust")),
+                    Spell.Cast("Turbulence"),
                     Spell.Cast("Telekinetic Gust"),
+                    Spell.Cast("Mind Crush", ret => Me.HasBuff("Force Gust")),
+                    Spell.Cast("Project", ret => Me.CurrentTarget.HasDebuff("Crushed (Mind Crush)")),
                     Spell.Cast("Telekinetic Wave", ret => Me.HasBuff("Tidal Force")),
-                    Spell.Cast("Telekinetic Burst"),
-                    Spell.Cast("Disturbance"),
-                    Spell.Cast("Project"),
-                    Spell.Cast("Telekinetic Throw")
+                    Spell.Cast("Telekinetic Burst")
                     );
             }
         }

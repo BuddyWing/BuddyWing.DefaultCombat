@@ -31,9 +31,10 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Force of Will", ret => Me.IsStunned),
-                    Spell.Buff("Battle Readiness", ret => Me.HealthPercent <= 85),
+                    Spell.Buff("Battle Readiness"),
                     Spell.Buff("Deflection", ret => Me.HealthPercent <= 60),
                     Spell.Buff("Resilience", ret => Me.HealthPercent <= 50),
+                    Spell.Cast("Force Potency", ret => Me.BuffCount("Breaching Shadow") < 1 && Me.InCombat),
                     Spell.Buff("Unity", ret => Me.Companion != null && Me.HealthPercent <= 15)
                     );
             }
@@ -66,16 +67,14 @@ namespace DefaultCombat.Routines
                     Spell.Cast("Low Slash", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
 
                     //Rotation
-                    Spell.Cast("Force Speed", ret => Me.CurrentTarget.Distance >= 1.1f && Me.IsMoving && Me.InCombat),
-                    Spell.Cast("Force Potency"),
-                    Spell.Cast("Force Breach", ret => Me.BuffCount("Breaching Shadows") == 3),
-                    Spell.Cast("Shadow Strike", ret => Me.HasBuff("Stealth") || Me.HasBuff("Infiltration Tactics")),
-                    Spell.Cast("Vaulting Slash", ret => Me.HasBuff("Stealth")),
-                    Spell.Cast("Project", ret => Me.BuffCount("Circling Shadows") == 2),
-                    Spell.Cast("Spinning Strike", ret => Me.CurrentTarget.HealthPercent <= 30),
-                    Spell.Cast("Double Strike", ret => Me.ForcePercent >= 40),
-                    Spell.Cast("Clairvoyant Strike", ret => Me.ForcePercent >= 40),
-                    Spell.Cast("Saber Strike", ret => Me.ForcePercent <= 40)
+                    Spell.Cast("Force Breach", ret => Me.BuffCount("Breaching Shadow") == 3),
+                    Spell.Cast("Psychokinetic Blast", ret => Me.BuffCount("Circling Shadows") == 2),
+                    Spell.Cast("Vaulting Slash"),
+                    Spell.Cast("Shadow Strike", ret => Me.HasBuff("Infiltration Tactics")),
+                    Spell.Cast("Spinning Strike", ret => Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("Stalker's Swiftness")),
+                    Spell.Cast("Clairvoyant Strike"),
+                    Spell.Cast("Saber Strike", ret => Me.ForcePercent <= 25)
+
                     );
             }
         }
@@ -84,10 +83,11 @@ namespace DefaultCombat.Routines
         {
             get
             {
-                return new PrioritySelector(
-                    Spell.Cast("Whirling Blow", ret => Me.ForcePercent >= 60 && Targeting.ShouldPbaoe),
-					Spell.Cast("Cleaving Cut")
-                    );
+                return new Decorator(ret => Targeting.ShouldAoe,
+                    new PrioritySelector(
+                        Spell.Cast("Severing Slash"),
+                        Spell.Cast("Cleaving Cut", ret => Me.ForcePercent >= 60)
+                    ));
             }
         }
     }

@@ -2,8 +2,10 @@
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
+using Buddy.CommonBot;
 using DefaultCombat.Core;
 using DefaultCombat.Helpers;
+using Targeting = DefaultCombat.Core.Targeting;
 
 namespace DefaultCombat.Routines
 {
@@ -66,10 +68,11 @@ namespace DefaultCombat.Routines
                     //Rotation
                     Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
 					Spell.Cast("Vortex Bolt"),
-					Spell.Cast("Electro Net"),
-					Spell.Cast("High Impact Bolt", ret => Me.BuffCount("Charged Barrel") >= 4),
+                    Spell.Cast("Grav Round", ret => Me.HasBuff("Grav Primer")),
+                    Spell.Cast("Electro Net"),
+					Spell.Cast("High Impact Bolt", ret => Me.BuffCount("Charged Barrel") == 5),
 					Spell.Cast("Demolition Round", ret => Me.CurrentTarget.HasDebuff("Gravity Vortex")),
-					Spell.Cast("Boltstorm", ret => !Me.HasBuff("Reserve Powercell")),
+					Spell.Cast("Boltstorm"),
 					Spell.Cast("Grav Round"),
 					Spell.Cast("Hammer Shot")
                     );

@@ -31,7 +31,7 @@ namespace DefaultCombat.Routines
             {
                 return new PrioritySelector(
                     Spell.Buff("Unbreakable Will", ret => Me.IsStunned),
-                    Spell.Buff("Overcharge Saber", ret => Me.HealthPercent <= 85),
+                    Spell.Buff("Overcharge Saber"),
                     Spell.Buff("Deflection", ret => Me.HealthPercent <= 60),
                     Spell.Buff("Force Shroud", ret => Me.HealthPercent <= 50),
                     Spell.Cast("Recklessness", ret => Me.BuffCount("Static Charge") < 1 && Me.InCombat),
@@ -69,9 +69,9 @@ namespace DefaultCombat.Routines
                     //Rotation
                     Spell.Cast("Discharge", ret => Me.BuffCount("Static Charge") == 3),
                     Spell.Cast("Ball Lightning", ret => Me.BuffCount("Induction") == 2),
-                    Spell.Cast("Maul", ret => Me.HasBuff("Duplicity") && Me.IsBehind(Me.CurrentTarget)),
-                    Spell.Cast("Assassinate", ret => Me.CurrentTarget.HealthPercent <= 30),
-                    Spell.Cast("Reaping Strike", ret => Me.BuffCount("Discharge") < 3),
+                    Spell.Cast("Reaping Strike"),
+                    Spell.Cast("Maul", ret => Me.HasBuff("Duplicity")),
+                    Spell.Cast("Assassinate", ret => Me.CurrentTarget.HealthPercent <= 30 || Me.HasBuff("Reaper's Rush")),
                     Spell.Cast("Voltaic Slash"),
                     Spell.Cast("Saber Strike", ret => Me.ForcePercent <= 25)
 

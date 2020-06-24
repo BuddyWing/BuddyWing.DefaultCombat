@@ -2,8 +2,10 @@
 // See the file LICENSE for the source code's detailed license
 
 using Buddy.BehaviorTree;
+using Buddy.CommonBot;
 using DefaultCombat.Core;
 using DefaultCombat.Helpers;
+using Targeting = DefaultCombat.Core.Targeting;
 
 namespace DefaultCombat.Routines
 {
@@ -66,14 +68,15 @@ namespace DefaultCombat.Routines
 
                     //Rotation
                     Spell.Cast("Disabling Shot", ret => Me.CurrentTarget.IsCasting && CombatHotkeys.EnableInterrupts),
-					Spell.Cast("Priming Shot"),
-					Spell.Cast("Electro Net"),
-					Spell.Cast("Rail Shot", ret => Me.BuffCount("Tracer Lock") >= 4),
-					Spell.Cast("Heatseeker Missiles", ret => Me.CurrentTarget.HasDebuff("Heat Signature")),
-					Spell.Cast("Blazing Bolts", ret => !Me.HasBuff("Thermal Sensor Override")),
-					Spell.Cast("Tracer Missile"),
-					Spell.Cast("Rapid Shots")
-					);
+                    Spell.Cast("Priming Shot"),
+                    Spell.Cast("Tracer Missile", ret => Me.HasBuff("Tracer Beacon")),
+                    Spell.Cast("Electro Net"),
+                    Spell.Cast("Rail Shot", ret => Me.BuffCount("Tracer Lock") == 5),
+                    Spell.Cast("Heatseeker Missiles", ret => Me.CurrentTarget.HasDebuff("Heat Signature")),
+                    Spell.Cast("Blazing Bolts"),
+                    Spell.Cast("Tracer Missile"),
+                    Spell.Cast("Rapid Shots")
+                    );
             }
         }
 
